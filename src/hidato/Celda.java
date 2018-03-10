@@ -14,7 +14,7 @@ public class Celda {
     boolean prefijada; //true si es prefijada
     boolean vacia; //true si esta vacia
     int valor;
-    Celda[] vecinos
+    Celda[] vecinos;
     //constructores
     public Celda(boolean prefijada, int valor) { //celda valida con valor prefijada o no
         this.valida = true;
