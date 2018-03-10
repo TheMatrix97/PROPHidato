@@ -21,7 +21,6 @@ public class Celda {
         this.prefijada = prefijada;
         this.vacia = false;
         this.valor = valor;
-        
     }
 
     public Celda(boolean vacia) { //celda sin valor pero valida
