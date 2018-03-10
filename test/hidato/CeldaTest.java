@@ -82,7 +82,7 @@ public class CeldaTest {
     @Test
     public void testIsVacia() {
         System.out.println("isVacia");
-        Celda instance = new Celda(false,80);
+        Celda instance = new Celda(false,70);
         boolean expResult = false;
         boolean result = instance.isVacia();
         assertEquals(expResult, result);
