@@ -18,17 +18,6 @@ public class Hidato {
      */
     public static void main(String[] args) {
         System.out.println("hello world");
-        Time time = new Time();
-        time.start_time();
-        try{
-            Thread.sleep(2000);
-        }
-        catch(InterruptedException ex){
-            Thread.currentThread().interrupt();
-        }
-    
-        time.stop_time();
-        System.out.println(time.get_time());
     }
     
 }
