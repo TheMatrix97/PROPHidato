@@ -6,7 +6,7 @@ public class Time {
     private long time;
 
     Time(){
-        time_start = 0
+        time_start = 0;
         time_end = 0;
         time = 0;
     }
