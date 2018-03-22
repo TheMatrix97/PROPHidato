@@ -30,7 +30,7 @@ public class Time {
         int segundos = (int)(time/1000);
         int minutos = segundos / 60;
         int horas = minutos/60;
-        return String.format("%02d",horas)+':'+String.format("%02d",minutos)+':'+String.format("%02d",segundos);
+        return String.format("%02d",horas)+':'+String.format("%02d",minutos%60)+':'+String.format("%02d",segundos%60);
     }
     public long get_time_millis(){
         return time;
