@@ -49,7 +49,7 @@ public class Ranking{
         }
     }
     private void ordenar_para_mostrar(){
-        new List<Record> res = records.clone();
+        List<Record> res = records.clone();
         mergesort (res,0,res.size());
     }
 
@@ -64,14 +64,14 @@ public class Ranking{
     }
 
     private void merge(List <Record> res, int l, int m, int r){
-       List <Record> b(r-l+1);
+       List<Record>b(r-l+1);
        int i = l, j = m +1, k = 0;
-       while (i <= m and j <= r){
-           if (v[i].getTime().get_time_millis() <= res[j].getTime().get_time_millis()) b[k++] = v[i++]
+       while (i <= m && j <= r){
+           if (v[i].getTime().get_time_millis() <= res[j].getTime().get_time_millis()) b[k++] = v[i++];
            else b[k++] = res[j++];
        }
        while (i <= m) b[k++] = res[i++];
        while (j <= r) b[k++] = res[j++];
-       for(k = 0; k < r - l; ++k) res[l+k] = b[k]
+       for(k = 0; k < r - l; ++k) res[l+k] = b[k];
     }
 }
