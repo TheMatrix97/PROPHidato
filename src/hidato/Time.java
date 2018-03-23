@@ -1,6 +1,6 @@
 package hidato;
 
-public class Time {
+public class Time{
     private long time_end;
     private long time_start;
     private long time;
