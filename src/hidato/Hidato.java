@@ -5,6 +5,8 @@
  */
 package hidato;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  *
  * @author marc.catrisse
@@ -16,8 +18,6 @@ public class Hidato {
      */
     public static void main(String[] args) {
         System.out.println("hello world");
-      
-        // TODO code application logic here
     }
     
 }
