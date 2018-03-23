@@ -5,23 +5,41 @@
  */
 package hidato;
 
-import java.util.Vector;
+import java.util.List;
+
+import com.sun.prism.impl.Disposer.Record;
+
+
 
 /**
  *
  * @author marc.catrisse
  */
 public class Ranking{
-    private int size;
-    private Vector<Record> records;
+    private int sizemax;
+    private List<Record> records; //lista que contiene los 10 mejores
+    private Record peorRecord;
     Ranking(){
-        this.size = 10;
-        this.records = new Vector<Record>(this.size);
+        this.sizemax = 10;
+        this.records = new List<Record>();
     }
-    public Vector<Record> getRanking(){
+    public List<Record> getRanking(){
         return records.clone();
     }
-    public void addRecord(Record r){
-    
+    public bool addRecord(Record r){
+
+        if(records.size() < sizemax){
+            
+
+        }else{ //cual se va fuera?
+            Time temps = r.getTime();
+            if(temps.get_time_millis() >= peorRecord.getTime().get_time_millis()) return false;
+            records.remove(peorRecord);
+            records.add(r);
+            actualizar_peor_tiempo();
+        }
+    }
+    private void actualizar_peor_tiempo(){
+        
     }
 }
