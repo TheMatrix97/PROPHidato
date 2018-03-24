@@ -11,7 +11,7 @@ public class Record{
     }
     
     public Time getTime(){ //TODO hace falta clone()?
-        return time.clone();
+        return time;
     }
 
     public String getnomJugador(){

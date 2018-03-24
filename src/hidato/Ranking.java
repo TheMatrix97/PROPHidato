@@ -5,10 +5,8 @@
  */
 package hidato;
 
-import java.util.List;
-
-import com.sun.prism.impl.Disposer.Record;
-
+import java.util.ArrayList;
+import java.util.Comparator;
 
 
 /**
@@ -17,61 +15,55 @@ import com.sun.prism.impl.Disposer.Record;
  */
 public class Ranking{
     private int sizemax;
-    private List<Record> records; //lista que contiene los 10 mejores
+    private ArrayList<Record> records; //lista que contiene los 10 mejores
     private Record peorRecord;
-    Ranking(){
+    public Ranking(){
         this.sizemax = 10;
-        this.records = new List<Record>();
+        this.records = new ArrayList<>();
+        this.peorRecord = null;
     }
-    public List<Record> getRanking(){
-        return records.clone();
+    public ArrayList<Record> getRanking(){
+        ordenar_para_mostrar();
+        return records;
     }
-    public bool addRecord(Record r){
 
+    public void setSizemax(int sizemax) { //por si queremos modificar size max
+        this.sizemax = sizemax;
+    }
+
+    public boolean addRecord(Record r){
         if(records.size() < sizemax){
-            
+            this.records.add(r);
 
         }else{ //cual se va fuera?
             Time temps = r.getTime();
             if(temps.get_time_millis() >= peorRecord.getTime().get_time_millis()) return false;
             records.remove(peorRecord);
             records.add(r);
-            actualizar_peor_tiempo();
         }
+        actualizar_peor_tiempo();
+        return true;
     }
-    //ERROR A REVISAR
+
     private void actualizar_peor_tiempo(){
-        peorRecord = records[0].clone();
-        for (int i = 1; i < records.size();i++){
-            if (records[i].getTime().get_time_millis() > peorRecord.getTime().get_time_millis()){
-                peorRecord = records[i];
-            } 
+        for(Record aux : records){
+            if (peorRecord == null || aux.getTime().get_time_millis() > peorRecord.getTime().get_time_millis()){
+                peorRecord = aux;
+            }
         }
     }
+
     private void ordenar_para_mostrar(){
-        List<Record> res = records.clone();
-        mergesort (res,0,res.size());
+        records.sort(new RecordComparador());
     }
 
-
-    private void mergesort (List <Record> res, int l, int r){
-        if (l < r) {
-            int m = (l + r)/2;
-            mergesort(res,l,m);
-            mergesort(res,l,m);
-            merge(res, l,m, r);
+    //class sexy para comparar, solo la usaremos en el ranking
+    private class RecordComparador implements Comparator<Record>{ //Comparator<T> es una interface
+        public int compare(Record r1, Record r2){
+            long dif = r1.getTime().get_time_millis() - r2.getTime().get_time_millis();
+            if(dif > 0) return 1;
+            else if(dif == 0) return 0;
+            else return -1;
         }
-    }
-
-    private void merge(List <Record> res, int l, int m, int r){
-       List<Record>b(r-l+1);
-       int i = l, j = m +1, k = 0;
-       while (i <= m && j <= r){
-           if (v[i].getTime().get_time_millis() <= res[j].getTime().get_time_millis()) b[k++] = v[i++];
-           else b[k++] = res[j++];
-       }
-       while (i <= m) b[k++] = res[i++];
-       while (j <= r) b[k++] = res[j++];
-       for(k = 0; k < r - l; ++k) res[l+k] = b[k];
     }
 }

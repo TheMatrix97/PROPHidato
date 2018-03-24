@@ -5,10 +5,13 @@ public class Time{
     private long time_start;
     private long time;
 
-    Time(){
+    public Time(){
         time_start = 0;
         time_end = 0;
         time = 0;
+    }
+    public Time(long t){
+        this.time = t;
     }
     public void start_time(){
         time_start = System.currentTimeMillis();
