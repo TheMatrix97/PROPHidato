@@ -5,12 +5,12 @@ public class Configuracio{
 
     private String dificultat; //Facil, Normal, Dificil
     private String tadjacencia; //C:costats,CA:costats+angles
-    private char tcelda //Q:quadrat,H:hexàgon,T:triangle
+    private Character tcelda; //Q:quadrat,H:hexàgon,T:triangle
 
-    public Configuracio(String dif, String tadj, char tcelda){
+    public Configuracio(String dif, String tadj, Character tcelda){
         this.dificultat = dif;
         this.tadjacencia = tadj;
-        this.tcelda = tcelda
+        this.tcelda = tcelda;
     }
 
     public String getDificultat(){
@@ -27,14 +27,14 @@ public class Configuracio{
 
 
 
-    public Configuracio Set_Config(String dif, String tipusadj, char celda ,Partida p){
-        Configuracio_correcta(dif,tipusadj,celda, Partida p);
+    public Configuracio Set_Config(String dif, String tadj, Character celda ,Partida p){
+        Configuracio_correcta(dif,tadj,celda,p);
     }
 
-    private String Configuraciocorrecta(string dif,boolean tipusadj, char celda, Partida p){
-        if (dif == "Facil" or dif =="Normal" or dif =="Dificil") {
-            if (tipusadj == "C" or tipusadj == "CA"){
-                if (celda == "Q" or celda == "H" or celda == "T"){
+    private String Configuracio_correcta(String dif,String tipusadj, Character celda, Partida p){
+        if (dif.equals("Facil") || dif.equals("Normal") || dif.equals("Dificil")) {
+            if (tipusadj.equals("C") || tipusadj.equals("CA")){
+                if (celda.equals('Q') || celda.equals('H') || celda.equals('T')){
                     p.Configuracio.difcultat = dif;
                     p.Configuracio.tadjacencia = tipusadj;
                     p.Configuracio.tcelda = celda;
