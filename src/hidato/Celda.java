@@ -5,13 +5,11 @@
  */
 package hidato;
 
-import org.omg.CORBA.SetOverrideType;
-
 import java.util.ArrayList;
 
 /**
  *
- * @author marc.catrisse
+ * @author marc.catrisse & lluis.marques
  */
 
 public class Celda {
