@@ -17,11 +17,7 @@ public class Celda {
     boolean prefijada; //true si es prefijada
     boolean vacia; //true si esta vacia
     int valor;
-
-    enum Type{
-        Triangle, Quadrat, Hexagon
-    }
-    private Type FormaC;
+    private char FormaC;
 
     private ArrayList<Celda> vecinos;
 
@@ -34,8 +30,8 @@ public class Celda {
     int[][] sizeadj = {{3, 12}, {4, 8}, {6, 6}};
 
     //constructores
-    public Celda(boolean prefijada, int valor, String TypeS, boolean adjacencia) { //celda valida con valor prefijada o no
-        SetTypeCela(TypeS);
+    public Celda(boolean prefijada, int valor, char TypeS, boolean adjacencia) { //celda valida con valor prefijada o no
+        this.FormaC = TypeS;
         int adj = (adjacencia) ? 1 : 0;
         int t = switchType();
         this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
@@ -46,8 +42,8 @@ public class Celda {
 
     }
 
-    public Celda(boolean vacia, String TypeS, boolean adjacencia) { //celda sin valor pero valida
-        SetTypeCela(TypeS);
+    public Celda(boolean vacia, char TypeS, boolean adjacencia) { //celda sin valor pero valida
+        this.FormaC = TypeS;
         int adj = (adjacencia) ? 1 : 0;
         int t = switchType();
         this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
@@ -57,27 +53,20 @@ public class Celda {
         this.vacia = vacia;
     }
     
-    public Celda(String TypeS, boolean adjacencia) { //celda no valida
-        SetTypeCela(TypeS);
+    public Celda(char TypeS, boolean adjacencia) { //celda no valida
+        this.FormaC = TypeS;
         int adj = (adjacencia) ? 1 : 0;
         int t = switchType();
         this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
         this.valida = false;
     }
-
-    //SELECCIONADOR DE TIPUS DE CEL·LA
-    public void SetTypeCela(String TypeS){
-        //Seleccionem el tipus de cel·la
-        if(TypeS.equals("Triangle")) FormaC = Type.Triangle;
-        else if(TypeS.equals("Quadrat")) FormaC = Type.Quadrat;
-        else FormaC = Type.Hexagon;
-    }
+    //TODO Controlar si ens envien un FormaC diferent de T, Q, H.
 
     private int switchType(){
         switch(this.FormaC){
-            case Triangle:
+            case 'T':
                 return 0;
-            case Quadrat:
+            case 'Q':
                 return 1;
             default: //hexagon
                 return 2;
