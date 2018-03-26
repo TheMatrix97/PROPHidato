@@ -7,7 +7,7 @@ public class Configuracio{
     private String tadjacencia; //C:costats,CA:costats+angles
     private char tcelda //Q:quadrat,H:hexàgon,T:triangle
 
-    public Configuracio(String dif, boolean tadj, char tcelda){
+    public Configuracio(String dif, String tadj, char tcelda){
         this.dificultat = dif;
         this.tadjacencia = tadj;
         this.tcelda = tcelda
