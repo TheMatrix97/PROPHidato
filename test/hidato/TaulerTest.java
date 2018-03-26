@@ -27,17 +27,6 @@ public class TaulerTest {
     @After
     public void tearDown() {
     }
-    @Test
-    public void TestTauler() throws IOException{
-        Tauler t = new Tauler("testresolt");
-        Celda[][] aux = t.getTauler();
-        for(Celda[] a : aux) {
-            for(Celda b: a){
-                System.out.print(b.getValor() + " ");
-            }
-            System.out.print('\n');
-        }
-    }
 
     @Test
     public void TestTaulerAdjQCA() throws IOException{ //el cuadrado CA chusca!
