@@ -1,0 +1,8 @@
+Celda 2: 3 1 4
+Celda 1: 4 2 5
+Celda 5: 6 1 4
+Celda 3: 2 4 8
+Celda 4: 1 8 3 6 2 5
+Celda 6: 5 4 8 7
+Celda 8: 4 3 6
+Celda 7: 6

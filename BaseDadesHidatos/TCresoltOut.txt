@@ -1,0 +1,16 @@
+Celda 2: 3 1
+Celda 1: 14 2
+Celda 14: 15 13 1
+Celda 13: 12 14
+Celda 12: 11 13
+Celda 4: 5 3
+Celda 3: 2 16 4
+Celda 16: 7 15 3
+Celda 15: 14 10 16
+Celda 10: 9 11 15
+Celda 11: 12 10
+Celda 5: 4 6
+Celda 6: 7 5
+Celda 7: 16 8 6
+Celda 8: 9 7
+Celda 9: 10 8

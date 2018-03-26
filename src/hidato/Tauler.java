@@ -93,7 +93,7 @@ public class Tauler {
                 int[][] aux = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
                 return aux; //i,j cada fila un vecino
             }
-        } else if (tcela == 'H') {
+        } else if (tcela == 'H') { //TODO revisar que funciona bé
             if (j % 2 == 0) {
                 int[][] aux = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
                 return aux;
@@ -108,7 +108,6 @@ public class Tauler {
                 if(c.equals(this.tauler[i][j])) break;
                 if(!c.isFrontera())contador++;
             }
-            System.out.println(contador + " " + j);
             if (adj.equals("C")) {
                 if (contador % 2 == 0) {
                     int[][] aux = {{1, 0}, {0, 1}, {0, -1}};
