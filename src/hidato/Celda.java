@@ -41,7 +41,6 @@ public class Celda {
         int adj = (adjacencia) ? 1 : 0;
         int t = switchType();
         this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
-
         this.valida = true;
         this.prefijada = prefijada;
         this.vacia = false;
@@ -65,15 +64,14 @@ public class Celda {
         int adj = (adjacencia) ? 1 : 0;
         int t = switchType();
         this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
-
         this.valida = false;
     }
 
     //SELECCIONADOR DE TIPUS DE CEL·LA
     public void SetTypeCela(String TypeS){
         //Seleccionem el tipus de cel·la
-        if(TypeS == "Triangle") FormaC = Type.Triangle;
-        else if(TypeS == "Quadrat") FormaC = Type.Quadrat;
+        if(TypeS.equals("Triangle")) FormaC = Type.Triangle;
+        else if(TypeS.equals("Quadrat")) FormaC = Type.Quadrat;
         else FormaC = Type.Hexagon;
     }
 
@@ -109,7 +107,7 @@ public class Celda {
     }
     
     //Afegir vehins a una cel·la donada
-    public void addVecinos(Celda vecino) {
+    public void addVecino(Celda vecino) {
         this.vecinos.add(vecino);
     }
 }
