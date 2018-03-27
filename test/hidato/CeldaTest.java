@@ -121,7 +121,13 @@ public class CeldaTest {
 
     @Test
     public void test_invalida(){
-       Celda t = new Celda('T', "C",true);
-       assert(!t.isValida());
+       Celda t = new Celda('T', "C",false);
+       assert(!t.isValida() && !t.isFrontera());
+    }
+
+    @Test
+    public void test_frontera(){
+        Celda t = new Celda('T', "C",true);
+        assert(!t.isValida() && t.isFrontera());
     }
 }

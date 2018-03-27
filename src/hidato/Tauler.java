@@ -84,48 +84,32 @@ public class Tauler {
         return this.tauler;
     }
 
-    private int[][] getpossveins(char tcela, String adj , int j, int i) { //TODO CODI REPETIT!!! ASCO, NO SE HACERLO MEJOR
+    private int[][] getpossveins(char tcela, String adj , int j, int i) {
+        int aux[][];
         if (tcela == 'Q') {
-            if (adj.equals("C")) {
-                int[][] aux = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
-                return aux; //i,j cada fila un vecino
-            } else {
-                int[][] aux = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
-                return aux; //i,j cada fila un vecino
-            }
+            if (adj.equals("C")) aux = new int[][] {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+            else aux = new int[][] {{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+
         } else if (tcela == 'H') { //TODO revisar que funciona bé
-            if (j % 2 == 0) {
-                int[][] aux = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
-                return aux;
-            } else {
-                int[][] aux = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};
-                return aux;
-            }
+            if (j % 2 == 0) aux = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
+            else aux = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};
+
         } else { //triangle
-            Celda[] aux2 = this.tauler[i];
+            Celda[] aux2 = this.tauler[i]; //funcio per saber si el triangle te la punta superior a dalt o abaix
             int contador = 0;
             for(Celda c : aux2){
                 if(c.equals(this.tauler[i][j])) break;
                 if(!c.isFrontera())contador++;
             }
             if (adj.equals("C")) {
-                if (contador % 2 == 0) {
-                    int[][] aux = {{1, 0}, {0, 1}, {0, -1}};
-                    return aux;
-                } else {
-                    int[][] aux = {{-1, 0}, {0, 1}, {0, -1}};
-                    return aux;
-                }
+                if (contador % 2 == 0) aux = new int[][]{{1, 0}, {0, 1}, {0, -1}};
+                else aux = new int[][] {{-1, 0}, {0, 1}, {0, -1}};
             } else {
-                if (contador % 2 == 0) {
-                    int[][] aux = {{1, 0}, {0, 1}, {0, -1}, {-1,0}, {-1,-1}, {-1,1}, {1,-1}, {1,-2}, {1,1}, {1,2}, {0,2}, {0,-2}};
-                    return aux;
-                }else{
-                    int[][] aux = {{-1, 0}, {0, 1}, {0, -1},{1,0}, {1,-1}, {1,1}, {-1,-1}, {-1,-2}, {-1,1}, {-1,2}, {0,2}, {0,-2}};
-                    return aux;
-                }
+                if (contador % 2 == 0) aux = new int[][] {{1, 0}, {0, 1}, {0, -1}, {-1,0}, {-1,-1}, {-1,1}, {1,-1}, {1,-2}, {1,1}, {1,2}, {0,2}, {0,-2}};
+                else aux = new int[][] {{-1, 0}, {0, 1}, {0, -1},{1,0}, {1,-1}, {1,1}, {-1,-1}, {-1,-2}, {-1,1}, {-1,2}, {0,2}, {0,-2}};
             }
         }
+        return aux;
     }
 
     private boolean esvalida(int i, int j){
