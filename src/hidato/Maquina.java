@@ -1,7 +1,5 @@
 package hidato;
 
-import javafx.util.Pair;
-
 import java.util.*;
 
 /**
@@ -19,7 +17,7 @@ public class Maquina extends Jugador{
     public void resolHidato(Tauler t) throws Exception {
         //Només tindrem el tauler t, inicialitzar amb #, *, numeros i ?, llest per resoldre
         Celda[][] ta = t.getTauler(); //c es una copia de l'objecte del tauler a resoldre
-        Pair<Integer, Integer> p = BuscarN(ta, 1);
+        AbstractMap.SimpleEntry<Integer, Integer> p = BuscarN(ta, 1);
         boolean[][] tB = new boolean[ta.length][ta[0].length]; //matriu de posicions visitades
         SortedSet<Integer> ss = t.getPrefixats();
     }
@@ -27,7 +25,7 @@ public class Maquina extends Jugador{
     public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
         Stack<Vector<Celda>> s = new Stack<>();
         ArrayList<Vector<Celda>> rutasValidas = new ArrayList<>();
-        Pair<Integer,Integer> p = BuscarN(t,inici);
+        AbstractMap.SimpleEntry<Integer,Integer> p = BuscarN(t,inici);
         Vector<Celda> v = new Vector<>();
         v.add(t[p.getKey()][p.getValue()]);
         s.push(v);
@@ -75,10 +73,10 @@ public class Maquina extends Jugador{
         return rutasValidas;
     }
 
-    private Pair<Integer, Integer> BuscarN(Celda[][] c, int n) throws Exception {
+    private AbstractMap.SimpleEntry<Integer, Integer> BuscarN(Celda[][] c, int n) throws Exception {
         for(int i = 0; i < c.length; ++i){
             for(int j = 0; j < c[i].length; ++j){
-                if(c[i][j].isPrefijada() && c[i][j].getValor() == n) return new Pair<>(i, j);
+                if(c[i][j].isPrefijada() && c[i][j].getValor() == n) return new AbstractMap.SimpleEntry<>(i, j);
             }
         }
         throw new Exception("Celda prefixada not found");
@@ -86,10 +84,10 @@ public class Maquina extends Jugador{
 
 
 
-    private Pair<Integer, Integer> BuscarCelda(Celda c, Celda[][] t) throws Exception {
+    private AbstractMap.SimpleEntry<Integer, Integer> BuscarCelda(Celda c, Celda[][] t) throws Exception {
         for(int i = 0; i < t.length; ++i){
             for(int j = 0; j < t[i].length; ++j){
-                if(c.equals(t[i][j])) return new Pair<>(i,j);
+                if(c.equals(t[i][j])) return new AbstractMap.SimpleEntry<>(i,j);
             }
         }
         throw new Exception("Celda not found");
