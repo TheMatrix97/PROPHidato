@@ -5,6 +5,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.SortedSet;
 
 /**
  *
@@ -13,7 +16,7 @@ import java.io.IOException;
 
 public class Tauler {
     private int n, k; //n final
-    private int[] prefixats;
+    private SortedSet<Integer> prefixats;
     private int[] invalides; //TODO no se usa
     private boolean[] usats;
     private Celda[][] tauler;
@@ -21,6 +24,7 @@ public class Tauler {
     //Constructora en base un arxiu de la base de dades de Hidato (carreguem un fitxer amb el hidato)
     public Tauler(String idHidato) throws IOException {
         String cadena;
+        this.usats = new boolean[n*k];
         String filePath = new File("").getAbsolutePath();
         FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt");
         BufferedReader b = new BufferedReader(f);
@@ -41,6 +45,10 @@ public class Tauler {
             } else {
                 for(int j = 0; j < this.k; j++){
                     tauler[ai][j] = obtecelda(aux[j],tcela,adj);
+                    if(tauler[ai][j].isPrefijada()){
+                        prefixats.add(tauler[ai][j].getValor());
+                        usats[tauler[ai][j].getValor()] = true;
+                    }
                 }
                 ai++;
                 if(ai == n) break;
@@ -81,7 +89,8 @@ public class Tauler {
         }
     }
     public Celda[][] getTauler(){
-        return this.tauler;
+        Celda[][] c = tauler.clone();
+        return c;
     }
 
     private int[][] getpossveins(char tcela, String adj , int j, int i) {
@@ -116,4 +125,7 @@ public class Tauler {
         return n > i && k > j && i >= 0 && j >= 0;
     }
 
+    public SortedSet<Integer> getPrefixats(){
+        return this.prefixats;
+    }
 }

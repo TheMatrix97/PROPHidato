@@ -29,7 +29,7 @@ public class Celda {
      * TRIANGLE   3         12
      * QUADRAT    4         8
      * HEXAGON    6         6*/
-    int[][] sizeadj = {{3, 12}, {4, 8}, {6, 6}};
+    private int[][] sizeadj = {{3, 12}, {4, 8}, {6, 6}};
 
     //constructores
     public Celda(boolean prefijada, int valor, char TypeS, String adjacencia) { //celda valida con valor prefijada o no
