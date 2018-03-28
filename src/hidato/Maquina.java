@@ -24,8 +24,6 @@ public class Maquina extends Jugador{
         SortedSet<Integer> ss = t.getPrefixats();
     }
 
-
-
     public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
         Stack<Vector<Celda>> s = new Stack<>();
         ArrayList<Vector<Celda>> rutasValidas = new ArrayList<>();
@@ -42,7 +40,7 @@ public class Maquina extends Jugador{
                     Vector<Celda> newpath = new Vector<>(auxv);
                     if (vei.getValor() == fi && vei.isPrefijada() && auxv.size() + 1 == fi - inici + 1) {
                         newpath.add(vei);
-                        rutasValidas.add(newpath);
+                        rutasValidas.add(newpath); //llamar recursivamente a troba camins valids???
                     } else if (auxv.size() + 1 < fi - inici + 1) {
                         newpath.add(vei);
                         s.push(newpath);
@@ -50,6 +48,30 @@ public class Maquina extends Jugador{
                 }
             }
         }
+        //TODO limpiar caminos no validos, mirando vecinos prefijados, no se si merece la pena
+       /* ArrayList<Vector<Celda>> rutasValidadas = new ArrayList<>();
+        for(Vector<Celda> cami: rutasValidas){
+            int contador = 0;
+            for(Celda c : cami){
+                ArrayList<Celda> veins = c.getVecinos();
+                int anterior = contador+inici+1;
+                int seguent = contador+inici-1;
+                boolean ant = false;
+                boolean seg = false;
+                for(Celda vei : veins){
+                    if(vei.isValida() && !vei.isVacia() && vei.getValor() != anterior){
+                        ant = true; //hay fallo
+                        break;
+                    }
+                    else if(vei.isValida() && !vei.isVacia() && vei.getValor() != seguent){
+                        seg = true;
+                        break;
+                    }
+                }
+                if(!ant && !seg) rutasValidadas.add(cami);
+                contador++;
+            }
+        }*/
         return rutasValidas;
     }
 
