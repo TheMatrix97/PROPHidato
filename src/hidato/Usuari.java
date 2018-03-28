@@ -4,6 +4,6 @@ package hidato;
 public class Usuari extends Jugador{
 
     public Usuari(String nom) {
-        super(nom);
+        super(nom)
     }
 }
