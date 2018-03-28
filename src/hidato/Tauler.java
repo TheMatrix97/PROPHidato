@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  *
@@ -23,8 +24,8 @@ public class Tauler {
 
     //Constructora en base un arxiu de la base de dades de Hidato (carreguem un fitxer amb el hidato)
     public Tauler(String idHidato) throws IOException {
+        this.prefixats = new TreeSet<Integer>();
         String cadena;
-        this.usats = new boolean[n*k];
         String filePath = new File("").getAbsolutePath();
         FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt");
         BufferedReader b = new BufferedReader(f);
@@ -41,6 +42,7 @@ public class Tauler {
                 adj = aux[1];
                 this.n = Integer.parseInt(aux[2]);
                 this.k = Integer.parseInt(aux[3]);
+                this.usats = new boolean[n*k];
                 this.tauler = new Celda[this.n][this.k];
             } else {
                 for(int j = 0; j < this.k; j++){

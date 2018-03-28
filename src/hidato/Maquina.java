@@ -2,10 +2,12 @@ package hidato;
 
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.SortedSet;
+import java.util.*;
 
-/*@author lluis.marques*/
+/**
+ *
+ * @author marc.catrisse & lluis.marques
+ */
 public class Maquina extends Jugador{
     
     public Maquina()
@@ -20,8 +22,35 @@ public class Maquina extends Jugador{
         Pair<Integer, Integer> p = BuscarN(ta, 1);
         boolean[][] tB = new boolean[ta.length][ta[0].length]; //matriu de posicions visitades
         SortedSet<Integer> ss = t.getPrefixats();
-        ss.remove(ss.first());
-        dfsRec(ta, p, tB, ss);
+    }
+
+
+
+    public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
+        Stack<Vector<Celda>> s = new Stack<>();
+        ArrayList<Vector<Celda>> rutasValidas = new ArrayList<>();
+        Pair<Integer,Integer> p = BuscarN(t,inici);
+        Vector<Celda> v = new Vector<>();
+        v.add(t[p.getKey()][p.getValue()]);
+        s.push(v);
+        while(!s.empty()){
+            Vector<Celda> auxv = s.pop();
+            Celda node = auxv.lastElement();
+            ArrayList<Celda> veins = node.getVecinos();
+            for(Celda vei: veins){
+                if(!auxv.contains(vei) && vei.isValida() && (vei.isVacia() || vei.getValor() == fi)) {
+                    Vector<Celda> newpath = new Vector<>(auxv);
+                    if (vei.getValor() == fi && vei.isPrefijada() && auxv.size() + 1 == fi - inici + 1) {
+                        newpath.add(vei);
+                        rutasValidas.add(newpath);
+                    } else if (auxv.size() + 1 < fi - inici + 1) {
+                        newpath.add(vei);
+                        s.push(newpath);
+                    }
+                }
+            }
+        }
+        return rutasValidas;
     }
 
     private Pair<Integer, Integer> BuscarN(Celda[][] c, int n) throws Exception {
@@ -33,20 +62,6 @@ public class Maquina extends Jugador{
         throw new Exception("Celda prefixada not found");
     }
 
-    private void dfsRec(Celda[][] t, Pair<Integer, Integer> p, boolean[][] tB, SortedSet<Integer> ss) throws Exception {
-        int i = p.getKey();
-        int j = p.getValue();
-        if(!tB[i][j]){
-            tB[i][j] = true;
-            ArrayList<Celda> aux = t[i][j].getVecinos();
-            int s = ss.first();
-            ss.remove(ss.first());
-            for(int c: ss){
-                
-            }
-            ss.add(s);
-        }
-    }
 
 
     private Pair<Integer, Integer> BuscarCelda(Celda c, Celda[][] t) throws Exception {
