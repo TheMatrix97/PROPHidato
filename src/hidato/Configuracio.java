@@ -5,13 +5,34 @@ public class Configuracio{
 
     private String dificultat; //Facil, Normal, Dificil
     private String tadjacencia; //C:costats,CA:costats+angles
-    private char tcelda //Q:quadrat,H:hexàgon,T:triangle
+    private char tcelda; //Q:quadrat,H:hexàgon,T:triangle
 
-    public Configuracio(String dif, boolean tadj, char tcelda){
+    public Configuracio(String dif, String tadj, char tcelda){
         this.dificultat = dif;
         this.tadjacencia = tadj;
-        this.tcelda = tcelda
+        this.tcelda = tcelda;
     }
+
+
+    public Configuracio Hidato_Donat(String tadj, char tcelda, int filas, int columnas) throws Exception {
+        String dif = Calcula_Dificultat(filas, columnas);
+        return new Configuracio(dif,tadj,tcelda);
+    }
+
+
+    public String Calcula_Dificultat(int filas, int columnas) throws Exception {
+        if (filas < 0 || columnas < 0) {
+            throw new  Exception("Tamany no valid.");
+        }
+        if (filas * columnas < 36) {
+            return "Facil";
+        }
+        else if (filas * columnas > 60){
+            return "Normal";
+        }
+        else return "Dificil";
+    }
+
 
     public String getDificultat(){
         return dificultat;
@@ -27,14 +48,14 @@ public class Configuracio{
 
 
 
-    public Configuracio Set_Config(String dif, String tipusadj, char celda ,Partida p){
+    public void Set_Config(String dif, String tipusadj, char celda , Partida p){
         Configuracio_correcta(dif,tipusadj,celda, Partida p);
     }
 
-    private String Configuraciocorrecta(string dif,boolean tipusadj, char celda, Partida p){
-        if (dif == "Facil" or dif =="Normal" or dif =="Dificil") {
-            if (tipusadj == "C" or tipusadj == "CA"){
-                if (celda == "Q" or celda == "H" or celda == "T"){
+    private String Configuraciocorrecta(string dif , String tipusadj, char celda, Partida p) throws Exception {
+        if (dif =="Facil" || dif =="Normal" || dif =="Dificil") {
+            if (tipusadj == "C" || tipusadj == "CA"){
+                if (celda == "Q" || celda == "H" || celda == "T"){
                     p.Configuracio.difcultat = dif;
                     p.Configuracio.tadjacencia = tipusadj;
                     p.Configuracio.tcelda = celda;
