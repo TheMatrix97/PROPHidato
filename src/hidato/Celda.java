@@ -89,6 +89,7 @@ public class Celda {
     public boolean isValida() {
         return valida;
     }
+    public int getAdj(){return adj;}
 
     public boolean isPrefijada() {
         return prefijada;
@@ -108,7 +109,7 @@ public class Celda {
     public ArrayList<Celda> getVecinos() {
         return vecinos;
     }
-    
+
     //Afegir vehins a una cel·la donada
     public void addVecino(Celda vecino) {
         this.vecinos.add(vecino);
@@ -118,4 +119,10 @@ public class Celda {
         int t = switchType();
         return sizeadj[t][this.adj];
     }
+
+    public void setValor(int val){
+        this.valor = val;
+        this.vacia = false;
+    }
+
 }

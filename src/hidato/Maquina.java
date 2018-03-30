@@ -14,12 +14,19 @@ public class Maquina extends Jugador{
     }
     //TODO Algorismes resolucio de hidato automatitzats
 
-    public void resolHidato(Tauler t) throws Exception {
-        //Només tindrem el tauler t, inicialitzar amb #, *, numeros i ?, llest per resoldre
-        Celda[][] ta = t.getTauler(); //c es una copia de l'objecte del tauler a resoldre
-        AbstractMap.SimpleEntry<Integer, Integer> p = BuscarN(ta, 1);
-        boolean[][] tB = new boolean[ta.length][ta[0].length]; //matriu de posicions visitades
-        SortedSet<Integer> ss = t.getPrefixats();
+    public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
+        int ini = pref.first();
+        if(ini == max) return;
+        pref.remove(ini);
+        ArrayList<Vector<Celda>> camins = TrobaCaminsValids(ini,pref.first(),t);
+        if(camins.size() == 0) return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
+        for(Vector<Celda> cami : camins){
+            int cont = ini;
+            for(Celda pas : cami){
+                if(!pas.isPrefijada()) pas.setValor(++cont);
+            }
+            resolHidato(t,pref,max);
+        }
     }
 
     public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test

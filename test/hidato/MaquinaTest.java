@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.SortedSet;
 import java.util.Vector;
 
 import static org.junit.Assert.*;
@@ -22,6 +23,24 @@ public class MaquinaTest {
                 System.out.print("(" + p.getKey() + "," + p.getValue() + ")");
             }
             System.out.print("\n");
+        }
+    }
+    @Test
+    public void ResolHidato() throws Exception { //PARA TESTEAR!!
+        Tauler ta = new Tauler("QCAEnunciat"); //Hidato sobre el que buscará
+        Maquina m = new Maquina();
+        SortedSet<Integer> pref = ta.getPrefixats();
+        Celda[][] t = ta.getTauler();
+        SortedSet<Integer> prefixats = ta.getPrefixats();
+        m.resolHidato(t,pref,pref.last());
+        for(Celda[] c : t){
+            for(Celda celda : c){
+                if(celda.isFrontera())System.out.print("# ");
+                else if(celda.isVacia()) System.out.print("? ");
+                else if(!celda.isValida()) System.out.print("* ");
+                else System.out.print(celda.getValor() + " ");
+            }
+            System.out.print('\n');
         }
     }
 
