@@ -33,7 +33,6 @@ public class Configuracio{
         else return "Dificil";
     }
 
-
     public String getDificultat(){
         return dificultat;
     }
