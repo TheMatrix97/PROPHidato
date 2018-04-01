@@ -45,13 +45,13 @@ public class Configuracio{
         return tcelda; //Q:quadrat,H:hexàgon,T:triangle
     }
 
-    public void Set_Config(String dif, String tipusadj, char celda , Partida p){
-        Configuracio_correcta(dif,tipusadj,celda, Partida p);
+    public void Set_Config(String dif, String tipusadj, char celda , Partida p) throws Exception {
+        Configuraciocorrecta(dif,tipusadj,celda, p);
     }
 
-    private String Configuraciocorrecta(string dif , String tipusadj, char celda, Partida p) throws Exception {
-        if (dif =="Facil" || dif =="Normal" || dif =="Dificil") {
-            if (tipusadj == "C" || tipusadj == "CA"){
+    private String Configuraciocorrecta(String dif , String tipusadj, char celda, Partida p) throws Exception {
+        if (dif.equals("Facil") || dif.equals("Normal") || dif.equals("Dificil")) {
+            if (tipusadj.equals("C") || tipusadj.equals("CA")){
                 if (celda == 'Q' || celda == 'H' || celda == 'T'){
                     p.Configuracio.difcultat = dif;
                     p.Configuracio.tadjacencia = tipusadj;
