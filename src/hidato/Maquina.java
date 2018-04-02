@@ -12,21 +12,54 @@ public class Maquina extends Jugador{
     {
         super("nom:reservat:maquina");
     }
-    //TODO Algorismes resolucio de hidato automatitzats
+    //TODO Eliminar chivatos
 
-    public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
+    public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
         int ini = pref.first();
         if(ini == max) return;
         pref.remove(ini);
         ArrayList<Vector<Celda>> camins = TrobaCaminsValids(ini,pref.first(),t);
-        if(camins.size() == 0) return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
+        if(camins.size() == 0){
+            if(jugades.size() == 0){
+                System.out.println("No te solució!");
+                return;
+            }
+            ArrayList<Jugada> j = jugades.get(jugades.size()-1);
+            jugades.remove(j);
+            System.out.println("voy a deshacer el ultimo camino loko: ");
+            for(Jugada aux : j){
+                Celda c = aux.getCelda();
+                c.vaciar();
+            }
+            pref.add(ini); //hay que restaurar el prefijado ini eliminado antes del primer if
+            print_tauler_test(t, camins); //chivato
+            return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
+        }
         for(Vector<Celda> cami : camins){
             int cont = ini;
+            ArrayList<Jugada> jcami = new ArrayList<>();
             for(Celda pas : cami){
-                if(!pas.isPrefijada()) pas.setValor(++cont);
+                if(!pas.isPrefijada() && pas.isVacia()){
+                    Jugada i = new Jugada(true, pas, ++cont);
+                    jcami.add(i);
+                }
             }
-            resolHidato(t,pref,max);
+            if(jcami.size() != 0) jugades.add(jcami);
+            print_tauler_test(t, camins);
+            resolHidato(t,pref,max,jugades);
         }
+    }
+    private void print_tauler_test(Celda[][] t, ArrayList<Vector<Celda>>camins){ //TODO ELIMINAR chivato
+        for(Celda[] c : t){
+            for(Celda celda : c){
+                if(celda.isFrontera())System.out.print("# ");
+                else if(celda.isVacia()) System.out.print("? ");
+                else if(!celda.isValida()) System.out.print("* ");
+                else System.out.print(celda.getValor() + " ");
+            }
+            System.out.print('\n');
+        }
+        System.out.print("-----------\n");
     }
 
     public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
@@ -53,30 +86,6 @@ public class Maquina extends Jugador{
                 }
             }
         }
-        //TODO limpiar caminos no validos, mirando vecinos prefijados, no se si merece la pena
-       /* ArrayList<Vector<Celda>> rutasValidadas = new ArrayList<>();
-        for(Vector<Celda> cami: rutasValidas){
-            int contador = 0;
-            for(Celda c : cami){
-                ArrayList<Celda> veins = c.getVecinos();
-                int anterior = contador+inici+1;
-                int seguent = contador+inici-1;
-                boolean ant = false;
-                boolean seg = false;
-                for(Celda vei : veins){
-                    if(vei.isValida() && !vei.isVacia() && vei.getValor() != anterior){
-                        ant = true; //hay fallo
-                        break;
-                    }
-                    else if(vei.isValida() && !vei.isVacia() && vei.getValor() != seguent){
-                        seg = true;
-                        break;
-                    }
-                }
-                if(!ant && !seg) rutasValidadas.add(cami);
-                contador++;
-            }
-        }*/
         return rutasValidas;
     }
 

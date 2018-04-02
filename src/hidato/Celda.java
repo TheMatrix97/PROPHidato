@@ -39,7 +39,7 @@ public class Celda {
         else adj = 1;
         int t = switchType();
         this.adj = adj;
-        this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
+        this.vecinos = new ArrayList<>(sizeadj[t][adj]);
         this.valida = true;
         this.prefijada = prefijada;
         this.vacia = false;
@@ -55,7 +55,7 @@ public class Celda {
         else adj = 1; //TODO CONTROLAR SI ADJ != C I CA
         this.adj = adj;
         int t = switchType();
-        this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
+        this.vecinos = new ArrayList<>(sizeadj[t][adj]);
         this.valida = true;
         this.prefijada = false;
         this.vacia = vacia;
@@ -69,7 +69,7 @@ public class Celda {
         else adj = 1;
         this.adj = adj;
         int t = switchType();
-        this.vecinos = new ArrayList<Celda>(sizeadj[t][adj]);
+        this.vecinos = new ArrayList<>(sizeadj[t][adj]);
         this.valida = false;
         this.frontera = f;
     }
@@ -123,6 +123,9 @@ public class Celda {
     public void setValor(int val){
         this.valor = val;
         this.vacia = false;
+    }
+    public void vaciar(){
+        this.vacia = true;
     }
 
 }

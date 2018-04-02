@@ -2,7 +2,6 @@ package hidato;
 
 import javafx.util.Pair;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.Vector;
@@ -26,22 +25,37 @@ public class MaquinaTest {
         }
     }
     @Test
-    public void ResolHidato() throws Exception { //PARA TESTEAR!!
-        Tauler ta = new Tauler("QCAEnunciat"); //Hidato sobre el que buscará
+    public void ResolHidatoQCA() throws Exception { //PARA TESTEAR!!
+        ResolHidatoGen("QCA", "Q,CA,5,5\n");
+    }
+    @Test
+    public void ResolHidatoTC() throws Exception { //PARA TESTEAR!!
+        ResolHidatoGen("TC", "T,C,5,7\n");
+    }
+    private void ResolHidatoGen(String type, String capcelera) throws Exception {
+        Tauler ta = new Tauler(type+"Enunciat"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
         SortedSet<Integer> pref = ta.getPrefixats();
         Celda[][] t = ta.getTauler();
-        SortedSet<Integer> prefixats = ta.getPrefixats();
-        m.resolHidato(t,pref,pref.last());
+        ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
+        m.resolHidato(t,pref,pref.last(),j);
+        StringBuilder res = new StringBuilder();
+        res.append(capcelera);
+        boolean first;
         for(Celda[] c : t){
+            first = true;
             for(Celda celda : c){
-                if(celda.isFrontera())System.out.print("# ");
-                else if(celda.isVacia()) System.out.print("? ");
-                else if(!celda.isValida()) System.out.print("* ");
-                else System.out.print(celda.getValor() + " ");
+                if(!first) res.append(',');
+                else first = false;
+                if(celda.isFrontera())res.append("#");
+                else if(celda.isVacia()) res.append("?");
+                else if(!celda.isValida()) res.append("*");
+                else res.append(celda.getValor());
             }
-            System.out.print('\n');
+            res.append('\n');
         }
+        String out = LectorTxt.llegirFile(type+"EnunciatOut");
+        assertEquals(res.toString(),out);
     }
 
     private Pair<Integer, Integer> BuscarCelda(Celda c, Celda[][] t) throws Exception {
