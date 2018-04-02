@@ -32,7 +32,7 @@ public class Maquina extends Jugador{
                 c.vaciar();
             }
             pref.add(ini); //hay que restaurar el prefijado ini eliminado antes del primer if
-            print_tauler_test(t, camins); //chivato
+            //print_tauler_test(t, camins); //chivato
             return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
         }
         for(Vector<Celda> cami : camins){
@@ -45,7 +45,7 @@ public class Maquina extends Jugador{
                 }
             }
             if(jcami.size() != 0) jugades.add(jcami);
-            print_tauler_test(t, camins);
+            //print_tauler_test(t, camins);
             resolHidato(t,pref,max,jugades);
         }
     }

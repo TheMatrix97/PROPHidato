@@ -25,7 +25,7 @@ public class Tauler {
         this.prefixats = new TreeSet<Integer>();
         String cadena;
         String filePath = new File("").getAbsolutePath();
-        FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt");
+        FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt"); //TODO Control de errores
         BufferedReader b = new BufferedReader(f);
         char tcela = ' ';
         String adj = null;
@@ -127,5 +127,9 @@ public class Tauler {
 
     public SortedSet<Integer> getPrefixats(){
         return this.prefixats;
+    }
+
+    public int getNPrefixats(){
+        return this.prefixats.size();
     }
 }
