@@ -1,9 +1,10 @@
 package hidato;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Partida {
+public class Partida implements Serializable{
     Tauler encurs;
     Tauler solucio;
     ArrayList<Jugada> jug;
@@ -21,6 +22,9 @@ public class Partida {
     }
     public Configuracio getConf(){
         return this.conf;
+    }
+    public Tauler getTauler(){
+        return this.encurs;
     }
 
 }

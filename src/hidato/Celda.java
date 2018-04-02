@@ -5,6 +5,7 @@
  */
 package hidato;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * @author marc.catrisse & lluis.marques
  */
 
-public class Celda {
+public class Celda implements Serializable{
     boolean valida; //true si es valida, se puede usar
     boolean prefijada; //true si es prefijada
     boolean vacia; //true si esta vacia

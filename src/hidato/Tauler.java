@@ -1,10 +1,7 @@
 package hidato;
 
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -13,7 +10,7 @@ import java.util.TreeSet;
  * @author marc.catrisse & lluis.marques
  */
 
-public class Tauler {
+public class Tauler implements Serializable{
     private int n, k; //n final
     private SortedSet<Integer> prefixats;
     private int[] invalides; //TODO no se usa

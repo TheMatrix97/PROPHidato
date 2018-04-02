@@ -1,12 +1,13 @@
 package hidato;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  *
  * @author marc.catrisse & lluis.marques
  */
-public class Maquina extends Jugador{
+public class Maquina extends Jugador implements Serializable{
     
     public Maquina()
     {

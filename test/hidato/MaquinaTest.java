@@ -39,13 +39,17 @@ public class MaquinaTest {
         Celda[][] t = ta.getTauler();
         ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
         m.resolHidato(t,pref,pref.last(),j);
+        String res = capcelera + recorreCeldas(t).toString();
+        String out = LectorTxt.llegirFile(type+"EnunciatOut");
+        assertEquals(res,out);
+    }
+    public static StringBuilder recorreCeldas(Celda[][] t){
         StringBuilder res = new StringBuilder();
-        res.append(capcelera);
         boolean first;
         for(Celda[] c : t){
             first = true;
             for(Celda celda : c){
-                if(!first) res.append(',');
+                if(!first) res.append(",");
                 else first = false;
                 if(celda.isFrontera())res.append("#");
                 else if(celda.isVacia()) res.append("?");
@@ -54,10 +58,8 @@ public class MaquinaTest {
             }
             res.append('\n');
         }
-        String out = LectorTxt.llegirFile(type+"EnunciatOut");
-        assertEquals(res.toString(),out);
+        return res;
     }
-
     private Pair<Integer, Integer> BuscarCelda(Celda c, Celda[][] t) throws Exception {
         for (int i = 0; i < t.length; ++i) {
             for (int j = 0; j < t[i].length; ++j) {
