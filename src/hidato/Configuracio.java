@@ -14,20 +14,20 @@ public class Configuracio{
     }
 
 
-    public Configuracio Hidato_Donat(String tadj, char tcelda, int filas, int columnas) throws Exception {
-        String dif = Calcula_Dificultat(filas, columnas);
-        return new Configuracio(dif,tadj,tcelda);
+    public Configuracio(String tadj, char tcelda, int filas, int columnas, int prefix) throws Exception {
+        String dif = Calcula_Dificultat(filas, columnas,prefix);
+        new Configuracio(dif,tadj,tcelda);
     }
 
 
-    public String Calcula_Dificultat(int filas, int columnas) throws Exception {
+    public String Calcula_Dificultat(int filas, int columnas, int prefix) throws Exception {
         if (filas < 0 || columnas < 0) {
-            throw new  Exception("Tamany no valid.");
+            throw new  Exception("Tamany no valid.");//TODO tener en cuenta los prefijados para la dificultad
         }
-        if (filas * columnas < 36) {
+        if (filas * columnas < 60) {
             return "Facil";
         }
-        else if (filas * columnas > 60){
+        else if (filas * columnas > 100){
             return "Normal";
         }
         else return "Dificil";
