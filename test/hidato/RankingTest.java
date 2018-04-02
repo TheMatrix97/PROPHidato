@@ -11,7 +11,7 @@ public class RankingTest {
 
     @Test
     public void getRanking() throws IOException{
-        Ranking leaderboard = new Ranking();
+        Ranking leaderboard = new Ranking(new Configuracio("Facil","C", 'Q'));
         String cadena;
         String filePath = new File("").getAbsolutePath();
         FileReader f = new FileReader(filePath+"/test/hidato/RecordsData.txt");

@@ -5,6 +5,8 @@
  */
 package hidato;
 
+import sun.awt.ConstrainableGraphics;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -17,10 +19,12 @@ public class Ranking{
     private int sizemax;
     private ArrayList<Record> records; //lista que contiene los 10 mejores
     private Record peorRecord;
-    public Ranking(){
+    private Configuracio conf;
+    public Ranking(Configuracio conf){
         this.sizemax = 10;
         this.records = new ArrayList<>();
         this.peorRecord = null;
+        this.conf = conf;
     }
     public ArrayList<Record> getRanking(){
         ordenar_para_mostrar();
@@ -43,6 +47,9 @@ public class Ranking{
         }
         actualizar_peor_tiempo();
         return true;
+    }
+    public Configuracio getConf(){
+        return this.getConf();
     }
 
     private void actualizar_peor_tiempo(){

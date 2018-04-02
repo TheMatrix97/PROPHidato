@@ -9,7 +9,7 @@ public class Gestor {
     //Consulta Ranking
     //Guardar Partida
     //Cargar Partida
-    private Ranking rank;
+    private ArrayList<Ranking> rankings;
     private Partida game;
     private static Gestor Gest;
 
@@ -33,14 +33,16 @@ public class Gestor {
         else return true;
     }
 
-    public void consulta_ranking(Configuracio conf){
-        rank = getRanking(conf); //meter la funcion de RankingTest en la clase Ranking para poder hacer esto
-        //duda, queremos q el gestor muestre el ranking o q solo avise y lo imprima la clase ranking?
+    public Ranking consulta_ranking(Configuracio conf){
+        for(Ranking r : this.rankings){
+            if(r.getConf().equals(conf)) return r;
+        }
+        return new Ranking(conf);
     }
 
-    public void guardar_partida(){
+   /* public void guardar_partida(){  TODO implementar Serializable
         game = getPartida();
-    }
+    } */
 
     public void cargar_partida() throws Exception {
         if (Existe_Partida()){

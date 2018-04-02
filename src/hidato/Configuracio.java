@@ -45,23 +45,25 @@ public class Configuracio{
         return tcelda; //Q:quadrat,H:hexàgon,T:triangle
     }
 
+    /* en duda...
     public void Set_Config(String dif, String tipusadj, char celda , Partida p) throws Exception {
         Configuraciocorrecta(dif,tipusadj,celda, p);
     }
 
     private String Configuraciocorrecta(String dif , String tipusadj, char celda, Partida p) throws Exception {
+        Configuracio conf = p.getConf();
         if (dif.equals("Facil") || dif.equals("Normal") || dif.equals("Dificil")) {
             if (tipusadj.equals("C") || tipusadj.equals("CA")){
                 if (celda == 'Q' || celda == 'H' || celda == 'T'){
-                    p.Configuracio.difcultat = dif;
-                    p.Configuracio.tadjacencia = tipusadj;
-                    p.Configuracio.tcelda = celda;
+                    this.dificultat = dif;
+                    this.tadjacencia = tipusadj;
+                    this.tcelda = celda;
                 }
                 else throw new  Exception("Tipus de celda incorrecte.");
             }
             else throw new  Exception("Tipus d'Adjacencia incorrecte.");
         }
         else throw new  Exception("Dificultat incorrecte.");
-    }
+    }*/
 }
 

@@ -7,6 +7,7 @@ public class Partida {
     Tauler encurs;
     Tauler solucio;
     ArrayList<Jugada> jug;
+    Configuracio conf;
     Maquina bot;
     Partida(String id) throws IOException { //crea partida amb tauler de bd
         this.encurs = new Tauler(id);
@@ -17,6 +18,9 @@ public class Partida {
     }
     void Solucionar_bot(){
 
+    }
+    public Configuracio getConf(){
+        return this.conf;
     }
 
 }
