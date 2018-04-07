@@ -15,8 +15,9 @@ public class Maquina extends Jugador implements Serializable{
     }
     //TODO Eliminar chivatos
 
-    public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
+    public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades, boolean origen) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
         print_jugades(jugades);
+        origen = false;
         int ini = pref.first();
         if(ini == max) return;
         pref.remove(ini);
@@ -45,6 +46,7 @@ public class Maquina extends Jugador implements Serializable{
             }
             pref.add(ini); //hay que restaurar el prefijado ini eliminado antes del primer if
             print_tauler_test(t, camins); //chivato
+            origen = true;
             return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
         }
         for(Vector<Celda> cami : camins){
@@ -62,8 +64,8 @@ public class Maquina extends Jugador implements Serializable{
             }
             if(jcami.size() != 0) jugades.add(jcami);
             print_tauler_test(t, camins);
-            resolHidato(t,pref,max,jugades);
-            pref.add(ini);
+            resolHidato(t,pref,max,jugades,origen);
+            if(origen) pref.add(ini);
             jugades.remove(jcami);
         }
     }

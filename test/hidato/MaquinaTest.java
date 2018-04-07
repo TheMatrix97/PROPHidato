@@ -17,7 +17,8 @@ public class MaquinaTest {
         Tauler t = new Tauler("HCHidato2"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
         ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
-        m.resolHidato(t.getTauler(),t.getPrefixats(),t.getPrefixats().last(),j);
+        boolean or = false;
+        m.resolHidato(t.getTauler(),t.getPrefixats(),t.getPrefixats().last(),j,or);
         System.out.println(recorreCeldas(t.getTauler()).toString());
     }
 
@@ -49,7 +50,8 @@ public class MaquinaTest {
         SortedSet<Integer> pref = ta.getPrefixats();
         Celda[][] t = ta.getTauler();
         ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
-        m.resolHidato(t,pref,pref.last(),j);
+        boolean or = false;
+        m.resolHidato(t,pref,pref.last(),j,or);
         String res = capcelera + recorreCeldas(t).toString();
         String out = LectorTxt.llegirFile(type+"EnunciatOut");
         assertEquals(res,out);
