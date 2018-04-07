@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import static org.junit.Assert.*;
@@ -17,8 +18,12 @@ public class MaquinaTest {
         Tauler t = new Tauler("HCHidato2"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
         ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
-        boolean or = false;
-        m.resolHidato(t.getTauler(),t.getPrefixats(),t.getPrefixats().last(),j,or);
+        Integer a = 0;
+        SortedSet<Integer> pref = new TreeSet<>(t.getPrefixats());
+        int ini = pref.first();
+        pref.remove(ini);
+        int seg = pref.first();
+        m.resolHidato(t.getTauler(),t.getPrefixats(),t.getPrefixats().last(),j);
         System.out.println(recorreCeldas(t.getTauler()).toString());
     }
 
@@ -51,7 +56,12 @@ public class MaquinaTest {
         Celda[][] t = ta.getTauler();
         ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
         boolean or = false;
-        m.resolHidato(t,pref,pref.last(),j,or);
+        Integer a = 0;
+        SortedSet<Integer> prefaux = new TreeSet<>(ta.getPrefixats());
+        int ini = prefaux.first();
+        prefaux.remove(ini);
+        int seg = prefaux.first();
+        m.resolHidato(t,pref,pref.last(),j);
         String res = capcelera + recorreCeldas(t).toString();
         String out = LectorTxt.llegirFile(type+"EnunciatOut");
         assertEquals(res,out);
