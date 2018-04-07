@@ -37,7 +37,7 @@ public class Tauler implements Serializable{
                 adj = aux[1];
                 this.n = Integer.parseInt(aux[2]);
                 this.k = Integer.parseInt(aux[3]);
-                this.usats = new boolean[n*k];
+                this.usats = new boolean[n*k+1];
                 this.tauler = new Celda[this.n][this.k];
             } else {
                 for(int j = 0; j < this.k; j++){

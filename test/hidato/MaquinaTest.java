@@ -2,6 +2,8 @@ package hidato;
 
 import javafx.util.Pair;
 import org.junit.Test;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.Vector;
@@ -9,6 +11,15 @@ import java.util.Vector;
 import static org.junit.Assert.*;
 
 public class MaquinaTest {
+
+    @Test
+    public void testSolver1() throws Exception {
+        Tauler t = new Tauler("HCHidato2"); //Hidato sobre el que buscará
+        Maquina m = new Maquina();
+        ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
+        m.resolHidato(t.getTauler(),t.getPrefixats(),t.getPrefixats().last(),j);
+        System.out.println(recorreCeldas(t.getTauler()).toString());
+    }
 
     @Test
     public void trobaCaminsValids() throws Exception { //PARA TESTEAR!!

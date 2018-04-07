@@ -16,10 +16,12 @@ public class Maquina extends Jugador implements Serializable{
     //TODO Eliminar chivatos
 
     public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
+        print_jugades(jugades);
         int ini = pref.first();
         if(ini == max) return;
         pref.remove(ini);
         ArrayList<Vector<Celda>> camins = TrobaCaminsValids(ini,pref.first(),t);
+        System.out.println("busco cami de: " + ini + " a " + pref.first());
         if(camins.size() == 0){
             if(jugades.size() == 0){
                 System.out.println("No te solució!");
@@ -30,10 +32,11 @@ public class Maquina extends Jugador implements Serializable{
             System.out.println("voy a deshacer el ultimo camino loko: ");
             for(Jugada aux : j){
                 Celda c = aux.getCelda();
+                System.out.println("vacio:" + c.getValor());
                 c.vaciar();
             }
             pref.add(ini); //hay que restaurar el prefijado ini eliminado antes del primer if
-            //print_tauler_test(t, camins); //chivato
+            print_tauler_test(t, camins); //chivato
             return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
         }
         for(Vector<Celda> cami : camins){
@@ -46,9 +49,19 @@ public class Maquina extends Jugador implements Serializable{
                 }
             }
             if(jcami.size() != 0) jugades.add(jcami);
-            //print_tauler_test(t, camins);
+            print_tauler_test(t, camins);
             resolHidato(t,pref,max,jugades);
         }
+    }
+    private void print_jugades(ArrayList<ArrayList<Jugada>> jug){
+        for(ArrayList<Jugada> aux : jug){
+            for(Jugada j : aux){
+                System.out.print(j.getCelda().getValor() + ",");
+            }
+            System.out.print("\n");
+
+        }
+
     }
     private void print_tauler_test(Celda[][] t, ArrayList<Vector<Celda>>camins){ //TODO ELIMINAR chivato
         for(Celda[] c : t){
