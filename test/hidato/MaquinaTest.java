@@ -16,24 +16,32 @@ public class MaquinaTest {
 
     @Test
     public void testSolver1() throws Exception {
+        Tauler t = new Tauler("QCAEnunciatHidoku"); //Hidato sobre el que buscará
+        Maquina m = new Maquina();
+        if (m.resolHidato(t)) {
+            System.out.println(recorreCeldas(t.getTauler()).toString());
+            assert (true);
+        } else assert (false);
+    }
+    @Test
+    public void testSolver2() throws Exception {
         Tauler t = new Tauler("HCHidato1"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
-        ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
-        Integer a = 0;
-        SortedSet<Integer> pref = new TreeSet<>(t.getPrefixats());
-        int ini = pref.first();
-        pref.remove(ini);
-        int seg = pref.first();
-        try {
-            m.resolHidato(t.getTauler(), t.getPrefixats(), t.getPrefixats().last(), j);
-        }catch(Utils.ExceptionHidatoSolucionat e){
-            System.out.println("Hidato solucionat");
-            assert(true);
-        }catch(Utils.ExceptionHidatoNoSol e){
-            assert(false);
-        }
-        System.out.println(recorreCeldas(t.getTauler()).toString());
+        if (m.resolHidato(t)) {
+            System.out.println(recorreCeldas(t.getTauler()).toString());
+            assert (true);
+        } else assert (false);
     }
+    @Test
+    public void testSolver3() throws Exception {
+        Tauler t = new Tauler("HCHidato2"); //Hidato sobre el que buscará
+        Maquina m = new Maquina();
+        if (m.resolHidato(t)) {
+            System.out.println(recorreCeldas(t.getTauler()).toString());
+            assert (true);
+        } else assert (false);
+    }
+
 
     @Test
     public void trobaCaminsValids() throws Exception { //PARA TESTEAR!!
@@ -58,21 +66,17 @@ public class MaquinaTest {
         ResolHidatoGen("TC", "T,C,5,7\n");
     }
     private void ResolHidatoGen(String type, String capcelera) throws Exception {
-        Tauler ta = new Tauler(type+"Enunciat"); //Hidato sobre el que buscará
+        Tauler t = new Tauler(type+"Enunciat"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
-        SortedSet<Integer> pref = ta.getPrefixats();
-        Celda[][] t = ta.getTauler();
-        ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
-        boolean or = false;
-        Integer a = 0;
-        SortedSet<Integer> prefaux = new TreeSet<>(ta.getPrefixats());
-        int ini = prefaux.first();
-        prefaux.remove(ini);
-        int seg = prefaux.first();
-        m.resolHidato(t,pref,pref.last(),j);
-        String res = capcelera + recorreCeldas(t).toString();
-        String out = LectorTxt.llegirFile(type+"EnunciatOut");
-        assertEquals(res,out);
+        if (m.resolHidato(t)) {
+            System.out.println(recorreCeldas(t.getTauler()).toString());
+            String res = capcelera + recorreCeldas(t.getTauler()).toString();
+            String out = LectorTxt.llegirFile(type+"EnunciatOut");
+            assertEquals(res,out);
+        } else{
+            System.out.println(recorreCeldas(t.getTauler()).toString());
+            assert (false);
+        }
     }
     public static StringBuilder recorreCeldas(Celda[][] t){
         StringBuilder res = new StringBuilder();

@@ -16,7 +16,20 @@ public class Maquina extends Jugador implements Serializable{
     }
     //TODO Eliminar chivatos
 
-    public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
+    public boolean resolHidato(Tauler t){
+        SortedSet<Integer> pref = t.getPrefixats();
+        ArrayList<ArrayList<Jugada>> jugades = new ArrayList<>();
+        try {
+            resolHidatoAlgorito(t.getTauler(),pref,pref.last(),jugades);
+        }catch(Utils.ExceptionHidatoSolucionat e){
+            return true;
+        }catch(Utils.ExceptionHidatoNoSol e){
+            return false;
+        }
+        return false;
+    }
+
+    private void resolHidatoAlgorito(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Utils.ExceptionHidatoSolucionat,Utils.ExceptionHidatoNoSol { //TODO en vez de usar Celda[][] usar Tauler?
         //print_jugades(jugades);
         int ini,seg;
         if(jugades.size() == 0){
@@ -32,7 +45,12 @@ public class Maquina extends Jugador implements Serializable{
             ini = seg;
             seg = seguentPref(pref, ini);
         }
-        ArrayList<Vector<Celda>> camins = TrobaCaminsValids(ini,seg,t);
+        ArrayList<Vector<Celda>> camins;
+        try{
+            camins = TrobaCaminsValids(ini,seg,t);
+        }catch(Exception e){
+            throw new Utils.ExceptionHidatoNoSol("Hidato no solucionat!");
+        }
         //System.out.println("busco cami de: " + ini + " a " + seg);
         /*for(Vector<Celda> zxccv: camins){
             System.out.print("Cami: ");
@@ -78,7 +96,7 @@ public class Maquina extends Jugador implements Serializable{
             //System.out.println("T2");
             //print_tauler_test(t, camins);
             //si seg == last prefixat, mirar si es la solució
-            resolHidato(t,pref,max,jugades);
+            resolHidatoAlgorito(t,pref,max,jugades);
         }
         //System.out.println("tengo que tirar atras 2 veces loko");
         if(jugades.isEmpty()) return;

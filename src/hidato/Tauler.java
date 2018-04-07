@@ -101,21 +101,37 @@ public class Tauler implements Serializable{
             else aux = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};
 
         } else { //triangle
-            Celda[] aux2 = this.tauler[i]; //funcio per saber si el triangle te la punta superior a dalt o abaix
-            int contador = 0;
-            for(Celda c : aux2){
-                if(c.equals(this.tauler[i][j])) break;
-                if(!c.isFrontera())contador++;
-            }
+            boolean c = orientacio_triangle(i,j); //true, mira cap adalt, sino mira cap abaix
             if (adj.equals("C")) {
-                if (contador % 2 == 0) aux = new int[][]{{1, 0}, {0, 1}, {0, -1}};
+                if (c) aux = new int[][]{{1, 0}, {0, 1}, {0, -1}};
                 else aux = new int[][] {{-1, 0}, {0, 1}, {0, -1}};
             } else {
-                if (contador % 2 == 0) aux = new int[][] {{1, 0}, {0, 1}, {0, -1}, {-1,0}, {-1,-1}, {-1,1}, {1,-1}, {1,-2}, {1,1}, {1,2}, {0,2}, {0,-2}};
+                if (c) aux = new int[][] {{1, 0}, {0, 1}, {0, -1}, {-1,0}, {-1,-1}, {-1,1}, {1,-1}, {1,-2}, {1,1}, {1,2}, {0,2}, {0,-2}};
                 else aux = new int[][] {{-1, 0}, {0, 1}, {0, -1},{1,0}, {1,-1}, {1,1}, {-1,-1}, {-1,-2}, {-1,1}, {-1,2}, {0,2}, {0,-2}};
             }
         }
         return aux;
+    }
+    private boolean orientacio_triangle(int i, int j){
+        int contador = 0;
+        for(Celda c : this.tauler[0]){
+            if(c.isFrontera()) contador++;
+        }
+        Celda[] aux2 = this.tauler[i];
+        int contador2 = 0;
+        for(Celda c : aux2){
+            if(c.equals(this.tauler[i][j])) break;
+            if(!c.isFrontera())contador2++;
+        }
+        if(contador == this.tauler[0].length){
+            return(contador2 % 2 == 0);
+        }else{
+            if(i % 2 == 0){
+                return(contador2 % 2 == 0);
+            }else{
+                return(contador2 % 2 != 0);
+            }
+        }
     }
 
     private boolean esvalida(int i, int j){
