@@ -17,7 +17,7 @@ public class Maquina extends Jugador implements Serializable{
     //TODO Eliminar chivatos
 
     public void resolHidato(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Exception { //TODO en vez de usar Celda[][] usar Tauler?
-        print_jugades(jugades);
+        //print_jugades(jugades);
         int ini,seg;
         if(jugades.size() == 0){
             ini = 1;
@@ -33,31 +33,31 @@ public class Maquina extends Jugador implements Serializable{
             seg = seguentPref(pref, ini);
         }
         ArrayList<Vector<Celda>> camins = TrobaCaminsValids(ini,seg,t);
-        System.out.println("busco cami de: " + ini + " a " + seg);
-        for(Vector<Celda> zxccv: camins){
+        //System.out.println("busco cami de: " + ini + " a " + seg);
+        /*for(Vector<Celda> zxccv: camins){
             System.out.print("Cami: ");
             for(Celda c11234: zxccv){
                 AbstractMap.SimpleEntry<Integer, Integer> AM = BuscarCelda(c11234 , t);
                 System.out.print(AM.getKey() + " " + AM.getValue()  + ", ");
             }
             System.out.print("\n");
-        }
+        }*/
         if(camins.size() == 0){
             if(jugades.size() == 0){
-                System.out.println("No te solució!");
-                return;
+                //System.out.println("No te solució!");
+                throw new Utils.ExceptionHidatoNoSol("Hidato sense solucio");
             }
             ArrayList<Jugada> j = jugades.get(jugades.size()-1);
             jugades.remove(j);
-            System.out.println("voy a deshacer el ultimo camino loko: ");
+            //System.out.println("voy a deshacer el ultimo camino loko: ");
             for(Jugada aux : j){
                 Celda c = aux.getCelda();
-                System.out.println("vacio:" + c.getValor());
+                //System.out.println("vacio:" + c.getValor());
                 c.vaciar();
             }
             pref.add(ini); //hay que restaurar el prefijado ini eliminado antes del primer if
-            System.out.println("T1");
-            print_tauler_test(t, camins); //chivato
+            //System.out.println("T1");
+            //print_tauler_test(t, camins); //chivato
             return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
         }
         for(Vector<Celda> cami : camins){
@@ -68,27 +68,26 @@ public class Maquina extends Jugador implements Serializable{
                     Jugada i = new Jugada(true, pas, ++cont);
                     jcami.add(i);
                     if(i.getNum() + 1 == max){
-                        System.out.println("Solucionat! izi");
-                        print_tauler_test(t, camins);
-                        throw new Exception("SOLUCIONAO GILIPOLLAS");
-                        //return;
+                        //System.out.println("Solucionat! izi");
+                        //print_tauler_test(t, camins);
+                        throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
                     }
                 }
             }
             if(jcami.size() != 0) jugades.add(jcami);
-            System.out.println("T2");
-            print_tauler_test(t, camins);
+            //System.out.println("T2");
+            //print_tauler_test(t, camins);
             //si seg == last prefixat, mirar si es la solució
             resolHidato(t,pref,max,jugades);
         }
-        System.out.println("tengo que tirar atras 2 veces loko");
+        //System.out.println("tengo que tirar atras 2 veces loko");
         if(jugades.isEmpty()) return;
         ArrayList<Jugada> j = jugades.get(jugades.size()-1);
         jugades.remove(j);
-        System.out.println("voy a deshacer el ultimo camino loko: ");
+        //System.out.println("voy a deshacer el ultimo camino loko: ");
         for(Jugada aux : j){
             Celda c = aux.getCelda();
-            System.out.println("vacio:" + c.getValor());
+            //System.out.println("vacio:" + c.getValor());
             c.vaciar();
         }
     }

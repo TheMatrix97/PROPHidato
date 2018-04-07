@@ -1,6 +1,7 @@
 package hidato;
 
 import javafx.util.Pair;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -23,7 +24,14 @@ public class MaquinaTest {
         int ini = pref.first();
         pref.remove(ini);
         int seg = pref.first();
-        m.resolHidato(t.getTauler(),t.getPrefixats(),t.getPrefixats().last(),j);
+        try {
+            m.resolHidato(t.getTauler(), t.getPrefixats(), t.getPrefixats().last(), j);
+        }catch(Utils.ExceptionHidatoSolucionat e){
+            System.out.println("Hidato solucionat");
+            assert(true);
+        }catch(Utils.ExceptionHidatoNoSol e){
+            assert(false);
+        }
         System.out.println(recorreCeldas(t.getTauler()).toString());
     }
 
