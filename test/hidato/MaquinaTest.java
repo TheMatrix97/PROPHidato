@@ -15,7 +15,7 @@ public class MaquinaTest {
 
     @Test
     public void testSolver1() throws Exception {
-        Tauler t = new Tauler("HCHidato2"); //Hidato sobre el que buscará
+        Tauler t = new Tauler("HCHidato1"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
         ArrayList<ArrayList<Jugada>> j = new ArrayList<>();
         Integer a = 0;

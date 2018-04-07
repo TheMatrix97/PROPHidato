@@ -28,6 +28,10 @@ public class Maquina extends Jugador implements Serializable{
             ini = seguentPref(pref, last);
             seg = seguentPref(pref, ini);
         }
+        while(seg - ini == 1){
+            ini = seg;
+            seg = seguentPref(pref, ini);
+        }
         ArrayList<Vector<Celda>> camins = TrobaCaminsValids(ini,seg,t);
         System.out.println("busco cami de: " + ini + " a " + seg);
         for(Vector<Celda> zxccv: camins){
@@ -65,7 +69,9 @@ public class Maquina extends Jugador implements Serializable{
                     jcami.add(i);
                     if(i.getNum() + 1 == max){
                         System.out.println("Solucionat! izi");
-                        return;
+                        print_tauler_test(t, camins);
+                        throw new Exception("SOLUCIONAO GILIPOLLAS");
+                        //return;
                     }
                 }
             }
@@ -76,6 +82,7 @@ public class Maquina extends Jugador implements Serializable{
             resolHidato(t,pref,max,jugades);
         }
         System.out.println("tengo que tirar atras 2 veces loko");
+        if(jugades.isEmpty()) return;
         ArrayList<Jugada> j = jugades.get(jugades.size()-1);
         jugades.remove(j);
         System.out.println("voy a deshacer el ultimo camino loko: ");
