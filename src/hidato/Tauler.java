@@ -129,4 +129,13 @@ public class Tauler implements Serializable{
     public int getNPrefixats(){
         return this.prefixats.size();
     }
+
+    public Celda getUsat(int i){
+        for(Celda[] c: this.tauler){
+            for(Celda c2: c){
+                if(c2.getValor() == i) return c2;
+            }
+        }
+        return null;
+    }
 }

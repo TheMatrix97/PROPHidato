@@ -22,6 +22,14 @@ public class Maquina extends Jugador implements Serializable{
         pref.remove(ini);
         ArrayList<Vector<Celda>> camins = TrobaCaminsValids(ini,pref.first(),t);
         System.out.println("busco cami de: " + ini + " a " + pref.first());
+        for(Vector<Celda> zxccv: camins){
+            System.out.print("Cami: ");
+            for(Celda c11234: zxccv){
+                AbstractMap.SimpleEntry<Integer, Integer> AM = BuscarCelda(c11234 , t);
+                System.out.print(AM.getKey() + " " + AM.getValue()  + ", ");
+            }
+            System.out.print("\n");
+        }
         if(camins.size() == 0){
             if(jugades.size() == 0){
                 System.out.println("No te solució!");
