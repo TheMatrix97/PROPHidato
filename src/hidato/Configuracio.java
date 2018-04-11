@@ -1,7 +1,9 @@
 package hidato;
 
+import java.io.Serializable;
+
 /* @author antonio.guilera & marc.blanca */
-public class Configuracio{
+public class Configuracio implements Serializable{
 
     private String dificultat; //Facil, Normal, Dificil
     private String tadjacencia; //C:costats,CA:costats+angles

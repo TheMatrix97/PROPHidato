@@ -7,6 +7,7 @@ package hidato;
 
 import sun.awt.ConstrainableGraphics;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -15,7 +16,7 @@ import java.util.Comparator;
  *
  * @author marc.catrisse
  */
-public class Ranking{
+public class Ranking implements Serializable{
     private int sizemax;
     private ArrayList<Record> records; //lista que contiene los 10 mejores
     private Record peorRecord;
