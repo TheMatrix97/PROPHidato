@@ -1,7 +1,12 @@
 package hidato;
 
 
+import sun.security.krb5.Config;
+
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -52,6 +57,36 @@ public class Tauler implements Serializable{
             }
         }
         carregaveins(tcela, adj); // todo passar configuracio
+    }
+
+    public Tauler(int last, Configuracio conf){
+        int r, aux;
+        ArrayList<ArrayList<Celda>> Mat = new ArrayList<>(); //MATRIU QUE CONTÉ ELS ARRAY LIST QUE FORMEN CADA FILA.
+        String s = conf.getAdjacencia(); //Tadj
+        char c = conf.getCell(); //TCel·la
+        if(conf.getDificultat().equals("Facil")){
+            //Creem un hidato easy peasy lemon squeeze
+            r = (int) (Math.random() * 5); //Genera un numero random de 0 a 5 (5 no inclòs).
+            ArrayList<Celda> al = new ArrayList<>(r);
+            aux = (int) (Math.random() * 5); //aux sera la posició del AL on posarem el 1.
+            //Omplim el arrayList amb cel·les i iniciem una random d'aquest AL a 1, per començar a generar.
+            for(int i = 0; i < r; ++i){
+                if(i == aux){
+                    al.add(new Celda(true, 1, c, s));
+                }
+                else al.add(new Celda(true, c, s));
+            }
+            Mat.add(al); //Hem de recorrer la matriu al generar i anar creant els AL a partir de la nostra posicio anterior
+            for(int i = 1; i < last; ++i){
+                generarNext(i, )
+            }
+        }
+    }
+
+    private generarNext(int n, int i, int j, char c, String s, int mH, int mV){
+        //funcio que calcula la pos on hem de posar el proper valor.
+        int[][] dirNext = getpossveins(c, s, j, i);
+
     }
 
     private Celda obtecelda(String aux, char tcela, String adj){
