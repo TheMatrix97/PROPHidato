@@ -30,16 +30,13 @@ public class Celda implements Serializable{
      * TRIANGLE   3         12
      * QUADRAT    4         8
      * HEXAGON    6         6*/
-    private int[][] sizeadj = {{3, 12}, {4, 8}, {6, 6}};
+    private static int[][] sizeadj = {{3, 12}, {4, 8}, {6, 6}};
 
     //constructores
-    public Celda(boolean prefijada, int valor, char TypeS, String adjacencia) { //celda valida con valor prefijada o no
+    public Celda(boolean prefijada, int valor, char TypeS, int adjacencia) { //celda valida con valor prefijada o no
         this.FormaC = TypeS;
-        int adj;
-        if(adjacencia.equals("C")) adj = 0;
-        else adj = 1;
         int t = switchType();
-        this.adj = adj;
+        this.adj = adjacencia;
         this.vecinos = new ArrayList<>(sizeadj[t][adj]);
         this.valida = true;
         this.prefijada = prefijada;
@@ -129,4 +126,15 @@ public class Celda implements Serializable{
         this.vacia = true;
     }
 
+    public static int getnVecinosType(char s, int adj){
+        if(s == 'Q'){
+            return sizeadj[1][adj];
+        }
+        else if(s == 'H'){
+            return sizeadj[2][adj];
+        }
+        //SI LLEGA AQUI ES UN TRIANGLE
+
+        return sizeadj[0][adj];
+    }
 }
