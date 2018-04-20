@@ -59,21 +59,21 @@ public class Tauler implements Serializable{
 
     public Tauler (Configuracio conf){
         int last = GetLast(conf.getDificultat());
-        Celda[][] tauler_gen = new Celda[last][last];
-        ini_tauler_vacio(last,tauler_gen,conf);
+        this.tauler = new Celda[last][last];
+        ini_tauler_vacio(last,this.tauler,conf);
         int i = (int) (Math.random() * last); //i/j del 1;
         int j = (int) (Math.random() * last);
-        tauler_gen[i][j].setValor(1);
-        tauler_gen[i][j].setPrefijada();
-        carregaveins_var(conf.getcell(),conf.getAdjacencia(),tauler_gen ,last); //TODO TENER EN cuenta diferentes tipos de triangulos
-        int n_vecinos = tauler_gen[i][j].getnVecinos();
+        this.tauler[i][j].setValor(1);
+        this.tauler[i][j].setPrefijada();
+        carregaveins(conf.getcell(),conf.getAdjacencia()); //TODO TENER EN cuenta diferentes tipos de triangulos
+        int n_vecinos = this.tauler[i][j].getnVecinos();
         double[] probabilidades = new double[n_vecinos];
         int[] movimientos = new int[n_vecinos];
         for(int ia = 0; ia < n_vecinos; ia++){
             movimientos[ia] = 0;
         }
         boolean fin = false;
-        Celda c = tauler_gen[i][j];
+        Celda c = this.tauler[i][j];
         int[][] veins = getpossveins(conf.getcell(),conf.getAdjacencia(),i,j);
         int contador = 2;
         int min = 0;
@@ -82,7 +82,7 @@ public class Tauler implements Serializable{
             for(int ia = 0; ia < n_vecinos; ia++){
                 probabilidades[ia] = 1; //inicializar
             }
-            print_aux(tauler_gen);
+            print_aux(this.tauler);
             int contaux = 0;
             boolean first = true;
             for(int[] vf : veins){
@@ -90,9 +90,9 @@ public class Tauler implements Serializable{
                 int jv = vf[1];
                 //System.out.println("i: " + (i+iv) + " j: " + (jv+j) + "  last: " + last);
                 if (((i+iv > last-1 || i+iv < 0) || (jv+j > last-1 || jv+j < 0))) probabilidades[contaux] = 0;
-                else if(!tauler_gen[iv+i][jv+j].isVacia()) probabilidades[contaux] = 0;
+                else if(!this.tauler[iv+i][jv+j].isVacia()) probabilidades[contaux] = 0;
                 else{
-                    if(!tauler_gen[iv+i][jv+j].isVacia()) probabilidades[contaux] = 0;
+                    if(!this.tauler[iv+i][jv+j].isVacia()) probabilidades[contaux] = 0;
                     if(first){
                         min = movimientos[contaux];
                         first = false;
@@ -108,7 +108,7 @@ public class Tauler implements Serializable{
             int[] posSeg = veins[seg];
             i += posSeg[0];
             j += posSeg[1];
-            tauler_gen[i][j].setValor(contador);
+            this.tauler[i][j].setValor(contador);
             if(contador == last)fin = true;
             else {
                 movimientos[seg]++;
@@ -212,20 +212,6 @@ public class Tauler implements Serializable{
             }
         }
     }
-
-    private void carregaveins_var(char tcela, String adj, Celda[][] t, int last){ //genera enllaços entre veins segons configuracio
-        int nvecinos = t[0][0].getnVecinos(); //TODO petará, si .txt esta vacio?
-        for(int i = 0; i < last; i++){
-            for(int j = 0; j < last; j++){
-                int[][] aux = getpossveins(tcela,adj,j,i);
-                for(int l = 0; l < nvecinos; l++){
-                    if(esvalida(aux[l][0] + i,aux[l][1]+j)){
-                        t[i][j].addVecino(t[aux[l][0] + i][aux[l][1] + j]);
-                    }
-                }
-            }
-        }
-    }
     public Celda[][] getTauler(){
         Celda[][] c = tauler.clone();
         return c;
@@ -253,7 +239,7 @@ public class Tauler implements Serializable{
         }
         return aux;
     }
-    private boolean orientacio_triangle(int i, int j){
+    private boolean orientacio_triangle(int i, int j){ //TODO falla
         int contador = 0;
         for(Celda c : this.tauler[0]){
             if(c.isFrontera()) contador++;

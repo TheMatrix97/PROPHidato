@@ -78,9 +78,14 @@ public class TaulerTest {
         String expected = expected_out("HCresolt2");
         assertEquals(expected,out);
     }
-    @Test
-    public void test_generador(){
-        Configuracio c = new Configuracio("Facil","C",'H');
+    @Test(timeout=5000)
+    public void test_generador_it(){
+        Configuracio c = new Configuracio("Facil","C",'T');
+        Tauler t = new Tauler(c);
+    }
+    @Test(timeout=5000)
+    public void test_generador_it2(){
+        Configuracio c = new Configuracio("Normal","CA",'Q');
         Tauler t = new Tauler(c);
     }
 
