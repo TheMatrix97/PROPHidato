@@ -10,12 +10,18 @@ public class Partida implements Serializable{
     ArrayList<Jugada> jug;
     Configuracio conf;
     Maquina bot;
-    Partida(String id) throws IOException { //crea partida amb tauler de bd
+    public Partida(String id) throws IOException { //crea partida amb tauler de bd
         this.encurs = new Tauler(id);
         this.solucio = new Tauler(id);
         this.bot = new Maquina();
         this.jug = new ArrayList<>();
         //generar solucio
+    }
+    public Partida(){ //partida sense tauler
+        this.encurs = null;
+        this.solucio = null;
+        this.bot = new Maquina();
+        this.jug = new ArrayList<>();
     }
     void Solucionar_bot(){
 

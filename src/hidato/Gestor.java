@@ -37,44 +37,7 @@ public class Gestor implements Serializable{
         return new Ranking(conf);
     }
 
-    public void guardar_partida() throws IOException {
-        String filePath = new File("").getAbsolutePath();
-        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath+"/Saves/save.hidato"));
-        oos.writeObject(this.game);
-        oos.close();
-    }
 
-    public void cargar_partida() throws Exception {
-        Partida pendiente = existe_Partida();
-        if(pendiente != null){
-            this.game = pendiente;
-            vaciarSave();
-        }
-    }
-    private void vaciarSave() throws IOException {
-        String filePath = new File("").getAbsolutePath();
-        BufferedWriter wr = new BufferedWriter(new FileWriter(filePath + "/Saves/save.hidato"));
-        wr.write("");
-        wr.close();
-    }
-
-    public Partida existe_Partida() throws IOException, ClassNotFoundException { //si existe devuelve la partida, sino null
-        String filePath = new File("").getAbsolutePath();
-        ObjectInputStream ois = null;
-        try{
-            ois = new ObjectInputStream(new FileInputStream(filePath + "/Saves/save.hidato"));
-        }catch (java.io.EOFException e){
-            return null;
-        }
-        Object aux = null;
-        aux = ois.readObject();
-        if(aux instanceof Partida){
-            return (Partida)aux;
-        }
-        else{
-            return null;
-        }
-    }
 
     public void setPartida(Partida p){
         this.game = p;
