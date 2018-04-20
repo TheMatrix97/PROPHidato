@@ -78,6 +78,11 @@ public class TaulerTest {
         String expected = expected_out("HCresolt2");
         assertEquals(expected,out);
     }
+    @Test
+    public void test_generador(){
+        Configuracio c = new Configuracio("Facil","C",'H');
+        Tauler t = new Tauler(c);
+    }
 
     private String expected_out(String name) throws IOException {
         String filePath = new File("").getAbsolutePath();

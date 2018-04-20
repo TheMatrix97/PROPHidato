@@ -1,7 +1,10 @@
 package hidato;
 
 
+import sun.security.krb5.Config;
+
 import java.io.*;
+import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -54,6 +57,130 @@ public class Tauler implements Serializable{
         carregaveins(tcela, adj); // todo passar configuracio
     }
 
+    public Tauler (Configuracio conf){
+        int last = GetLast(conf.getDificultat());
+        Celda[][] tauler_gen = new Celda[last][last];
+        ini_tauler_vacio(last,tauler_gen,conf);
+        int i = (int) (Math.random() * last); //i/j del 1;
+        int j = (int) (Math.random() * last);
+        tauler_gen[i][j].setValor(1);
+        tauler_gen[i][j].setPrefijada();
+        carregaveins_var(conf.getcell(),conf.getAdjacencia(),tauler_gen ,last); //TODO TENER EN cuenta diferentes tipos de triangulos
+        int n_vecinos = tauler_gen[i][j].getnVecinos();
+        double[] probabilidades = new double[n_vecinos];
+        int[] movimientos = new int[n_vecinos];
+        for(int ia = 0; ia < n_vecinos; ia++){
+            movimientos[ia] = 0;
+        }
+        boolean fin = false;
+        Celda c = tauler_gen[i][j];
+        int[][] veins = getpossveins(conf.getcell(),conf.getAdjacencia(),i,j);
+        int contador = 2;
+        int min = 0;
+        int max = 0;
+        while(!fin){
+            for(int ia = 0; ia < n_vecinos; ia++){
+                probabilidades[ia] = 1; //inicializar
+            }
+            print_aux(tauler_gen);
+            int contaux = 0;
+            boolean first = true;
+            for(int[] vf : veins){
+                int iv = vf[0];
+                int jv = vf[1];
+                //System.out.println("i: " + (i+iv) + " j: " + (jv+j) + "  last: " + last);
+                if (((i+iv > last-1 || i+iv < 0) || (jv+j > last-1 || jv+j < 0))) probabilidades[contaux] = 0;
+                else if(!tauler_gen[iv+i][jv+j].isVacia()) probabilidades[contaux] = 0;
+                else{
+                    if(!tauler_gen[iv+i][jv+j].isVacia()) probabilidades[contaux] = 0;
+                    if(first){
+                        min = movimientos[contaux];
+                        first = false;
+                    }
+                    if(movimientos[contaux] > max) max = movimientos[contaux];
+                    if(movimientos[contaux] < min) min = movimientos[contaux];
+                }
+                contaux++;
+            }
+
+            recalcular_probs(movimientos,probabilidades, min,max);
+            int seg = calcular_seguent(probabilidades, veins.length);
+            int[] posSeg = veins[seg];
+            i += posSeg[0];
+            j += posSeg[1];
+            tauler_gen[i][j].setValor(contador);
+            if(contador == last)fin = true;
+            else {
+                movimientos[seg]++;
+                contador++;
+            }
+        }
+        System.out.println("Last: " + last);
+    }
+    private void print_aux(Celda[][] t){
+        for(Celda[] f : t){
+            for(Celda c : f){
+                System.out.print(c.getValor() + ",");
+            }
+            System.out.print("\n");
+        }
+        System.out.print("\n");
+    }
+
+    private int calcular_seguent(double[] prob, int length){
+        boolean valido = false;
+        int seguent = length-1;
+        while(!valido) {
+            double rand = (Math.random() * 2.0);
+            seguent = (int)(Math.random() * length);
+            System.out.println("rand: " + rand + " seg: " + prob[seguent]);
+            if(prob[seguent]*rand >= 1.0) valido = true;
+        }
+        return seguent;
+    }
+
+    private void recalcular_probs(int[] movimientos, double[] probabilidades, int min, int max){
+        int size = movimientos.length;
+        System.out.println("min: " + min + " max: " + max);
+        for(int i = 0; i < size; i++){
+            if(probabilidades[i] != 0) {
+                int mov = movimientos[i];
+                if (min == max) {
+                    probabilidades[i] = 1;
+                }
+                else if(mov == max){
+                    probabilidades[i] = 0.55; //tenemos un 18% de volver a hacer el mismo movimiento (patron)
+                }
+                else if(min == mov){
+                    probabilidades[i] = 2; //tenemos un 75% de seguir el patron menos usado
+                }
+                else{
+                    probabilidades[i] = 1;
+                }
+            }
+        }
+    }
+
+    private void ini_tauler_vacio(int last, Celda[][] tauler_gen, Configuracio c){
+        for(int i = 0; i < last; i++){
+            for(int j = 0; j < last; j++){
+                tauler_gen[i][j] = new Celda(true,c.getcell(),c.getAdjacencia()); //llenamos el tablero de celdas vacias
+            }
+        }
+
+    }
+
+    private int GetLast(String typedif) {  //Función para generar un tablero
+        switch (typedif){
+            case "Dificil":
+                return (int) (Math.random() * 40) + 69;
+            case "Normal":
+                return (int) (Math.random() * 30) + 38;
+            default:
+                return (int) (Math.random() * 20) + 17;
+        }
+    }
+
     private Celda obtecelda(String aux, char tcela, String adj){
         Celda c;
         switch (aux) {
@@ -80,6 +207,20 @@ public class Tauler implements Serializable{
                 for(int l = 0; l < nvecinos; l++){
                     if(esvalida(aux[l][0] + i,aux[l][1]+j)){
                         tauler[i][j].addVecino(tauler[aux[l][0] + i][aux[l][1] + j]);
+                    }
+                }
+            }
+        }
+    }
+
+    private void carregaveins_var(char tcela, String adj, Celda[][] t, int last){ //genera enllaços entre veins segons configuracio
+        int nvecinos = t[0][0].getnVecinos(); //TODO petará, si .txt esta vacio?
+        for(int i = 0; i < last; i++){
+            for(int j = 0; j < last; j++){
+                int[][] aux = getpossveins(tcela,adj,j,i);
+                for(int l = 0; l < nvecinos; l++){
+                    if(esvalida(aux[l][0] + i,aux[l][1]+j)){
+                        t[i][j].addVecino(t[aux[l][0] + i][aux[l][1] + j]);
                     }
                 }
             }

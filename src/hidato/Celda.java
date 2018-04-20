@@ -125,6 +125,10 @@ public class Celda implements Serializable{
         this.valor = val;
         this.vacia = false;
     }
+    public void setPrefijada(){
+        this.prefijada = true;
+    }
+
     public void vaciar(){
         this.vacia = true;
     }
