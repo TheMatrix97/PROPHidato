@@ -80,13 +80,18 @@ public class TaulerTest {
     }
     @Test(timeout=5000)
     public void test_generador_it(){
-        Configuracio c = new Configuracio("Facil","C",'T');
-        Tauler t = new Tauler(c);
+        generar_tauler("Facil","C",'T');
     }
     @Test(timeout=5000)
     public void test_generador_it2(){
-        Configuracio c = new Configuracio("Normal","CA",'Q');
+        generar_tauler("Normal","CA",'Q');
+    }
+    private void generar_tauler(String dif, String adj, char type){
+        Configuracio c = new Configuracio(dif,adj,type);
         Tauler t = new Tauler(c);
+        Celda[][] aux = t.getTauler();
+        System.out.print(MaquinaTest.recorreCeldas(aux));
+
     }
 
     private String expected_out(String name) throws IOException {

@@ -58,6 +58,11 @@ public class Tauler implements Serializable{
     }
 
     public Tauler (Configuracio conf){
+        genera_tauler(conf);
+                            //tenim el tauler carregat
+    }
+
+    private void genera_tauler(Configuracio conf){
         int last = GetLast(conf.getDificultat());
         this.tauler = new Celda[last][last];
         ini_tauler_vacio(last,this.tauler,conf);
@@ -82,13 +87,11 @@ public class Tauler implements Serializable{
             for(int ia = 0; ia < n_vecinos; ia++){
                 probabilidades[ia] = 1; //inicializar
             }
-            print_aux(this.tauler);
             int contaux = 0;
             boolean first = true;
             for(int[] vf : veins){
                 int iv = vf[0];
                 int jv = vf[1];
-                //System.out.println("i: " + (i+iv) + " j: " + (jv+j) + "  last: " + last);
                 if (((i+iv > last-1 || i+iv < 0) || (jv+j > last-1 || jv+j < 0))) probabilidades[contaux] = 0;
                 else if(!this.tauler[iv+i][jv+j].isVacia()) probabilidades[contaux] = 0;
                 else{
@@ -104,7 +107,13 @@ public class Tauler implements Serializable{
             }
 
             recalcular_probs(movimientos,probabilidades, min,max);
-            int seg = calcular_seguent(probabilidades, veins.length);
+            int seg = 0;
+            try {
+                seg = calcular_seguent(probabilidades, veins.length);
+            }catch(Exception e){//si no hay camino, vuelve a ejecutar
+                genera_tauler(conf);
+                break;
+            }
             int[] posSeg = veins[seg];
             i += posSeg[0];
             j += posSeg[1];
@@ -115,25 +124,24 @@ public class Tauler implements Serializable{
                 contador++;
             }
         }
-        System.out.println("Last: " + last);
-    }
-    private void print_aux(Celda[][] t){
-        for(Celda[] f : t){
-            for(Celda c : f){
-                System.out.print(c.getValor() + ",");
-            }
-            System.out.print("\n");
-        }
-        System.out.print("\n");
     }
 
-    private int calcular_seguent(double[] prob, int length){
+
+    private int calcular_seguent(double[] prob, int length) throws Exception {
         boolean valido = false;
         int seguent = length-1;
+        boolean stop = false;
+        for(double d : prob){
+            if(d != 0.0){
+                stop = true;
+                break;
+            }
+        }
+        if(!stop) throw new Exception(); //si no hay mas caminos(nos hemos encerrado tiramos excep)
         while(!valido) {
             double rand = (Math.random() * 2.0);
             seguent = (int)(Math.random() * length);
-            System.out.println("rand: " + rand + " seg: " + prob[seguent]);
+            //System.out.println("rand: " + rand + " seg: " + prob[seguent]);
             if(prob[seguent]*rand >= 1.0) valido = true;
         }
         return seguent;
@@ -141,7 +149,7 @@ public class Tauler implements Serializable{
 
     private void recalcular_probs(int[] movimientos, double[] probabilidades, int min, int max){
         int size = movimientos.length;
-        System.out.println("min: " + min + " max: " + max);
+        //System.out.println("min: " + min + " max: " + max);
         for(int i = 0; i < size; i++){
             if(probabilidades[i] != 0) {
                 int mov = movimientos[i];
