@@ -218,7 +218,7 @@ public class Tauler implements Serializable{
                     probabilidades[i] = 1;
                 }
                 else if(mov == max){
-                    probabilidades[i] = 0.55; //tenemos un 18% de volver a hacer el mismo movimiento (patron)
+                    probabilidades[i] = 0.55; //tenemos un 9% de volver a hacer el mismo movimiento (patron)
                 }
                 else if(min == mov){
                     probabilidades[i] = 2; //tenemos un 75% de seguir el patron menos usado
