@@ -66,7 +66,7 @@ public class MaquinaTest {
         ResolHidatoGen("TC", "T,C,5,7\n");
     }
     private void ResolHidatoGen(String type, String capcelera) throws Exception {
-        Tauler t = new Tauler(type+"Enunciat"); //Hidato sobre el que buscará
+        Tauler t = new Tauler(type+"ENUNCIAT"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
         if (m.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());

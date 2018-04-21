@@ -133,4 +133,14 @@ public class Celda implements Serializable{
         this.vacia = true;
     }
 
+    public void setInvalida(){
+        this.valida = false;
+        this.frontera = false; //ENS ASEGUREM DE QUE ES '*' i no '#'
+    }
+
+    public void setFrontera(){
+        this.frontera = true;
+        this.valida = false;
+    }
+
 }

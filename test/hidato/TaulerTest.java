@@ -90,7 +90,7 @@ public class TaulerTest {
         Tauler t = new Tauler(c);
         Celda[][] aux = t.getTauler();
         System.out.print(MaquinaTest.recorreCeldas(aux));
-
+        System.out.println();
     }
 
     private String expected_out(String name) throws IOException {

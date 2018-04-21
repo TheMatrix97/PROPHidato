@@ -83,6 +83,9 @@ public class Tauler implements Serializable{
         int contador = 2;
         int min = 0;
         int max = 0;
+        int iMin, iMax, jMin, jMax;
+        iMin = iMax = i; //EMPEZAMOS IGUALANDO to do AL 1
+        jMin = jMax = j;
         while(!fin){
             for(int ia = 0; ia < n_vecinos; ia++){
                 probabilidades[ia] = 1; //inicializar
@@ -117,6 +120,11 @@ public class Tauler implements Serializable{
             int[] posSeg = veins[seg];
             i += posSeg[0];
             j += posSeg[1];
+            //ACTUALIZAMOS/CHECKEAMOS iMin, iMax, jMin, jMax
+            if(i < iMin) iMin = i;
+            if(i > iMax) iMax = i;
+            if(j < jMin) jMin = j;
+            if(j > jMax) jMax = j;
             this.tauler[i][j].setValor(contador);
             if(contador == last)fin = true;
             else {
@@ -124,8 +132,42 @@ public class Tauler implements Serializable{
                 contador++;
             }
         }
+        //System.out.println("FIN? : " + fin);
+        //System.out.println("iMin: " + iMin + " iMax: " + iMax + " jMin: " + jMin + " jMax: " +jMax);
+        //NO PODEMOS PONER MAS CODIGO AQUI PORQUE SI NO EL BREAK HACE QUE SE VAYA A TOMAR TO-DO POR CULO, A NO SER QUE LO METAMOS DENTRO DE UN IF(FIN)
+        if(fin){
+            this.tauler = retallaTauler(iMin, iMax, jMin, jMax);
+            calculaFronteres(last);
+        }
     }
 
+    private void calculaFronteres(int last){
+        int rand = (int) (Math.random()*8) + 3; //random de (3..8'99)
+        for(Celda[] c : this.tauler){
+            for(Celda celda : c){
+                if(celda.isVacia()){
+                    celda.setFrontera();
+                }
+                else if(celda.getValor() == 1 || celda.getValor() == last) celda.setPrefijada();
+                else{
+                    if(celda.getValor() % rand == 0) celda.setPrefijada();
+                    else{
+                        celda.vaciar();
+                    }
+                }
+            }
+        }
+    }
+
+    private Celda[][] retallaTauler(int iMin, int iMax, int jMin, int jMax){
+        Celda[][] taulerRetallat = new Celda[iMax-iMin + 1][jMax-jMin + 1];
+        for(int i = 0; i < (iMax-iMin+1); ++i){
+            for(int j = 0; j < (jMax-jMin+1); ++j){
+                taulerRetallat[i][j] = this.tauler[iMin+i][jMin+j];
+            }
+        }
+        return taulerRetallat;
+    }
 
     private int calcular_seguent(double[] prob, int length) throws Exception {
         boolean valido = false;
