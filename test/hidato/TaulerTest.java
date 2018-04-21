@@ -79,13 +79,12 @@ public class TaulerTest {
         assertEquals(expected,out);
     }
     @Test(timeout=5000)
-    public void test_generador_it(){
+    public void test_generador(){
         generar_tauler("Facil","C",'T');
-    }
-    @Test(timeout=5000)
-    public void test_generador_it2(){
         generar_tauler("Normal","CA",'Q');
+        generar_tauler("Dificil", "C", 'H');
     }
+
     private void generar_tauler(String dif, String adj, char type){
         Configuracio c = new Configuracio(dif,adj,type);
         Tauler t = new Tauler(c);

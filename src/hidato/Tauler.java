@@ -70,8 +70,9 @@ public class Tauler implements Serializable{
         int j = (int) (Math.random() * last);
         this.tauler[i][j].setValor(1);
         this.tauler[i][j].setPrefijada();
-        carregaveins(conf.getcell(),conf.getAdjacencia()); //TODO TENER EN cuenta diferentes tipos de triangulos
-        int n_vecinos = this.tauler[i][j].getnVecinos();
+        //carregaveins(conf.getcell(),conf.getAdjacencia()); //TODO TENER EN cuenta diferentes tipos de triangulos
+        int[][] veins = getpossveins(conf.getcell(),conf.getAdjacencia(),i,j);
+        int n_vecinos = veins.length;
         double[] probabilidades = new double[n_vecinos];
         int[] movimientos = new int[n_vecinos];
         for(int ia = 0; ia < n_vecinos; ia++){
@@ -79,7 +80,6 @@ public class Tauler implements Serializable{
         }
         boolean fin = false;
         Celda c = this.tauler[i][j];
-        int[][] veins = getpossveins(conf.getcell(),conf.getAdjacencia(),i,j);
         int contador = 2;
         int min = 0;
         int max = 0;
