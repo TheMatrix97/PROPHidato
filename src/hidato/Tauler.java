@@ -71,7 +71,7 @@ public class Tauler implements Serializable{
         this.tauler[i][j].setValor(1);
         this.tauler[i][j].setPrefijada();
         //carregaveins(conf.getcell(),conf.getAdjacencia()); //TODO TENER EN cuenta diferentes tipos de triangulos
-        int[][] veins = getpossveins(conf.getcell(),conf.getAdjacencia(),i,j);
+        int[][] veins = getpossveins(conf.getcell(),conf.getAdjacencia(),j,i);
         int n_vecinos = veins.length;
         double[] probabilidades = new double[n_vecinos];
         int[] movimientos = new int[n_vecinos];
@@ -79,7 +79,6 @@ public class Tauler implements Serializable{
             movimientos[ia] = 0;
         }
         boolean fin = false;
-        Celda c = this.tauler[i][j];
         int contador = 2;
         int min = 0;
         int max = 0;
@@ -87,6 +86,7 @@ public class Tauler implements Serializable{
         iMin = iMax = i; //EMPEZAMOS IGUALANDO to do AL 1
         jMin = jMax = j;
         while(!fin){
+            veins = getpossveins(conf.getcell(),conf.getAdjacencia(),j,i);
             for(int ia = 0; ia < n_vecinos; ia++){
                 probabilidades[ia] = 1; //inicializar
             }
@@ -140,6 +140,7 @@ public class Tauler implements Serializable{
             calculaFronteres(last);
             this.n = iMax - iMin + 1;
             this.k = jMax - jMin + 1;
+           // System.out.println("jMin: " + jMin);
             carregaveins(conf.getcell(), conf.getAdjacencia());
             Maquina m = new Maquina();
             boolean b = m.resolHidato(this);
@@ -154,7 +155,7 @@ public class Tauler implements Serializable{
         for(Celda[] c : this.tauler){
             for(Celda celda : c){
                 if(celda.isVacia()){
-                    celda.setFrontera();
+                    celda.setInvalida();
                 }
                 else if(celda.getValor() == 1 || celda.getValor() == last){
                     celda.setPrefijada();
@@ -299,6 +300,7 @@ public class Tauler implements Serializable{
 
     private int[][] getpossveins(char tcela, String adj , int j, int i) {
         int aux[][];
+        boolean c = true;
         if (tcela == 'Q') {
             if (adj.equals("C")) aux = new int[][] {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
             else aux = new int[][] {{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
@@ -308,7 +310,7 @@ public class Tauler implements Serializable{
             else aux = new int[][] {{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};
 
         } else { //triangle
-            boolean c = orientacio_triangle(i,j); //true, mira cap adalt, sino mira cap abaix
+            c = orientacio_triangle(i,j); //true, mira cap adalt, sino mira cap abaix
             if (adj.equals("C")) {
                 if (c) aux = new int[][]{{1, 0}, {0, 1}, {0, -1}};
                 else aux = new int[][] {{-1, 0}, {0, 1}, {0, -1}};
@@ -317,6 +319,7 @@ public class Tauler implements Serializable{
                 else aux = new int[][] {{-1, 0}, {0, 1}, {0, -1},{1,0}, {1,-1}, {1,1}, {-1,-1}, {-1,-2}, {-1,1}, {-1,2}, {0,2}, {0,-2}};
             }
         }
+        //System.out.println("i: " + i + " j:" + j + "bool: " + c);
         return aux;
     }
     private boolean orientacio_triangle(int i, int j){ //TODO falla

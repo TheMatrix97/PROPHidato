@@ -78,7 +78,7 @@ public class TaulerTest {
         String expected = expected_out("HCresolt2");
         assertEquals(expected,out);
     }
-    @Test(timeout=500000000)
+    @Test(timeout=5000)
     public void test_generador(){
         generar_tauler("Facil","C",'T');
         generar_tauler("Normal","CA",'H');

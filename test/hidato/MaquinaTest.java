@@ -59,14 +59,22 @@ public class MaquinaTest {
     }
     @Test
     public void ResolHidatoQCA() throws Exception { //PARA TESTEAR!!
-        ResolHidatoGen("HC", "H,C,17,7\n");
+        ResolHidatoGen("QCA", "Q,CA,5,5\n", "Enunciat");
     }
     @Test
     public void ResolHidatoTC() throws Exception { //PARA TESTEAR!!
-        ResolHidatoGen("TC", "T,C,5,7\n");
+        ResolHidatoGen("TC", "T,C,5,7\n","Enunciat");
     }
-    private void ResolHidatoGen(String type, String capcelera) throws Exception {
-        Tauler t = new Tauler(type+"Enunciat"); //Hidato sobre el que buscará
+    @Test
+    public void ResolHidatoGenerat() throws Exception { //PARA TESTEAR!!
+        ResolHidatoGen("HC", "T,C,5,7\n","N1");
+    }
+    @Test
+    public void ResolHidatoGenerat2() throws Exception { //PARA TESTEAR!!
+        ResolHidatoGen("TC", "T,C,6,10\n","N1");
+    }
+    private void ResolHidatoGen(String type, String capcelera, String next ) throws Exception {
+        Tauler t = new Tauler(type+next); //Hidato sobre el que buscará
         Maquina m = new Maquina();
         if (m.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());
@@ -87,7 +95,7 @@ public class MaquinaTest {
                 if(!first) res.append(",");
                 else first = false;
                 if(celda.isFrontera())res.append("#");
-                else if(celda.isVacia()) res.append("?");
+                else if(celda.isVacia() && celda.isValida()) res.append("?");
                 else if(!celda.isValida()) res.append("*");
                 else res.append(celda.getValor());
             }
