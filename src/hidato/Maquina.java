@@ -29,7 +29,7 @@ public class Maquina extends Jugador implements Serializable{
         return false;
     }
 
-    private void resolHidatoAlgorito(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Utils.ExceptionHidatoSolucionat,Utils.ExceptionHidatoNoSol { //TODO en vez de usar Celda[][] usar Tauler?
+    private void resolHidatoAlgorito(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat { //TODO en vez de usar Celda[][] usar Tauler?
         //print_jugades(jugades);
         int ini,seg;
         if(jugades.size() == 0){
@@ -45,14 +45,15 @@ public class Maquina extends Jugador implements Serializable{
             ini = seg;
             seg = seguentPref(pref, ini);
         }
+        if(ini == max) throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
         ArrayList<Vector<Celda>> camins;
         try{
             camins = TrobaCaminsValids(ini,seg,t);
         }catch(Exception e){
             throw new Utils.ExceptionHidatoNoSol("Hidato no solucionat!");
         }
-        //System.out.println("busco cami de: " + ini + " a " + seg);
-        /*for(Vector<Celda> zxccv: camins){
+        /*System.out.println("busco cami de: " + ini + " a " + seg);
+        for(Vector<Celda> zxccv: camins){
             System.out.print("Cami: ");
             for(Celda c11234: zxccv){
                 AbstractMap.SimpleEntry<Integer, Integer> AM = BuscarCelda(c11234 , t);
@@ -75,7 +76,7 @@ public class Maquina extends Jugador implements Serializable{
             }
             pref.add(ini); //hay que restaurar el prefijado ini eliminado antes del primer if
             //System.out.println("T1");
-            //print_tauler_test(t, camins); //chivato
+           // print_tauler_test(t, camins); //chivato
             return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
         }
         for(Vector<Celda> cami : camins){
@@ -140,7 +141,7 @@ public class Maquina extends Jugador implements Serializable{
         for(Celda[] c : t){
             for(Celda celda : c){
                 if(celda.isFrontera())System.out.print("# ");
-                else if(celda.isVacia()) System.out.print("? ");
+                else if(celda.isVacia() && celda.isValida()) System.out.print("? ");
                 else if(!celda.isValida()) System.out.print("* ");
                 else System.out.print(celda.getValor() + " ");
             }
