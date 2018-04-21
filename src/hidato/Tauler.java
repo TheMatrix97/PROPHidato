@@ -138,21 +138,40 @@ public class Tauler implements Serializable{
         if(fin){
             this.tauler = retallaTauler(iMin, iMax, jMin, jMax);
             calculaFronteres(last);
+            this.n = iMax - iMin + 1;
+            this.k = jMax - jMin + 1;
+            carregaveins(conf.getcell(), conf.getAdjacencia());
+            Maquina m = new Maquina();
+            boolean b = m.resolHidato(this);
+            System.out.println(b);
         }
     }
 
     private void calculaFronteres(int last){
-        int rand = (int) (Math.random()*8) + 3; //random de (3..8'99)
+        this.prefixats = new TreeSet<Integer>();
+        this.usats = new boolean[last + 1];
+        int rand = (int) (Math.random()*7) + 3; //random de (3..6'99)
         for(Celda[] c : this.tauler){
             for(Celda celda : c){
                 if(celda.isVacia()){
                     celda.setFrontera();
                 }
-                else if(celda.getValor() == 1 || celda.getValor() == last) celda.setPrefijada();
+                else if(celda.getValor() == 1 || celda.getValor() == last){
+                    celda.setPrefijada();
+                    celda.setValida();
+                    this.prefixats.add(celda.getValor());
+                    this.usats[celda.getValor()] = true;
+                }
                 else{
-                    if(celda.getValor() % rand == 0) celda.setPrefijada();
+                    if(celda.getValor() % rand == 0){
+                        celda.setPrefijada();
+                        celda.setValida();
+                        this.prefixats.add(celda.getValor());
+                        this.usats[celda.getValor()] = true;
+                    }
                     else{
                         celda.vaciar();
+                        celda.setValida();
                     }
                 }
             }
@@ -257,10 +276,21 @@ public class Tauler implements Serializable{
                 for(int l = 0; l < nvecinos; l++){
                     if(esvalida(aux[l][0] + i,aux[l][1]+j)){
                         tauler[i][j].addVecino(tauler[aux[l][0] + i][aux[l][1] + j]);
+                        //System.out.println("Hem afegit el vei");
                     }
                 }
             }
         }
+        /*
+        for(Celda[] c: this.tauler){
+            for(Celda celda : c){
+                ArrayList<Celda> result = celda.getVecinos();
+                System.out.println("ESTEM A LA CEL·LA " + celda.getValor() + " i els seus veins son: ");
+                for(Celda k: result){
+                    System.out.println(k.getValor());
+                }
+            }
+        }*/
     }
     public Celda[][] getTauler(){
         Celda[][] c = tauler.clone();

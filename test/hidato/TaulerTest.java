@@ -78,11 +78,11 @@ public class TaulerTest {
         String expected = expected_out("HCresolt2");
         assertEquals(expected,out);
     }
-    @Test(timeout=5000)
+    @Test(timeout=500000000)
     public void test_generador(){
         generar_tauler("Facil","C",'T');
-        generar_tauler("Normal","CA",'Q');
-        generar_tauler("Dificil", "C", 'H');
+        generar_tauler("Normal","CA",'H');
+        generar_tauler("Dificil", "C", 'Q');
     }
 
     private void generar_tauler(String dif, String adj, char type){

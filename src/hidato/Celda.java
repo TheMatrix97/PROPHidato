@@ -143,4 +143,8 @@ public class Celda implements Serializable{
         this.valida = false;
     }
 
+    public void setValida(){
+        this.valida = true;
+    }
+
 }
