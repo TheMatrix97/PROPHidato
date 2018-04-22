@@ -39,8 +39,11 @@ public class Configuracio implements Serializable{
         return dificultat;
     }
 
-    public String getAdjacencia(){
-        return tadjacencia; //C:costats,CA:costats+angles
+    public int getAdjacencia(){
+        if(tadjacencia.equals("C")){
+            return 0;
+        } //C:costats,CA:costats+angles
+        return 1;
     }
 
     public char getcell(){
