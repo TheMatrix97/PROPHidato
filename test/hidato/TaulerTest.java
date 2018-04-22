@@ -78,10 +78,10 @@ public class TaulerTest {
         String expected = expected_out("HCresolt2");
         assertEquals(expected,out);
     }
-    @Test(timeout=5000)
+    @Test(timeout=20000)
     public void test_generador(){
         generar_tauler("Facil","C",'T');
-        generar_tauler("Normal","CA",'H');
+        generar_tauler("Normal","C",'H');
         generar_tauler("Dificil", "C", 'Q');
     }
 
@@ -89,7 +89,9 @@ public class TaulerTest {
         Configuracio c = new Configuracio(dif,adj,type);
         Tauler t = new Tauler(c);
         Celda[][] aux = t.getTauler();
+        Maquina m = new Maquina();
         System.out.print(MaquinaTest.recorreCeldas(aux));
+        assert(m.resolHidato(t));
         System.out.println();
     }
 

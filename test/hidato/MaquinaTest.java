@@ -66,12 +66,8 @@ public class MaquinaTest {
         ResolHidatoGen("TC", "T,C,5,7\n","Enunciat");
     }
     @Test
-    public void ResolHidatoGenerat() throws Exception { //PARA TESTEAR!!
-        ResolHidatoGen("HC", "T,C,5,7\n","N1");
-    }
-    @Test
-    public void ResolHidatoGenerat2() throws Exception { //PARA TESTEAR!!
-        ResolHidatoGen("TC", "T,C,6,10\n","N1");
+    public void ResolHidatoTest() throws Exception { //PARA TESTEAR!!
+        ResolHidatoGen("TC", "T,C,7,7\n","N1");
     }
     private void ResolHidatoGen(String type, String capcelera, String next ) throws Exception {
         Tauler t = new Tauler(type+next); //Hidato sobre el que buscará
@@ -95,8 +91,8 @@ public class MaquinaTest {
                 if(!first) res.append(",");
                 else first = false;
                 if(celda.isFrontera())res.append("#");
-                else if(celda.isVacia() && celda.isValida()) res.append("?");
                 else if(!celda.isValida()) res.append("*");
+                else if(celda.isVacia() && celda.isValida()) res.append("?");
                 else res.append(celda.getValor());
             }
             res.append('\n');

@@ -59,7 +59,8 @@ public class Tauler implements Serializable{
 
     public Tauler (Configuracio conf){
         genera_tauler(conf);
-                            //tenim el tauler carregat
+        carregaveins(conf.getcell(), conf.getAdjacencia());
+        //tenim el tauler carregat
     }
 
     private void genera_tauler(Configuracio conf){
@@ -136,16 +137,30 @@ public class Tauler implements Serializable{
         //System.out.println("iMin: " + iMin + " iMax: " + iMax + " jMin: " + jMin + " jMax: " +jMax);
         //NO PODEMOS PONER MAS CODIGO AQUI PORQUE SI NO EL BREAK HACE QUE SE VAYA A TOMAR TO-DO POR CULO, A NO SER QUE LO METAMOS DENTRO DE UN IF(FIN)
         if(fin){
+            if(conf.getcell() != 'Q'){
+                iMin += ajustesOrientacion(iMin,jMin,jMax);
+            }
             this.tauler = retallaTauler(iMin, iMax, jMin, jMax);
             calculaFronteres(last);
-            this.n = iMax - iMin + 1;
-            this.k = jMax - jMin + 1;
-           // System.out.println("jMin: " + jMin);
-            carregaveins(conf.getcell(), conf.getAdjacencia());
-            Maquina m = new Maquina();
-            boolean b = m.resolHidato(this);
-            System.out.println(b);
+            genera_invalides();
+            this.n = this.tauler.length;
+            this.k = this.tauler[0].length;
+            //System.out.println("n: " + this.n + " k: " + this.k);
+            //ajustes para que la orientacion sea chachi
+          //  System.out.println(b);
         }
+    }
+    private int ajustesOrientacion(int iMin, int jMin, int jMax){
+        if(iMin % 2 != 0){ //hay que añadir fila arriba
+            //System.out.println("Add fila");
+            for(int j = jMin; j <= jMax; j++){
+                Celda c = this.tauler[iMin-1][j];
+                c.setInvalida();
+                c.setPrefijada();
+            }
+            return -1;
+        }
+        return 0;
     }
 
     private void calculaFronteres(int last){
@@ -154,25 +169,25 @@ public class Tauler implements Serializable{
         int rand = (int) (Math.random()*7) + 3; //random de (3..6'99)
         for(Celda[] c : this.tauler){
             for(Celda celda : c){
-                if(celda.isVacia()){
-                    celda.setInvalida();
+                if(celda.isVacia() && !celda.isPrefijada()){
+                    celda.setFrontera();
                 }
                 else if(celda.getValor() == 1 || celda.getValor() == last){
                     celda.setPrefijada();
-                    celda.setValida();
+                    //celda.setValida();
                     this.prefixats.add(celda.getValor());
                     this.usats[celda.getValor()] = true;
                 }
                 else{
                     if(celda.getValor() % rand == 0){
                         celda.setPrefijada();
-                        celda.setValida();
+                        //celda.setValida();
                         this.prefixats.add(celda.getValor());
                         this.usats[celda.getValor()] = true;
                     }
                     else{
                         celda.vaciar();
-                        celda.setValida();
+                        //celda.setValida();
                     }
                 }
             }
@@ -186,7 +201,52 @@ public class Tauler implements Serializable{
                 taulerRetallat[i][j] = this.tauler[iMin+i][jMin+j];
             }
         }
+        for(int i = 0; i < taulerRetallat.length;i++){
+            int contador = 0;
+            int j;
+            for(j = 0; j < taulerRetallat[i].length; j++){
+                if(taulerRetallat[i][j].isVacia())contador++;
+                else break;
+            }
+           // System.out.println("f: " + i + " suma: " + (contador+jMin));
+            if((contador + jMin) % 2 != 0){
+                if(j != 0){ //si hay espacio substituye un # por un *
+                    taulerRetallat[i][j-1].setInvalida();
+                    taulerRetallat[i][j-1].setPrefijada();
+                }else{
+                    return retallaTauler(iMin,iMax,jMin-1,jMax); //añade una fila a la izq, para conservar la paridad
+                }
+            }
+        }
         return taulerRetallat;
+    }
+
+    private void genera_invalides() {
+        Celda[][] tauler = this.tauler;
+        for (int i = 0; i < tauler.length; i++) {
+            for (int j = 0; j < tauler[i].length; j++) {
+                if (tauler[i][j].isFrontera()){
+                    boolean nfind1 = false;
+                    boolean nfind2 = false;
+                    for(int jaux = j; jaux < tauler[i].length; jaux++){
+                        if(tauler[i][jaux].isValida()){
+                            nfind1 = true;
+                            break;
+                        }
+                    }
+                    for(int jaux = j; jaux >= 0; jaux--){
+                        if(tauler[i][jaux].isValida()){
+                            nfind2 = true;
+                            break;
+                        }
+                    }
+                    if(nfind1 && nfind2){
+                        tauler[i][j].setInvalida();
+                        tauler[i][j].setPrefijada();
+                    }
+                }
+            }
+        }
     }
 
     private int calcular_seguent(double[] prob, int length) throws Exception {
