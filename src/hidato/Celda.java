@@ -82,6 +82,7 @@ public class Celda implements Serializable{
         this.prefijada = c.isPrefijada();
         this.frontera = c.isFrontera();
         this.valor = c.getValor();
+        this.vecinos = new ArrayList<>(sizeadj[switchType()][this.adj]);
     }
     private int switchType(){ //TODO sizeadj['T'][0] = 1; usar este template
         switch(this.FormaC){

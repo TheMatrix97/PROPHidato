@@ -5,14 +5,29 @@ public class Jugada {
     Celda mod;
     int num;
 
-    Jugada(boolean ins, Celda m, int num){
+    public Jugada(Celda m, int num) throws Utils.ExceptionJugadaNoValida { //constructora insertar
         this.mod = m;
-        this.insertar = ins;
+        this.insertar = true;
         this.num = num;
-        persistir();
+        if(m.isValida() && m.isVacia()) {
+            persistir();
+        }else{
+            throw new Utils.ExceptionJugadaNoValida();
+        }
     }
+
+    public Jugada(Celda m) throws Utils.ExceptionJugadaNoValida{
+        this.insertar = false;
+        this.mod = m;
+        if(m.isValida() && !m.isPrefijada()){
+            persistir();
+        }else{
+            throw new Utils.ExceptionJugadaNoValida();
+        }
+    }
+
     void persistir(){
-        if(insertar){
+        if(this.insertar){
             mod.setValor(num);
         }
         else{

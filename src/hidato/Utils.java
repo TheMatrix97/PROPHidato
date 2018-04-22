@@ -12,4 +12,16 @@ public class Utils {
             super(s);
         }
     }
+    public static class ExceptionJugadaNoValida extends Exception{
+        ExceptionJugadaNoValida(){
+            super();
+        }
+    }
+    public static class ExceptionPosicioNoValida extends Exception{
+        ExceptionPosicioNoValida(){
+            super();
+        }
+    }
+
+
 }

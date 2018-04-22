@@ -84,7 +84,12 @@ public class Maquina extends Jugador implements Serializable{
             ArrayList<Jugada> jcami = new ArrayList<>();
             for(Celda pas : cami){
                 if(!pas.isPrefijada() && pas.isVacia()){
-                    Jugada i = new Jugada(true, pas, ++cont);
+                    Jugada i = null;
+                    try{
+                        i = new Jugada(pas, ++cont);
+                    }catch(Utils.ExceptionJugadaNoValida e){
+                        e.printStackTrace();
+                    }
                     jcami.add(i);
                     if(i.getNum() + 1 == max){
                         //System.out.println("Solucionat! izi");

@@ -27,9 +27,31 @@ public class Partida implements Serializable{
     public void generar_partida_random(Configuracio conf){
         this.conf = conf;
         this.encurs = new Tauler(conf);
-        this.solucio = new Tauler(this.encurs);
+        this.solucio = new Tauler(encurs);
         bot.resolHidato(this.solucio);
 
+    }
+    public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida {
+        Celda c = null;
+        try {
+            c = encurs.getCelda(i,j);
+            encurs.addUsat(num);
+        } catch (Utils.ExceptionPosicioNoValida e) {
+            throw new Utils.ExceptionJugadaNoValida();
+        }
+        Jugada jug = new Jugada(c,num);
+        this.jug.add(jug);
+    }
+    public void fesJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida{
+        Celda c = null;
+        try{
+            c = encurs.getCelda(i,j);
+            encurs.delUsat(c.getValor());
+        }catch (Utils.ExceptionPosicioNoValida e){
+            throw new Utils.ExceptionJugadaNoValida();
+        }
+        Jugada jug = new Jugada(c);
+        this.jug.add(jug);
     }
 
     public Configuracio getConf(){
@@ -40,6 +62,9 @@ public class Partida implements Serializable{
     }
     public Tauler getTaulerSolucio(){
         return this.solucio;
+    }
+    public Maquina getBot(){
+        return this.bot;
     }
 
 }
