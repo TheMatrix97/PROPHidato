@@ -21,6 +21,13 @@ public class Tauler implements Serializable{
     private Celda[][] tauler;
 
     //Constructora en base un arxiu de la base de dades de Hidato (carreguem un fitxer amb el hidato)
+    public Tauler(Tauler c){ //contructora copia
+        this.tauler = c.getTauler().clone();
+        this.prefixats = c.getPrefixats();
+        this.n = c.getN();
+        this.k = c.getK();
+        //TODO CARGAR VECINOS
+    }
     public Tauler(String idHidato) throws IOException {
         this.prefixats = new TreeSet<Integer>();
         String cadena;
@@ -423,5 +430,13 @@ public class Tauler implements Serializable{
             }
         }
         return null;
+    }
+
+    public int getN(){
+        return this.n;
+    }
+
+    public int getK(){
+        return this.k;
     }
 }

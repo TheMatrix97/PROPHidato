@@ -75,7 +75,14 @@ public class Celda implements Serializable{
         this.frontera = f;
     }
     //TODO Controlar si ens envien un FormaC diferent de T, Q, H.
-
+    public Celda(Celda c){ //constructor copia
+        this.FormaC = c.getForma();
+        this.adj = c.getAdj();
+        this.valida = c.isValida();
+        this.prefijada = c.isPrefijada();
+        this.frontera = c.isFrontera();
+        this.valor = c.getValor();
+    }
     private int switchType(){ //TODO sizeadj['T'][0] = 1; usar este template
         switch(this.FormaC){
             case 'T':
@@ -101,6 +108,10 @@ public class Celda implements Serializable{
     }
     public boolean isFrontera(){
         return frontera;
+    }
+
+    public char getForma(){
+        return this.FormaC;
     }
 
     public boolean isVacia() {
@@ -146,6 +157,11 @@ public class Celda implements Serializable{
 
     public void setValida(){
         this.valida = true;
+    }
+
+    @Override
+    public Celda clone(){
+        return new Celda(this);
     }
 
 }

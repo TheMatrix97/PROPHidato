@@ -23,14 +23,23 @@ public class Partida implements Serializable{
         this.bot = new Maquina();
         this.jug = new ArrayList<>();
     }
-    void Solucionar_bot(){
+
+    public void generar_partida_random(Configuracio conf){
+        this.conf = conf;
+        this.encurs = new Tauler(conf);
+        this.solucio = new Tauler(this.encurs);
+        bot.resolHidato(this.solucio);
 
     }
+
     public Configuracio getConf(){
         return this.conf;
     }
     public Tauler getTauler(){
         return this.encurs;
+    }
+    public Tauler getTaulerSolucio(){
+        return this.solucio;
     }
 
 }
