@@ -31,22 +31,23 @@ public class Partida implements Serializable{
         bot.resolHidato(this.solucio);
 
     }
-    public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida {
+    public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
         Celda c = null;
         try {
             c = encurs.getCelda(i,j);
-            encurs.addUsat(num);
+            if(c.isValida() && c.isVacia()) encurs.addUsat(num);
         } catch (Utils.ExceptionPosicioNoValida e) {
             throw new Utils.ExceptionJugadaNoValida();
         }
         Jugada jug = new Jugada(c,num);
         this.jug.add(jug);
+        if(encurs.validador_tauler()) throw new Utils.ExceptionTaulerResolt();
     }
     public void fesJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida{
         Celda c = null;
         try{
             c = encurs.getCelda(i,j);
-            encurs.delUsat(c.getValor());
+            if(!c.isVacia() && c.isValida()) encurs.delUsat(c.getValor());
         }catch (Utils.ExceptionPosicioNoValida e){
             throw new Utils.ExceptionJugadaNoValida();
         }

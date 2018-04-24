@@ -17,7 +17,7 @@ public class DriverPartida {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
         printa_menu();
-        int opt = 0;
+        int opt;
         while (control) {
             String cadena = br.readLine();
                 try {
@@ -40,6 +40,7 @@ public class DriverPartida {
                     Celda[][] t = p.getTauler().getTauler();
                     printa_tauler(t);
                     break;
+
                 case 3:
                     Celda[][] sol = p.getTaulerSolucio().getTauler();
                     printa_tauler(sol);
@@ -47,19 +48,22 @@ public class DriverPartida {
                 case 4:
                     //jugada;
                     Tauler encurs = p.getTauler();
-                    int[] coord = demanaJugada(encurs.getN(),encurs.getK());
+                    int[] coord = demanaJugada(encurs.getN(),encurs.getK(),true);
+                    boolean resolt = false;
                     try{
                         p.fesJugadaIns(coord[0],coord[1],coord[2]);
                     }catch (Utils.ExceptionJugadaNoValida e){
                         System.out.println("Jugada no vàlida :(");
                         break;
+                    }catch(Utils.ExceptionTaulerResolt e){
+                        resolt = true;
                     }
-                    Celda[][] estructuraEncurs = encurs.getTauler();
-                    printa_tauler(estructuraEncurs);
+                    printa_tauler(encurs.getTauler());
+                    if(resolt) System.out.println("Tauler Resolt!!");
                     break;
                 case 5:
                     Tauler en = p.getTauler();
-                    int[] coord2 = demanaJugada(en.getN(),en.getK());
+                    int[] coord2 = demanaJugada(en.getN(),en.getK(),false);
                     try{
                         p.fesJugadaDel(coord2[0],coord2[1]);
                     }catch (Utils.ExceptionJugadaNoValida e){
@@ -102,7 +106,7 @@ public class DriverPartida {
         String dif = br.readLine();
         return new Configuracio(dif,adj,t);
     }
-    private static int[] demanaJugada(int imax, int jmax) throws IOException {
+    private static int[] demanaJugada(int imax, int jmax, boolean ins) throws IOException {
         int[] a = new int[3];
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
@@ -118,8 +122,10 @@ public class DriverPartida {
                 valido = true;
                 a[0] = auxi;
                 a[1] = auxj;
-                System.out.print("Numero: ");
-                a[2] = Integer.parseInt(br.readLine());
+                if(ins){
+                    System.out.print("Numero: ");
+                    a[2] = Integer.parseInt(br.readLine());
+                }
             }else{
                 System.out.println("Vuelve a intentar");
             }

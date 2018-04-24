@@ -158,7 +158,7 @@ public class Maquina extends Jugador implements Serializable{
     public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
         Stack<Vector<Celda>> s = new Stack<>();
         ArrayList<Vector<Celda>> rutasValidas = new ArrayList<>();
-        AbstractMap.SimpleEntry<Integer,Integer> p = BuscarN(t,inici);
+        AbstractMap.SimpleEntry<Integer,Integer> p = Utils.BuscarN(t,inici);
         Vector<Celda> v = new Vector<>();
         v.add(t[p.getKey()][p.getValue()]);
         s.push(v);
@@ -182,14 +182,7 @@ public class Maquina extends Jugador implements Serializable{
         return rutasValidas;
     }
 
-    private AbstractMap.SimpleEntry<Integer, Integer> BuscarN(Celda[][] c, int n) throws Exception {
-        for(int i = 0; i < c.length; ++i){
-            for(int j = 0; j < c[i].length; ++j){
-                if(c[i][j].isPrefijada() && c[i][j].getValor() == n) return new AbstractMap.SimpleEntry<>(i, j);
-            }
-        }
-        throw new Exception("Celda prefixada not found");
-    }
+
     private AbstractMap.SimpleEntry<Integer, Integer> BuscarNnopref(Celda[][] c, int n) throws Exception {
         for(int i = 0; i < c.length; ++i){
             for(int j = 0; j < c[i].length; ++j){

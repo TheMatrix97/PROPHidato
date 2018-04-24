@@ -78,6 +78,11 @@ public class TaulerTest {
         String expected = expected_out("HCresolt2");
         assertEquals(expected,out);
     }
+    @Test
+    public void test_validador_tauler() throws IOException {
+        Tauler t = new Tauler("QCAEnunciatOut");
+        assert (t.validador_tauler());
+    }
     @Test(timeout=20000)
     public void test_generador(){
         generar_tauler("Facil","C",'T');
@@ -92,6 +97,8 @@ public class TaulerTest {
         Maquina m = new Maquina();
         System.out.print(MaquinaTest.recorreCeldas(aux));
         assert(m.resolHidato(t));
+        System.out.println();
+        System.out.print(MaquinaTest.recorreCeldas(aux));
         System.out.println();
     }
 

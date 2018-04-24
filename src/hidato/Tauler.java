@@ -4,6 +4,7 @@ package hidato;
 import sun.security.krb5.Config;
 
 import java.io.*;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,7 +17,6 @@ import java.util.TreeSet;
 public class Tauler implements Serializable {
     private int n, k; //n final
     private SortedSet<Integer> prefixats;
-    private int[] invalides; //TODO no se usa
     private boolean[] usats;
     private Celda[][] tauler;
 
@@ -26,43 +26,18 @@ public class Tauler implements Serializable {
         this.prefixats = c.getPrefixats();
         this.n = c.getN();
         this.k = c.getK();
-        //Recargar VECINOS
+
     }
 
     public Tauler(String idHidato) throws IOException {
-        this.prefixats = new TreeSet<Integer>();
-        String cadena;
-        String filePath = new File("").getAbsolutePath();
-        FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt"); //TODO Control de errores
-        BufferedReader b = new BufferedReader(f);
-        char tcela = ' ';
-        String adj = null;
-        boolean first = true;
-        int ai = 0;
-        while ((cadena = b.readLine()) != null) {
-            String[] aux = cadena.split(",");
-            if (first) {
-                first = false;
-                //TODO WRAP configuracio en un objecte configuracio
-                tcela = aux[0].charAt(0);
-                adj = aux[1];
-                this.n = Integer.parseInt(aux[2]);
-                this.k = Integer.parseInt(aux[3]);
-                this.usats = new boolean[n * k + 1];
-                this.tauler = new Celda[this.n][this.k];
-            } else {
-                for (int j = 0; j < this.k; j++) {
-                    tauler[ai][j] = obtecelda(aux[j], tcela, adj);
-                    if (tauler[ai][j].isPrefijada()) {
-                        prefixats.add(tauler[ai][j].getValor());
-                        usats[tauler[ai][j].getValor()] = true;
-                    }
-                }
-                ai++;
-                if (ai == n) break;
-            }
-        }
-        carregaveins(tcela, adj); // todo passar configuracio
+        this.prefixats = new TreeSet<>();
+        this.tauler = GestorBD.llegir_hidato_bd(idHidato,this.prefixats);
+        this.n = this.tauler.length;
+        this.k = this.tauler[this.n-1].length;
+        System.out.println("n : " + n + "k: " + k);
+        Celda c = this.tauler[0][0];
+        calcular_usats();
+        carregaveins(c.getForma(), c.getAdj()); // todo passar configuracio
     }
 
     public Tauler(Configuracio conf) {
@@ -70,7 +45,16 @@ public class Tauler implements Serializable {
         carregaveins(conf.getcell(), conf.getAdjacencia());
         //tenim el tauler carregat
     }
-
+    private void calcular_usats(){
+        usats = new boolean[this.n*this.k+1];
+        for(Celda[] l : tauler){
+            for(Celda c : l){
+                if(c.isValida() && c.getValor() != 0){
+                    usats[c.getValor()] = true;
+                }
+            }
+        }
+    }
     private void genera_tauler(Configuracio conf) {
         int last = GetLast(conf.getDificultat());
         this.tauler = new Celda[last][last];
@@ -315,25 +299,6 @@ public class Tauler implements Serializable {
         }
     }
 
-    private Celda obtecelda(String aux, char tcela, String adj) {
-        Celda c;
-        switch (aux) {
-            case "*":
-                c = new Celda(tcela, adj, false); //no valida i no frontera
-                break;
-            case "#":
-                c = new Celda(tcela, adj, true); //no valida i frontera
-                break;
-            case "?":
-                c = new Celda(true, tcela, adj);
-                break;
-            default:
-                c = new Celda(true, Integer.parseInt(aux), tcela, adj);
-                break;
-        }
-        return c;
-    }
-
     private void carregaveins(char tcela, String adj) { //genera enllaços entre veins segons configuracio
         int nvecinos = this.tauler[0][0].getnVecinos(); //TODO petará, si .txt esta vacio?
         for (int i = 0; i < this.n; i++) {
@@ -347,16 +312,6 @@ public class Tauler implements Serializable {
                 }
             }
         }
-        /*
-        for(Celda[] c: this.tauler){
-            for(Celda celda : c){
-                ArrayList<Celda> result = celda.getVecinos();
-                System.out.println("ESTEM A LA CEL·LA " + celda.getValor() + " i els seus veins son: ");
-                for(Celda k: result){
-                    System.out.println(k.getValor());
-                }
-            }
-        }*/
     }
 
     public Celda[][] getTauler() {
@@ -434,13 +389,14 @@ public class Tauler implements Serializable {
         if(n >= this.prefixats.last() || n < 1 || this.usats[n]){
             throw new Utils.ExceptionJugadaNoValida();
         }else {
+           // System.out.println(n + " ha estat usat!");
             this.usats[n] = true;
         }
     }
     public void delUsat(int n) throws Utils.ExceptionJugadaNoValida {
         if(n >= this.prefixats.last() || n < 1){
             throw new Utils.ExceptionJugadaNoValida();
-        }else {
+        }else{
             this.usats[n] = false;
         }
     }
@@ -469,5 +425,36 @@ public class Tauler implements Serializable {
         }else{
             throw new Utils.ExceptionPosicioNoValida();
         }
+    }
+
+    public boolean validador_tauler(){
+        AbstractMap.SimpleEntry<Integer,Integer> p;
+        Celda c = null;
+        try{
+            p = Utils.BuscarN(this.tauler,1);
+            c = getCelda(p.getKey(), p.getValue());
+        }catch(Exception e){
+            return false;
+        }
+        boolean found = false;
+        int contador = 1;
+        while(!found){
+           // System.out.println("Num: " + c.getValor());
+            ArrayList<Celda>vecinos = c.getVecinos();
+            boolean cont = false;
+            //System.out.println("Vecinos: ");
+            for(Celda aux : vecinos){
+             //   System.out.println(aux.getValor() + ", ");
+                if(aux.isValida() && !aux.isVacia() && aux.getValor() == contador + 1){
+                    contador++;
+                    c = aux;
+                    cont = true;
+                    break;
+                }
+            }
+            if(!cont) return false;
+            if(contador == this.prefixats.last()) return true;
+        }
+        return false;
     }
 }
