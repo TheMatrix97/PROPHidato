@@ -160,7 +160,7 @@ public class Tauler implements Serializable {
     private void calculaFronteres(int last) {
         this.prefixats = new TreeSet<Integer>();
         this.usats = new boolean[last + 1];
-        int rand = (int) (Math.random() * 7) + 3; //random de (3..6'99)
+        int rand = (int) (Math.random() * 6) + 3; //random de (3..6'99)
         for (Celda[] c : this.tauler) {
             for (Celda celda : c) {
                 if (celda.isVacia() && !celda.isPrefijada()) {
@@ -291,11 +291,11 @@ public class Tauler implements Serializable {
     private int GetLast(String typedif) {  //Función para generar un tablero
         switch (typedif) {
             case "Dificil":
-                return (int) (Math.random() * 40) + 69;
+                return (int) (Math.random() * 35) + 57;
             case "Normal":
-                return (int) (Math.random() * 30) + 38;
+                return (int) (Math.random() * 25) + 32;
             default:
-                return (int) (Math.random() * 20) + 17;
+                return (int) (Math.random() * 15) + 17;
         }
     }
 
@@ -327,7 +327,8 @@ public class Tauler implements Serializable {
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
         } else if (tcela == 'H') { //TODO revisar que funciona bé
-            if (j % 2 == 0) aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
+            c = orientacio_triangle(i,j);
+            if (!c) aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};
 
         } else { //triangle

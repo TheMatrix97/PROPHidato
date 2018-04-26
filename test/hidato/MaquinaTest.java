@@ -65,6 +65,14 @@ public class MaquinaTest {
     public void ResolHidatoTC() throws Exception { //PARA TESTEAR!!
         ResolHidatoGen("TC", "T,C,5,7\n","Enunciat");
     }
+    @Test
+    public void ResolHidatoHC() throws Exception { //PARA TESTEAR!!
+        ResolHidatoGen("HC", "H,C,3,4\n","Enunciat");
+    }
+    @Test
+    public void ResolHidatoAS() throws Exception { //PARA TESTEAR!!
+        ResolHidatoGen("HC", "H,C,15,10\n","davidlachupa");
+    }
     private void ResolHidatoGen(String type, String capcelera, String next ) throws Exception {
         Tauler t = new Tauler(type+next); //Hidato sobre el que buscará
         Maquina m = new Maquina();

@@ -86,8 +86,8 @@ public class TaulerTest {
     @Test(timeout=20000)
     public void test_generador(){
         generar_tauler("Facil","C",'T');
-        generar_tauler("Normal","C",'H');
-        generar_tauler("Dificil", "C", 'Q');
+        generar_tauler("Normal","C",'Q');
+        generar_tauler("Dificil", "C", 'H');
     }
 
     private void generar_tauler(String dif, String adj, char type){
@@ -95,11 +95,12 @@ public class TaulerTest {
         Tauler t = new Tauler(c);
         Celda[][] aux = t.getTauler();
         Maquina m = new Maquina();
+        System.out.println(t.getTauler()[0][0].getForma() + "," +t.getTauler()[0][0].getAdj()+ "," + t.getN() + "," + t.getK());
         System.out.print(MaquinaTest.recorreCeldas(aux));
         assert(m.resolHidato(t));
-        System.out.println();
+        System.out.print("\n");
         System.out.print(MaquinaTest.recorreCeldas(aux));
-        System.out.println();
+        System.out.print("\n");
     }
 
     private String expected_out(String name) throws IOException {
