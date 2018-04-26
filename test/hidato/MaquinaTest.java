@@ -24,15 +24,6 @@ public class MaquinaTest {
         } else assert (false);
     }
     @Test
-    public void testSolver2() throws Exception {
-        Tauler t = new Tauler("HCHidato1"); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        if (m.resolHidato(t)) {
-            System.out.println(recorreCeldas(t.getTauler()).toString());
-            assert (true);
-        } else assert (false);
-    }
-    @Test
     public void testSolver3() throws Exception {
         Tauler t = new Tauler("HCHidato2"); //Hidato sobre el que buscará
         Maquina m = new Maquina();
@@ -68,10 +59,6 @@ public class MaquinaTest {
     @Test
     public void ResolHidatoHC() throws Exception { //PARA TESTEAR!!
         ResolHidatoGen("HC", "H,C,3,4\n","Enunciat");
-    }
-    @Test
-    public void ResolHidatoAS() throws Exception { //PARA TESTEAR!!
-        ResolHidatoGen("HC", "H,C,15,10\n","davidlachupa");
     }
     private void ResolHidatoGen(String type, String capcelera, String next ) throws Exception {
         Tauler t = new Tauler(type+next); //Hidato sobre el que buscará

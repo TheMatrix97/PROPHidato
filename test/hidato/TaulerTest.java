@@ -95,12 +95,12 @@ public class TaulerTest {
         Tauler t = new Tauler(c);
         Celda[][] aux = t.getTauler();
         Maquina m = new Maquina();
-        System.out.println(t.getTauler()[0][0].getForma() + "," +t.getTauler()[0][0].getAdj()+ "," + t.getN() + "," + t.getK());
-        System.out.print(MaquinaTest.recorreCeldas(aux));
+        //System.out.println(t.getTauler()[0][0].getForma() + "," +t.getTauler()[0][0].getAdj()+ "," + t.getN() + "," + t.getK());
+      //  System.out.print(MaquinaTest.recorreCeldas(aux));
         assert(m.resolHidato(t));
-        System.out.print("\n");
-        System.out.print(MaquinaTest.recorreCeldas(aux));
-        System.out.print("\n");
+        //System.out.print("\n");
+        //System.out.print(MaquinaTest.recorreCeldas(aux));
+        //System.out.print("\n");
     }
 
     private String expected_out(String name) throws IOException {

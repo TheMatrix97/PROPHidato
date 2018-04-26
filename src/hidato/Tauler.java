@@ -188,9 +188,7 @@ public class Tauler implements Serializable {
     private Celda[][] retallaTauler(int iMin, int iMax, int jMin, int jMax) {
         Celda[][] taulerRetallat = new Celda[iMax - iMin + 1][jMax - jMin + 1];
         for (int i = 0; i < (iMax - iMin + 1); ++i) {
-            for (int j = 0; j < (jMax - jMin + 1); ++j) {
-                taulerRetallat[i][j] = this.tauler[iMin + i][jMin + j];
-            }
+            System.arraycopy(this.tauler[iMin + i], jMin + 0, taulerRetallat[i], 0, jMax - jMin + 1);
         }
         for (int i = 0; i < taulerRetallat.length; i++) {
             int contador = 0;
@@ -306,8 +304,10 @@ public class Tauler implements Serializable {
                 int[][] aux = getpossveins(tcela, adj, j, i);
                 for (int l = 0; l < nvecinos; l++) {
                     if (esvalida(aux[l][0] + i, aux[l][1] + j)) {
-                        tauler[i][j].addVecino(tauler[aux[l][0] + i][aux[l][1] + j]);
-                        //System.out.println("Hem afegit el vei");
+                        if(tauler[aux[l][0] + i][aux[l][1] + j].isValida()) {
+                            tauler[i][j].addVecino(tauler[aux[l][0] + i][aux[l][1] + j]);
+                            //System.out.println("Hem afegit el vei");
+                        }
                     }
                 }
             }
@@ -315,8 +315,7 @@ public class Tauler implements Serializable {
     }
 
     public Celda[][] getTauler() {
-        Celda[][] c = tauler.clone();
-        return c;
+        return tauler.clone();
     }
 
     private int[][] getpossveins(char tcela, String adj, int j, int i) {
