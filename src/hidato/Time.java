@@ -37,6 +37,10 @@ public class Time implements Serializable{
         int horas = minutos/60;
         return String.format("%02d",horas)+':'+String.format("%02d",minutos%60)+':'+String.format("%02d",segundos%60);
     }
+
+    public boolean checkTime(long t){
+        return ((int) ((t-time_start)/1000)) < 20;
+    }
     public long get_time_millis(){
         return time;
     }

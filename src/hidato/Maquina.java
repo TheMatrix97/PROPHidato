@@ -19,17 +19,24 @@ public class Maquina extends Jugador implements Serializable{
     public boolean resolHidato(Tauler t){
         SortedSet<Integer> pref = t.getPrefixats();
         ArrayList<ArrayList<Jugada>> jugades = new ArrayList<>();
+        Time time = new Time();
         try {
-            resolHidatoAlgorito(t.getTauler(),pref,pref.last(),jugades);
+            time.start_time();
+            resolHidatoAlgorito(t.getTauler(),pref,pref.last(),jugades, time);
         }catch(Utils.ExceptionHidatoSolucionat e){
+            time.stop_time();
             return true;
         }catch(Utils.ExceptionHidatoNoSol e){
+            time.stop_time();
+            return false;
+        }catch(Utils.ExceptionTimeOut e){
+            time.stop_time();
             return false;
         }
         return false;
     }
 
-    private void resolHidatoAlgorito(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat { //TODO en vez de usar Celda[][] usar Tauler?
+    private void resolHidatoAlgorito(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades, Time time) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat, Utils.ExceptionTimeOut { //TODO en vez de usar Celda[][] usar Tauler?
         int ini,seg;
         if(jugades.size() == 0){
             ini = 1;
@@ -82,7 +89,10 @@ public class Maquina extends Jugador implements Serializable{
                 }
             }
             if(jcami.size() != 0) jugades.add(jcami);
-            resolHidatoAlgorito(t,pref,max,jugades);
+            if(!time.checkTime(System.currentTimeMillis())){
+                throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
+            }
+            resolHidatoAlgorito(t,pref,max,jugades, time);
         }
         if(jugades.isEmpty()) return;
         ArrayList<Jugada> j = jugades.get(jugades.size()-1);

@@ -37,6 +37,10 @@ public class Utils {
         }
         throw new Exception("Celda prefixada not found");
     }
-
+    public static class ExceptionTimeOut extends Exception{
+        ExceptionTimeOut(String s){
+            super(s);
+        }
+    }
 
 }

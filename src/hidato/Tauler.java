@@ -56,7 +56,7 @@ public class Tauler implements Serializable {
         }
     }
     private void genera_tauler(Configuracio conf) {
-        int last = GetLast(conf.getDificultat());
+        int last = GetLast(conf);
         this.tauler = new Celda[last][last];
         ini_tauler_vacio(last, this.tauler, conf);
         int i = (int) (Math.random() * last); //i/j del 1;
@@ -134,7 +134,7 @@ public class Tauler implements Serializable {
                 iMin += ajustesOrientacion(iMin, jMin, jMax);
             }
             this.tauler = retallaTauler(iMin, iMax, jMin, jMax);
-            calculaFronteres(last);
+            calculaFronteres(last, conf);
             genera_invalides();
             this.n = this.tauler.length;
             this.k = this.tauler[0].length;
@@ -157,10 +157,16 @@ public class Tauler implements Serializable {
         return 0;
     }
 
-    private void calculaFronteres(int last) {
-        this.prefixats = new TreeSet<Integer>();
+    private void calculaFronteres(int last, Configuracio conf) {
+        this.prefixats = new TreeSet<>();
         this.usats = new boolean[last + 1];
-        int rand = (int) (Math.random() * 6) + 3; //random de (3..6'99)
+        String typeAdj = conf.getAdjacencia();
+        boolean hex = (conf.getcell() == 'H');
+        int rand;
+        if(hex || typeAdj.equals("CA")){
+            rand = (int) (Math.random() * 5) + 3; //random de (3..4.99)
+        }
+        else rand = (int) (Math.random() * 6) + 3; //random de (3..5'99)
         for (Celda[] c : this.tauler) {
             for (Celda celda : c) {
                 if (celda.isVacia() && !celda.isPrefijada()) {
@@ -286,12 +292,24 @@ public class Tauler implements Serializable {
 
     }
 
-    private int GetLast(String typedif) {  //Función para generar un tablero
+    private int GetLast(Configuracio conf) {  //Función para generar un tablero
+        String typedif = conf.getDificultat();
+        char c = conf.getcell();
+        String adj = conf.getAdjacencia();
         switch (typedif) {
             case "Dificil":
-                return (int) (Math.random() * 35) + 57;
+                if(c == 'Q'){
+                    if(adj == "C") return (int) (Math.random() * 65) + 52; //Con 70 falla 1 de cada 1000 test con 20s de limite
+                    return (int) (Math.random() * 15) + 52; //falla 1/7 en 20s
+                }
+                else if(c == 'H'){
+                    return (int) (Math.random() * 25) + 52; //con 35 falla 3/44
+                }
+                if(adj == "C") return (int) (Math.random() * 100) + 52; //AQUI JA ESTEM AL TRIANGLE
+                return (int) (Math.random() * 10) + 52; //falla 3/20
+
             case "Normal":
-                return (int) (Math.random() * 25) + 32;
+                return (int) (Math.random() * 20) + 32;
             default:
                 return (int) (Math.random() * 15) + 17;
         }
