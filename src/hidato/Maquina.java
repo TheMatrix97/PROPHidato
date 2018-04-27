@@ -142,7 +142,7 @@ public class Maquina extends Jugador implements Serializable{
         System.out.print("-----------\n");
     }
 
-    private ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
+    public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
         Stack<Vector<Celda>> s = new Stack<>();
         ArrayList<Vector<Celda>> rutasValidas = new ArrayList<>();
         AbstractMap.SimpleEntry<Integer,Integer> p = Utils.BuscarN(t,inici);
