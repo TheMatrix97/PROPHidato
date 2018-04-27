@@ -85,8 +85,8 @@ public class TaulerTest {
     }
     @Test//(timeout=20000)
     public void test_generador(){
-        generar_tauler("Facil","C",'T');
-        generar_tauler("Normal","C",'H');
+        //generar_tauler("Facil","C",'T');
+        //generar_tauler("Normal","C",'H');
         generar_tauler("Dificil", "CA", 'H');
     }
 
