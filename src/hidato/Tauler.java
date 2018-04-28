@@ -104,7 +104,7 @@ public class Tauler implements Serializable {
             }
 
             recalcular_probs(movimientos, probabilidades, min, max);
-            int seg = 0;
+            int seg;
             try {
                 seg = calcular_seguent(probabilidades, veins.length);
             } catch (Exception e) {//si no hay camino, vuelve a ejecutar
@@ -162,11 +162,8 @@ public class Tauler implements Serializable {
         this.usats = new boolean[last + 1];
         String typeAdj = conf.getAdjacencia();
         boolean hex = (conf.getcell() == 'H');
-        int rand;
-        if(hex || typeAdj.equals("CA")){
-            rand = (int) (Math.random() * 5) + 3; //random de (3..4.99)
-        }
-        else rand = (int) (Math.random() * 6) + 3; //random de (3..5'99)
+        int rand = random__segunDif(conf);
+        int anticagadas = 0;
         for (Celda[] c : this.tauler) {
             for (Celda celda : c) {
                 if (celda.isVacia() && !celda.isPrefijada()) {
@@ -179,18 +176,42 @@ public class Tauler implements Serializable {
                 } else {
                     if (celda.getValor() % rand == 0) {
                         celda.setPrefijada();
+                        rand = random__segunDif(conf);
                         //celda.setValida();
                         this.prefixats.add(celda.getValor());
                         this.usats[celda.getValor()] = true;
+                        anticagadas = 0;
                     } else {
-                        celda.vaciar();
-                        //celda.setValida();
+                        if(celda.getValor() > 1 && celda.getValor() < last) {
+                            if (anticagadas++ >= 3) {
+                                celda.setPrefijada();
+                                this.prefixats.add(celda.getValor());
+                                this.usats[celda.getValor()] = true;
+                                rand = random__segunDif(conf);
+                                anticagadas = 0;
+                            } else {
+                                celda.vaciar();
+                            }
+                            //celda.setValida();
+                        }
                     }
                 }
             }
         }
     }
 
+    private int random__segunDif(Configuracio  conf){
+        switch(conf.getDificultat()){
+            case "Dificil":
+                if (conf.getAdjacencia().equals("CA") || conf.getcell() == 'H') return (int) ((Math.random() * 9) + 2);
+                return (int) ((Math.random() * 11) + 3);
+            case "Normal":
+                if (conf.getAdjacencia().equals("CA") || conf.getcell() == 'H') return (int) ((Math.random() * 7) + 2);
+                return (int) ((Math.random() * 6) + 3);
+            default:
+                return (int) ((Math.random() * 5) + 3);
+        }
+    }
     private Celda[][] retallaTauler(int iMin, int iMax, int jMin, int jMax) {
         Celda[][] taulerRetallat = new Celda[iMax - iMin + 1][jMax - jMin + 1];
         for (int i = 0; i < (iMax - iMin + 1); ++i) {
@@ -299,18 +320,18 @@ public class Tauler implements Serializable {
         switch (typedif) {
             case "Dificil":
                 if(c == 'Q'){
-                    if(adj == "C") return (int) (Math.random() * 65) + 50; //Con 70 falla 1 de cada 1000 test con 20s de limite
-                    return (int) (Math.random() * 10) + 40; //falla 1/7 en 20s
+                    if(adj == "C") return (int) (Math.random() * 65) + 50;
+                    return (int) (Math.random() * 10) + 45;
                 }
                 else if(c == 'H'){
-                    return (int) (Math.random() * 25) + 50; //con 35 falla 3/44
+                    return (int) (Math.random() * 25) + 50;
                 }
-                if(adj == "C") return (int) (Math.random() * 100) + 52; //AQUI JA ESTEM AL TRIANGLE
-                return (int) (Math.random() * 5) + 40; //falla 3/20
+                if(adj == "C") return (int) (Math.random() * 100) + 50;
+                return (int) (Math.random() * 5) + 30;
 
             case "Normal":
-                if(c == 'Q' && adj.equals("CA")) return (int) (Math.random() * 10) + 30;
-                if(c == 'T' && adj.equals("CA")) return (int) (Math.random() * 5) + 30;
+                if(c == 'Q' && adj.equals("CA")) return (int) (Math.random() * 15) + 30;
+                if(c == 'T' && adj.equals("CA")) return (int) (Math.random() * 10) + 20;
                 return (int) (Math.random() * 20) + 30;
             default:
                 return (int) (Math.random() * 15) + 15;
