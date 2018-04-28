@@ -4,8 +4,10 @@ public class Jugada {
     boolean insertar; //si false se vacia
     Celda mod;
     int num;
+    Jugador jg;
 
-    public Jugada(Celda m, int num) throws Utils.ExceptionJugadaNoValida { //constructora insertar
+    public Jugada(Celda m, int num, Jugador j) throws Utils.ExceptionJugadaNoValida { //constructora insertar si j == null es una jugada d'una máquina
+        if(j != null) this.jg = j;
         this.mod = m;
         this.insertar = true;
         this.num = num;
@@ -16,7 +18,8 @@ public class Jugada {
         }
     }
 
-    public Jugada(Celda m) throws Utils.ExceptionJugadaNoValida{
+    public Jugada(Celda m, Jugador j) throws Utils.ExceptionJugadaNoValida{
+        if(j != null) this.jg = j;
         this.insertar = false;
         this.mod = m;
         if(m.isValida() && !m.isPrefijada()){

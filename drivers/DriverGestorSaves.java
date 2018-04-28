@@ -74,6 +74,7 @@ public class DriverGestorSaves {
                         } else System.out.println("No tenim cap conjunt guardat!");
                     }
                     System.out.println("S'ha carregat correctament! :)");
+                    r = raux;
                     break;
                 case 6:
                     r = null;

@@ -20,7 +20,7 @@ public class Celda implements Serializable{
     boolean frontera; //true si es una frontera #
     int valor;
     private char FormaC;
-    private int adj; //SI C = 0 | CA = 1
+    private String adj; //SI C = 0 | CA = 1
 
     private ArrayList<Celda> vecinos;
 
@@ -35,12 +35,9 @@ public class Celda implements Serializable{
     //constructores
     public Celda(boolean prefijada, int valor, char TypeS, String adjacencia) { //celda valida con valor prefijada o no
         this.FormaC = TypeS;
-        int adj;
-        if(adjacencia.equals("C")) adj = 0;
-        else adj = 1;
         int t = switchType();
-        this.adj = adj;
-        this.vecinos = new ArrayList<>(sizeadj[t][adj]);
+        this.adj = adjacencia;
+        this.vecinos = new ArrayList<>(sizeadj[t][adjtoint(adj)]);
         this.valida = true;
         this.prefijada = prefijada;
         this.vacia = false;
@@ -51,12 +48,9 @@ public class Celda implements Serializable{
 
     public Celda(boolean vacia, char TypeS, String adjacencia) { //celda sin valor pero valida
         this.FormaC = TypeS;
-        int adj;
-        if(adjacencia.equals("C")) adj = 0;
-        else adj = 1; //TODO CONTROLAR SI ADJ != C I CA
-        this.adj = adj;
+        this.adj = adjacencia;
         int t = switchType();
-        this.vecinos = new ArrayList<>(sizeadj[t][adj]);
+        this.vecinos = new ArrayList<>(sizeadj[t][adjtoint(adj)]);
         this.valida = true;
         this.prefijada = false;
         this.vacia = vacia;
@@ -65,12 +59,9 @@ public class Celda implements Serializable{
     
     public Celda(char TypeS, String adjacencia, boolean f) { //celda no valida
         this.FormaC = TypeS;
-        int adj;
-        if(adjacencia.equals("C")) adj = 0;
-        else adj = 1;
-        this.adj = adj;
+        this.adj = adjacencia;
         int t = switchType();
-        this.vecinos = new ArrayList<>(sizeadj[t][adj]);
+        this.vecinos = new ArrayList<>(sizeadj[t][adjtoint(adj)]);
         this.valida = false;
         this.frontera = f;
     }
@@ -82,7 +73,7 @@ public class Celda implements Serializable{
         this.prefijada = c.isPrefijada();
         this.frontera = c.isFrontera();
         this.valor = c.getValor();
-        this.vecinos = new ArrayList<>(sizeadj[switchType()][this.adj]);
+        this.vecinos = new ArrayList<>(sizeadj[switchType()][adjtoint(this.adj)]);
     }
     private int switchType(){ //TODO sizeadj['T'][0] = 1; usar este template
         switch(this.FormaC){
@@ -94,11 +85,16 @@ public class Celda implements Serializable{
                 return 2;
         }
     }
+
+    private int adjtoint(String adj){
+        if(adj.equals("CA")) return 1;
+        else return 0;
+    }
     //getter
     public boolean isValida() {
         return valida;
     }
-    public int getAdj(){return adj;}
+    public String getAdj(){return adj;}
 
     public boolean isPrefijada() {
         return prefijada;
@@ -130,7 +126,7 @@ public class Celda implements Serializable{
 
     public int getnVecinos(){
         int t = switchType();
-        return sizeadj[t][this.adj];
+        return sizeadj[t][adjtoint(this.adj)];
     }
 
     public void setValor(int val){

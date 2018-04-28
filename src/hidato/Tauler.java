@@ -1,9 +1,8 @@
 package hidato;
 
 
-import sun.security.krb5.Config;
-
 import java.io.*;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,7 +15,6 @@ import java.util.TreeSet;
 public class Tauler implements Serializable {
     private int n, k; //n final
     private SortedSet<Integer> prefixats;
-    private int[] invalides; //TODO no se usa
     private boolean[] usats;
     private Celda[][] tauler;
 
@@ -26,43 +24,18 @@ public class Tauler implements Serializable {
         this.prefixats = c.getPrefixats();
         this.n = c.getN();
         this.k = c.getK();
-        //Recargar VECINOS
+
     }
 
     public Tauler(String idHidato) throws IOException {
-        this.prefixats = new TreeSet<Integer>();
-        String cadena;
-        String filePath = new File("").getAbsolutePath();
-        FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt"); //TODO Control de errores
-        BufferedReader b = new BufferedReader(f);
-        char tcela = ' ';
-        String adj = null;
-        boolean first = true;
-        int ai = 0;
-        while ((cadena = b.readLine()) != null) {
-            String[] aux = cadena.split(",");
-            if (first) {
-                first = false;
-                //TODO WRAP configuracio en un objecte configuracio
-                tcela = aux[0].charAt(0);
-                adj = aux[1];
-                this.n = Integer.parseInt(aux[2]);
-                this.k = Integer.parseInt(aux[3]);
-                this.usats = new boolean[n * k + 1];
-                this.tauler = new Celda[this.n][this.k];
-            } else {
-                for (int j = 0; j < this.k; j++) {
-                    tauler[ai][j] = obtecelda(aux[j], tcela, adj);
-                    if (tauler[ai][j].isPrefijada()) {
-                        prefixats.add(tauler[ai][j].getValor());
-                        usats[tauler[ai][j].getValor()] = true;
-                    }
-                }
-                ai++;
-                if (ai == n) break;
-            }
-        }
-        carregaveins(tcela, adj); // todo passar configuracio
+        this.prefixats = new TreeSet<>();
+        this.tauler = GestorBD.llegir_hidato_bd(idHidato,this.prefixats);
+        this.n = this.tauler.length;
+        this.k = this.tauler[this.n-1].length;
+        //System.out.println("n : " + n + "k: " + k);
+        Celda c = this.tauler[0][0];
+        calcular_usats();
+        carregaveins(c.getForma(), c.getAdj()); // todo passar configuracio
     }
 
     public Tauler(Configuracio conf) {
@@ -70,9 +43,18 @@ public class Tauler implements Serializable {
         carregaveins(conf.getcell(), conf.getAdjacencia());
         //tenim el tauler carregat
     }
-
+    private void calcular_usats(){
+        usats = new boolean[this.n*this.k+1];
+        for(Celda[] l : tauler){
+            for(Celda c : l){
+                if(c.isValida() && c.getValor() != 0){
+                    usats[c.getValor()] = true;
+                }
+            }
+        }
+    }
     private void genera_tauler(Configuracio conf) {
-        int last = GetLast(conf.getDificultat());
+        int last = GetLast(conf);
         this.tauler = new Celda[last][last];
         ini_tauler_vacio(last, this.tauler, conf);
         int i = (int) (Math.random() * last); //i/j del 1;
@@ -120,7 +102,7 @@ public class Tauler implements Serializable {
             }
 
             recalcular_probs(movimientos, probabilidades, min, max);
-            int seg = 0;
+            int seg;
             try {
                 seg = calcular_seguent(probabilidades, veins.length);
             } catch (Exception e) {//si no hay camino, vuelve a ejecutar
@@ -150,7 +132,7 @@ public class Tauler implements Serializable {
                 iMin += ajustesOrientacion(iMin, jMin, jMax);
             }
             this.tauler = retallaTauler(iMin, iMax, jMin, jMax);
-            calculaFronteres(last);
+            calculaFronteres(last, conf);
             genera_invalides();
             this.n = this.tauler.length;
             this.k = this.tauler[0].length;
@@ -173,10 +155,13 @@ public class Tauler implements Serializable {
         return 0;
     }
 
-    private void calculaFronteres(int last) {
-        this.prefixats = new TreeSet<Integer>();
+    private void calculaFronteres(int last, Configuracio conf) {
+        this.prefixats = new TreeSet<>();
         this.usats = new boolean[last + 1];
-        int rand = (int) (Math.random() * 7) + 3; //random de (3..6'99)
+        String typeAdj = conf.getAdjacencia();
+        boolean hex = (conf.getcell() == 'H');
+        int rand = random__segunDif(conf);
+        int anticagadas = 0;
         for (Celda[] c : this.tauler) {
             for (Celda celda : c) {
                 if (celda.isVacia() && !celda.isPrefijada()) {
@@ -189,24 +174,46 @@ public class Tauler implements Serializable {
                 } else {
                     if (celda.getValor() % rand == 0) {
                         celda.setPrefijada();
+                        rand = random__segunDif(conf);
                         //celda.setValida();
                         this.prefixats.add(celda.getValor());
                         this.usats[celda.getValor()] = true;
+                        anticagadas = 0;
                     } else {
-                        celda.vaciar();
-                        //celda.setValida();
+                        if(celda.getValor() > 1 && celda.getValor() < last) {
+                            if (anticagadas++ >= 3) {
+                                celda.setPrefijada();
+                                this.prefixats.add(celda.getValor());
+                                this.usats[celda.getValor()] = true;
+                                rand = random__segunDif(conf);
+                                anticagadas = 0;
+                            } else {
+                                celda.vaciar();
+                            }
+                            //celda.setValida();
+                        }
                     }
                 }
             }
         }
     }
 
+    private int random__segunDif(Configuracio  conf){
+        switch(conf.getDificultat()){
+            case "Dificil":
+                if (conf.getAdjacencia().equals("CA") || conf.getcell() == 'H') return (int) ((Math.random() * 9) + 2);
+                return (int) ((Math.random() * 11) + 3);
+            case "Normal":
+                if (conf.getAdjacencia().equals("CA") || conf.getcell() == 'H') return (int) ((Math.random() * 7) + 2);
+                return (int) ((Math.random() * 6) + 3);
+            default:
+                return (int) ((Math.random() * 5) + 3);
+        }
+    }
     private Celda[][] retallaTauler(int iMin, int iMax, int jMin, int jMax) {
         Celda[][] taulerRetallat = new Celda[iMax - iMin + 1][jMax - jMin + 1];
         for (int i = 0; i < (iMax - iMin + 1); ++i) {
-            for (int j = 0; j < (jMax - jMin + 1); ++j) {
-                taulerRetallat[i][j] = this.tauler[iMin + i][jMin + j];
-            }
+            System.arraycopy(this.tauler[iMin + i], jMin + 0, taulerRetallat[i], 0, jMax - jMin + 1);
         }
         for (int i = 0; i < taulerRetallat.length; i++) {
             int contador = 0;
@@ -304,34 +311,29 @@ public class Tauler implements Serializable {
 
     }
 
-    private int GetLast(String typedif) {  //Función para generar un tablero
+    private int GetLast(Configuracio conf) {  //Función para generar un tablero
+        String typedif = conf.getDificultat();
+        char c = conf.getcell();
+        String adj = conf.getAdjacencia();
         switch (typedif) {
             case "Dificil":
-                return (int) (Math.random() * 40) + 69;
-            case "Normal":
-                return (int) (Math.random() * 30) + 38;
-            default:
-                return (int) (Math.random() * 20) + 17;
-        }
-    }
+                if(c == 'Q'){
+                    if(adj == "C") return (int) (Math.random() * 65) + 50;
+                    return (int) (Math.random() * 10) + 45;
+                }
+                else if(c == 'H'){
+                    return (int) (Math.random() * 25) + 50;
+                }
+                if(adj == "C") return (int) (Math.random() * 100) + 50;
+                return (int) (Math.random() * 5) + 30;
 
-    private Celda obtecelda(String aux, char tcela, String adj) {
-        Celda c;
-        switch (aux) {
-            case "*":
-                c = new Celda(tcela, adj, false); //no valida i no frontera
-                break;
-            case "#":
-                c = new Celda(tcela, adj, true); //no valida i frontera
-                break;
-            case "?":
-                c = new Celda(true, tcela, adj);
-                break;
+            case "Normal":
+                if(c == 'Q' && adj.equals("CA")) return (int) (Math.random() * 15) + 30;
+                if(c == 'T' && adj.equals("CA")) return (int) (Math.random() * 10) + 20;
+                return (int) (Math.random() * 20) + 30;
             default:
-                c = new Celda(true, Integer.parseInt(aux), tcela, adj);
-                break;
+                return (int) (Math.random() * 15) + 15;
         }
-        return c;
     }
 
     private void carregaveins(char tcela, String adj) { //genera enllaços entre veins segons configuracio
@@ -341,27 +343,18 @@ public class Tauler implements Serializable {
                 int[][] aux = getpossveins(tcela, adj, j, i);
                 for (int l = 0; l < nvecinos; l++) {
                     if (esvalida(aux[l][0] + i, aux[l][1] + j)) {
-                        tauler[i][j].addVecino(tauler[aux[l][0] + i][aux[l][1] + j]);
-                        //System.out.println("Hem afegit el vei");
+                        if(tauler[aux[l][0] + i][aux[l][1] + j].isValida()) {
+                            tauler[i][j].addVecino(tauler[aux[l][0] + i][aux[l][1] + j]);
+                            //System.out.println("Hem afegit el vei");
+                        }
                     }
                 }
             }
         }
-        /*
-        for(Celda[] c: this.tauler){
-            for(Celda celda : c){
-                ArrayList<Celda> result = celda.getVecinos();
-                System.out.println("ESTEM A LA CEL·LA " + celda.getValor() + " i els seus veins son: ");
-                for(Celda k: result){
-                    System.out.println(k.getValor());
-                }
-            }
-        }*/
     }
 
     public Celda[][] getTauler() {
-        Celda[][] c = tauler.clone();
-        return c;
+        return tauler.clone();
     }
 
     private int[][] getpossveins(char tcela, String adj, int j, int i) {
@@ -372,11 +365,12 @@ public class Tauler implements Serializable {
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
         } else if (tcela == 'H') { //TODO revisar que funciona bé
-            if (j % 2 == 0) aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
+            c = orientacio(i,j,tcela);
+            if (!c) aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};
 
         } else { //triangle
-            c = orientacio_triangle(i, j); //true, mira cap adalt, sino mira cap abaix
+            c = orientacio(i, j, tcela); //true, mira cap adalt, sino mira cap abaix
             if (adj.equals("C")) {
                 if (c) aux = new int[][]{{1, 0}, {0, 1}, {0, -1}};
                 else aux = new int[][]{{-1, 0}, {0, 1}, {0, -1}};
@@ -391,7 +385,7 @@ public class Tauler implements Serializable {
         return aux;
     }
 
-    private boolean orientacio_triangle(int i, int j) { //TODO falla
+    private boolean orientacio(int i, int j, char type) {
         int contador = 0;
         for (Celda c : this.tauler[0]) {
             if (c.isFrontera()) contador++;
@@ -402,7 +396,7 @@ public class Tauler implements Serializable {
             if (c.equals(this.tauler[i][j])) break;
             if (!c.isFrontera()) contador2++;
         }
-        if (contador == this.tauler[0].length) {
+        if (contador == this.tauler[0].length && type == 'T') {
             return (contador2 % 2 == 0);
         } else {
             if (i % 2 == 0) {
@@ -434,13 +428,14 @@ public class Tauler implements Serializable {
         if(n >= this.prefixats.last() || n < 1 || this.usats[n]){
             throw new Utils.ExceptionJugadaNoValida();
         }else {
+           // System.out.println(n + " ha estat usat!");
             this.usats[n] = true;
         }
     }
     public void delUsat(int n) throws Utils.ExceptionJugadaNoValida {
         if(n >= this.prefixats.last() || n < 1){
             throw new Utils.ExceptionJugadaNoValida();
-        }else {
+        }else{
             this.usats[n] = false;
         }
     }
@@ -469,5 +464,36 @@ public class Tauler implements Serializable {
         }else{
             throw new Utils.ExceptionPosicioNoValida();
         }
+    }
+
+    public boolean validador_tauler(){
+        AbstractMap.SimpleEntry<Integer,Integer> p;
+        Celda c = null;
+        try{
+            p = Utils.BuscarN(this.tauler,1);
+            c = getCelda(p.getKey(), p.getValue());
+        }catch(Exception e){
+            return false;
+        }
+        boolean found = false;
+        int contador = 1;
+        while(!found){
+           // System.out.println("Num: " + c.getValor());
+            ArrayList<Celda>vecinos = c.getVecinos();
+            boolean cont = false;
+            //System.out.println("Vecinos: ");
+            for(Celda aux : vecinos){
+             //   System.out.println(aux.getValor() + ", ");
+                if(aux.isValida() && !aux.isVacia() && aux.getValor() == contador + 1){
+                    contador++;
+                    c = aux;
+                    cont = true;
+                    break;
+                }
+            }
+            if(!cont) return false;
+            if(contador == this.prefixats.last()) return true;
+        }
+        return false;
     }
 }
