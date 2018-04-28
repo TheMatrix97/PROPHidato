@@ -318,13 +318,13 @@ public class Tauler implements Serializable {
         switch (typedif) {
             case "Dificil":
                 if(c == 'Q'){
-                    if(adj == "C") return (int) (Math.random() * 65) + 50;
+                    if(adj.equals("C")) return (int) (Math.random() * 65) + 50;
                     return (int) (Math.random() * 10) + 45;
                 }
                 else if(c == 'H'){
                     return (int) (Math.random() * 25) + 50;
                 }
-                if(adj == "C") return (int) (Math.random() * 100) + 50;
+                if(adj.equals("C")) return (int) (Math.random() * 100) + 50;
                 return (int) (Math.random() * 5) + 30;
 
             case "Normal":
