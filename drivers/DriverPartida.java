@@ -42,6 +42,10 @@ public class DriverPartida {
                     break;
 
                 case 3:
+                    if(p == null){
+                        System.out.println("Primer crea una instancia de partida!");
+                        break;
+                    }
                     Celda[][] sol = p.getTaulerSolucio().getTauler();
                     printa_tauler(sol);
                     break;
@@ -98,12 +102,28 @@ public class DriverPartida {
     private static Configuracio genera_config() throws IOException {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
-        System.out.print("Adjacencia: ");
-        String adj = br.readLine();
-        System.out.print("Tipus Cela: ");
-        char t = br.readLine().charAt(0);
-        System.out.print("Dificultat(Facil,Normal,Dificil): ");
-        String dif = br.readLine();
+        boolean valido = false;
+        String adj = null;
+        String dif = null;
+        char t = 'T';
+        while(!valido) {
+            System.out.print("Adjacencia (C,CA): ");
+            adj = br.readLine();
+            valido = adj.equals("C") || adj.equals("CA");
+        }
+        valido = false;
+        while(!valido) {
+            System.out.print("Tipus Cela (T,Q,H): ");
+            t = br.readLine().charAt(0);
+            valido = t == 'Q' || t == 'T' || t == 'H';
+        }
+        valido = false;
+        while(!valido){
+            System.out.print("Dificultat (Facil,Normal,Dificil): ");
+            dif = br.readLine();
+            valido = dif.equals("Facil") || dif.equals("Normal") || dif.equals("Dificil");
+        }
+        System.out.println("Configuracio creada!");
         return new Configuracio(dif,adj,t);
     }
     private static int[] demanaJugada(int imax, int jmax, boolean ins) throws IOException {
