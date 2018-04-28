@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.SortedSet;
 
-public abstract class GestorBD { //TODO hauria de formar part de Gestor?
+public abstract class GestorBD {
 
     public static Celda[][] llegir_hidato_bd(String idHidato, SortedSet<Integer> prefixats) throws IOException{
         Celda[][] tauler = null;
@@ -16,7 +16,7 @@ public abstract class GestorBD { //TODO hauria de formar part de Gestor?
         int k = 0;
         String cadena;
         String filePath = new File("").getAbsolutePath();
-        FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt"); //TODO Control de errores
+        FileReader f = new FileReader(filePath + "/BaseDadesHidatos/" + idHidato + ".txt");
         BufferedReader b = new BufferedReader(f);
         char tcela = ' ';
         String adj = null;
@@ -26,7 +26,6 @@ public abstract class GestorBD { //TODO hauria de formar part de Gestor?
             String[] aux = cadena.split(",");
             if (first) {
                 first = false;
-                //TODO WRAP configuracio en un objecte configuracio
                 tcela = aux[0].charAt(0);
                 adj = aux[1];
                 n = Integer.parseInt(aux[2]);

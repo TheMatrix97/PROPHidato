@@ -16,20 +16,21 @@ public class Configuracio implements Serializable{
     }
 
 
-    public Configuracio(String tadj, char tcelda, int filas, int columnas, int prefix) throws Exception {
-        String dif = Calcula_Dificultat(filas, columnas,prefix);
-        new Configuracio(dif,tadj,tcelda);
+    public Configuracio(String tadj, char tcelda, int filas, int columnas) throws Exception {
+        this.dificultat = calcula_Dificultat(filas, columnas);
+        this.tadjacencia = tadj;
+        this.tcelda = tcelda;
     }
 
 
-    public String Calcula_Dificultat(int filas, int columnas, int prefix) throws Exception {
+    private String calcula_Dificultat(int filas, int columnas) throws Exception { //todo revisar numeros para definir la dificultat
         if (filas < 0 || columnas < 0) {
-            throw new  Exception("Tamany no valid.");//TODO tener en cuenta los prefijados para la dificultad
+            throw new  Exception("Tamany no valid.");
         }
         if (filas * columnas < 60) {
             return "Facil";
         }
-        else if (filas * columnas > 100){
+        else if (filas * columnas < 100){
             return "Normal";
         }
         else return "Dificil";

@@ -35,7 +35,7 @@ public class Tauler implements Serializable {
         //System.out.println("n : " + n + "k: " + k);
         Celda c = this.tauler[0][0];
         calcular_usats();
-        carregaveins(c.getForma(), c.getAdj()); // todo passar configuracio
+        carregaveins(c.getForma(), c.getAdj());
     }
 
     public Tauler(Configuracio conf) {

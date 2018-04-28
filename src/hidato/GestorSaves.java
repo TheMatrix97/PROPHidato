@@ -9,7 +9,7 @@ public class GestorSaves {
     public GestorSaves(){
         this.filesPath = new File("").getAbsolutePath() + "/saves/";
     }
-    public void guardarRankings(ArrayList<Ranking> r){ //todo codi repetit
+    public void guardarRankings(ArrayList<Ranking> r){
         try{
             ObjectOutputStream oos = getObjectOutputStream( "ranking.hidato");
             oos.writeObject(r);
@@ -19,10 +19,10 @@ public class GestorSaves {
             System.out.println("No es pot guardar el ranking"); //TODO aixo ho fara capa de presentació
         }
     }
-    public ArrayList<Ranking> cargar_ranking() throws Exception{ // todo es gestiona l'excepcio fora... esta bé?
+    public ArrayList<Ranking> cargar_ranking() throws Exception{
         Object o = existe_obj("rankings");
         ArrayList<?> a =(ArrayList<?>)o;
-        ArrayList<Ranking> r = null;
+        ArrayList<Ranking> r;
         if(!a.isEmpty() && a.get(0) instanceof Ranking) { //todo da warning pero no se como solucionarlo
             r = (ArrayList<Ranking>)o;
         }else throw new Exception("error al leer");
@@ -54,7 +54,7 @@ public class GestorSaves {
         return oss;
     }
 
-    public Partida cargar_partida() throws Exception{ // todo es gestiona l'excepcio fora... esta bé?
+    public Partida cargar_partida() throws Exception{
         Partida pendiente = (Partida)existe_obj("partida");
         vaciarSave("save.hidato");
         return pendiente;

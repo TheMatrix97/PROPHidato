@@ -11,7 +11,7 @@ public class DriverPartida {
     private static Partida p;
     private static Configuracio c;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         p = null;
         c = null;
         boolean control = true;
@@ -28,13 +28,14 @@ public class DriverPartida {
                 }
             switch (opt){
                 case 1:
-                    c = genera_config(); //todo controla input
+                    c = genera_config();
                     break;
                 case 2:
                     if(c == null){
                         System.out.println("Primer crea una instancia de configuracio!");
                         break;
                     }
+
                     p = new Partida();
                     p.generar_partida_random(c);
                     System.out.println("Tauler generat: " + p.getTauler().getN() + ", " + p.getTauler().getK());
@@ -105,7 +106,10 @@ public class DriverPartida {
                     }
                     printa_tauler(p.getTauler().getTauler());
                     break;
-
+                case 8:
+                    Configuracio c = p.getConf();
+                    System.out.println("Adj: " + c.getAdjacencia() + " Tipus de cela: " + c.getcell() + " Dificultat: " + c.getDificultat());
+                    break;
                 default:
 
             }
@@ -204,6 +208,7 @@ public class DriverPartida {
         System.out.println("5.Fes jugada per insertar num");
         System.out.println("6.Fes jugada per eliminar num");
         System.out.println("7.Demanar ajuda");
+        System.out.println("8.Printa configuració actual");
 
 
     }

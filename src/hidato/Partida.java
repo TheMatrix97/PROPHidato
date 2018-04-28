@@ -12,12 +12,17 @@ public class Partida implements Serializable{
     private Configuracio conf;
     private Jugador jugador;
 
-    public Partida(String id) throws IOException { //crea partida amb tauler de bd
+    public Partida(String id) throws Exception { //crea partida amb tauler de bd
         this.encurs = new Tauler(id);
         this.solucio = new Tauler(id);
         this.jug = new ArrayList<>();
         Maquina.resolHidato(this.solucio);
-        //generar solucio
+        int n = this.encurs.getN();
+        int k = this.encurs.getK();
+        char tcela = this.encurs.getTauler()[0][0].getForma();
+        String s = this.encurs.getTauler()[0][0].getAdj();
+        this.conf = new Configuracio(s, tcela, n, k);
+
     }
     //TODO assegurar caso generar partida haga timeout
     public Partida(){ //partida sense tauler

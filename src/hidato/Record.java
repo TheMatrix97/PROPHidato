@@ -12,7 +12,7 @@ public class Record implements Serializable{
         this.nomJugador = nomJ;
     }
     
-    public Time getTime(){ //TODO hace falta clone()?
+    public Time getTime(){
         return time;
     }
 

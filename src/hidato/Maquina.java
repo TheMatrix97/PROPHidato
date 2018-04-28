@@ -29,7 +29,7 @@ public abstract class Maquina implements Serializable{
         return false;
     }
 
-    private static void resolHidatoAlgoritmo(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades, Time time) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat, Utils.ExceptionTimeOut { //TODO en vez de usar Celda[][] usar Tauler?
+    private static void resolHidatoAlgoritmo(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades, Time time) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat, Utils.ExceptionTimeOut {
         int ini,seg;
         if(jugades.size() == 0){
             ini = 1;
@@ -62,7 +62,7 @@ public abstract class Maquina implements Serializable{
                 c.vaciar();
             }
             pref.add(ini); //hay que restaurar el prefijado ini eliminado antes del primer if
-            return; //hay que deshacer ultimo movimiento, TODO hay que crear jugadas
+            return; //hay que deshacer ultimo movimiento
         }
         for(Vector<Celda> cami : camins){
             int cont = ini;

@@ -65,7 +65,7 @@ public class Celda implements Serializable{
         this.valida = false;
         this.frontera = f;
     }
-    //TODO Controlar si ens envien un FormaC diferent de T, Q, H.
+
     public Celda(Celda c){ //constructor copia
         this.FormaC = c.getForma();
         this.adj = c.getAdj();
@@ -75,7 +75,7 @@ public class Celda implements Serializable{
         this.valor = c.getValor();
         this.vecinos = new ArrayList<>(sizeadj[switchType()][adjtoint(this.adj)]);
     }
-    private int switchType(){ //TODO sizeadj['T'][0] = 1; usar este template
+    private int switchType(){
         switch(this.FormaC){
             case 'T':
                 return 0;
