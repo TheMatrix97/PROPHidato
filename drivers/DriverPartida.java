@@ -97,6 +97,14 @@ public class DriverPartida {
                     }
                     printa_tauler(en.getTauler());
                     break;
+                case 7:
+                    try{
+                        p.pedirAyuda();
+                    }catch(Utils.ExceptionTaulerResolt e){
+                        System.out.println("Tauler resolt!!");
+                    }
+                    printa_tauler(p.getTauler().getTauler());
+                    break;
 
                 default:
 
@@ -195,6 +203,8 @@ public class DriverPartida {
         System.out.println("4.Mostra solucio!");
         System.out.println("5.Fes jugada per insertar num");
         System.out.println("6.Fes jugada per eliminar num");
+        System.out.println("7.Demanar ajuda");
+
 
     }
 

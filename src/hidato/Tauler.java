@@ -499,11 +499,11 @@ public class Tauler implements Serializable {
         return false;
     }
 
-    public Celda buscarCeldaPerValor(int valor) throws Utils.ExceptionCeldaNotFound {
+    public AbstractMap.SimpleEntry<Integer, Integer> buscarCeldaPerValor(int valor) throws Utils.ExceptionCeldaNotFound {
         for(int i = 0; i < tauler.length; ++i){
             for(int j = 0; j < tauler[i].length; ++j){
                 if (tauler[i][j].isValida() && tauler[i][j].getValor() == valor){
-                    return  tauler[i][j];
+                    return new AbstractMap.SimpleEntry<>(i,j);
                 }
             }
         }

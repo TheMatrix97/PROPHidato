@@ -2,6 +2,7 @@ package hidato;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class Partida implements Serializable{
@@ -18,6 +19,7 @@ public class Partida implements Serializable{
         Maquina.resolHidato(this.solucio);
         //generar solucio
     }
+    //TODO assegurar caso generar partida haga timeout
     public Partida(){ //partida sense tauler
         this.encurs = null;
         this.solucio = null;
@@ -55,16 +57,15 @@ public class Partida implements Serializable{
         this.jug.add(jug);
     }
 
-    public void pedirAyuda() {
+    public void pedirAyuda() throws Utils.ExceptionTaulerResolt {
         boolean[] usados = this.encurs.getUsats();
         for(int i = 1; i < usados.length; ++i){
                 if(!usados[i]){
-                    Celda c;
                     try {
-                        c = this.solucio.buscarCeldaPerValor(i);
-                        Jugada j = new Jugada(c,i,null);
+                        AbstractMap.SimpleEntry<Integer,Integer> aux = this.solucio.buscarCeldaPerValor(i);
+                        fesJugadaIns(aux.getKey(),aux.getValue(),i);
                     }
-                    catch (Utils.ExceptionCeldaNotFound | Utils.ExceptionJugadaNoValida e){
+                    catch (Utils.ExceptionCeldaNotFound | Utils.ExceptionJugadaNoValida  e){
                         return;
                     }
                     break;
