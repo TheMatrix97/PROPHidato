@@ -424,6 +424,8 @@ public class Tauler implements Serializable {
         return this.usats[n];
     }
 
+    public boolean[] getUsats() { return this.usats; }
+
     public void addUsat(int n) throws Utils.ExceptionJugadaNoValida {
         if(n >= this.prefixats.last() || n < 1 || this.usats[n]){
             throw new Utils.ExceptionJugadaNoValida();
@@ -495,5 +497,16 @@ public class Tauler implements Serializable {
             if(contador == this.prefixats.last()) return true;
         }
         return false;
+    }
+
+    public Celda buscarCeldaPerValor(int valor) throws Utils.ExceptionCeldaNotFound {
+        for(int i = 0; i < tauler.length; ++i){
+            for(int j = 0; j < tauler[i].length; ++j){
+                if (tauler[i][j].isValida() && tauler[i][j].getValor() == valor){
+                    return  tauler[i][j];
+                }
+            }
+        }
+        throw new Utils.ExceptionCeldaNotFound();
     }
 }

@@ -5,11 +5,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Partida implements Serializable{
-    Tauler encurs;
-    Tauler solucio;
-    ArrayList<Jugada> jug;
-    Configuracio conf;
-    Jugador jugador;
+    private Tauler encurs;
+    private Tauler solucio;
+    private ArrayList<Jugada> jug;
+    private Configuracio conf;
+    private Jugador jugador;
 
     public Partida(String id) throws IOException { //crea partida amb tauler de bd
         this.encurs = new Tauler(id);
@@ -54,6 +54,26 @@ public class Partida implements Serializable{
         Jugada jug = new Jugada(c,this.jugador);
         this.jug.add(jug);
     }
+
+    public void pedirAyuda() {
+        boolean[] usados = this.encurs.getUsats();
+        for(int i = 1; i < usados.length; ++i){
+                if(!usados[i]){
+                    Celda c;
+                    try {
+                        c = this.solucio.buscarCeldaPerValor(i);
+                        Jugada j = new Jugada(c,i,null);
+                    }
+                    catch (Utils.ExceptionCeldaNotFound | Utils.ExceptionJugadaNoValida e){
+                        return;
+                    }
+                    break;
+                }
+        }
+    }
+
+
+
 
     public Configuracio getConf(){
         return this.conf;

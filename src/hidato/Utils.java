@@ -43,4 +43,7 @@ public class Utils {
         }
     }
 
+    public static class ExceptionCeldaNotFound extends Exception {
+        ExceptionCeldaNotFound() { super();}
+    }
 }

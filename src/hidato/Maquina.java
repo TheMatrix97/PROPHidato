@@ -141,15 +141,4 @@ public abstract class Maquina implements Serializable{
         }
         throw new Exception("Celda not found");
     }
-
-
-
-    private AbstractMap.SimpleEntry<Integer, Integer> BuscarCelda(Celda c, Celda[][] t) throws Exception {
-        for(int i = 0; i < t.length; ++i){
-            for(int j = 0; j < t[i].length; ++j){
-                if(c.equals(t[i][j])) return new AbstractMap.SimpleEntry<>(i,j);
-            }
-        }
-        throw new Exception("Celda not found");
-    }
 }
