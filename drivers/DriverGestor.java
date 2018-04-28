@@ -7,16 +7,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class DriverPartida {
-    private static Partida p;
-    private static Configuracio c;
+public class DriverGestor {
+    private static Gestor g;
 
     public static void main(String[] args) throws Exception {
-        p = null;
-        c = null;
+        g = Gestor.getSingletonInstance();
+        Partida p = null;
+        Configuracio c = null;
         boolean control = true;
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
+        System.out.println("Com et dius?: ");
+        String nomj = br.readLine();
+        Jugador jug = new Jugador(nomj);
         printa_menu();
         int opt;
         while (control) {
@@ -35,8 +38,8 @@ public class DriverPartida {
                         System.out.println("Primer crea una instancia de configuracio!");
                         break;
                     }
-
-                    p = new Partida();
+                    g.crearPartidaBuida(jug.getNom());
+                    p = g.getPartida();
                     p.generar_partida_random(c);
                     System.out.println("Tauler generat: " + p.getTauler().getN() + ", " + p.getTauler().getK());
                     Celda[][] t = p.getTauler().getTauler();
@@ -58,7 +61,8 @@ public class DriverPartida {
                         }
                         if(num >= 0 && num < noms.size()) break;
                     }
-                    p = new Partida(noms.get(num));
+                    g.crearPartidaBD(noms.get(num),jug.getNom());
+                    p = g.getPartida();
                     printa_tauler(p.getTauler().getTauler());
 
 
@@ -77,7 +81,7 @@ public class DriverPartida {
                     int[] coord = demanaJugada(encurs.getN(),encurs.getK(),true);
                     boolean resolt = false;
                     try{
-                        p.fesJugadaIns(coord[0],coord[1],coord[2]);
+                        g.ferJugada(coord[0],coord[1],coord[2]);
                     }catch (Utils.ExceptionJugadaNoValida e){
                         System.out.println("Jugada no vàlida :(");
                         break;
@@ -85,13 +89,15 @@ public class DriverPartida {
                         resolt = true;
                     }
                     printa_tauler(encurs.getTauler());
-                    if(resolt) System.out.println("Tauler Resolt!!");
+                    if(resolt){
+                        System.out.println("Tauler Resolt en: " + p.getTiempo().get_time());
+                    }
                     break;
                 case 6:
                     Tauler en = p.getTauler();
                     int[] coord2 = demanaJugada(en.getN(),en.getK(),false);
                     try{
-                        p.fesJugadaDel(coord2[0],coord2[1]);
+                        g.ferJugadaDel(coord2[0],coord2[1]);
                     }catch (Utils.ExceptionJugadaNoValida e){
                         System.out.println("Jugada no vàlida :(");
                         break;
@@ -100,15 +106,28 @@ public class DriverPartida {
                     break;
                 case 7:
                     try{
-                        p.pedirAyuda();
+                        g.demanarAjuda();
                     }catch(Utils.ExceptionTaulerResolt e){
-                        System.out.println("Tauler resolt!!");
+                        System.out.println("Tauler Resolt en: " + p.getTiempo().get_time());
                     }
                     printa_tauler(p.getTauler().getTauler());
                     break;
                 case 8:
-                    Configuracio c = p.getConf();
-                    System.out.println("Adj: " + c.getAdjacencia() + " Tipus de cela: " + c.getcell() + " Dificultat: " + c.getDificultat());
+                    Configuracio co = p.getConf();
+                    System.out.println("Adj: " + co.getAdjacencia() + " Tipus de cela: " + co.getcell() + " Dificultat: " + co.getDificultat());
+                    break;
+                case 9:
+                    System.out.println("Ranking: ");
+                    ArrayList<Ranking> r = g.getRankings();
+                    for(Ranking rank : r){
+                        ArrayList<Record> records = rank.getRecords();
+                        Configuracio conf = rank.getConf();
+                        System.out.println("Ranking: " + conf.getcell() + " " + conf.getAdjacencia() + " " + conf.getDificultat());
+                        for(Record rec : records){
+                            System.out.println(rec.getnomJugador() + " -> " + rec.getTime().get_time());
+                        }
+                        System.out.println("--------------------");
+                    }
                     break;
                 default:
 
@@ -209,6 +228,7 @@ public class DriverPartida {
         System.out.println("6.Fes jugada per eliminar num");
         System.out.println("7.Demanar ajuda");
         System.out.println("8.Printa configuració actual");
+        System.out.println("9.Printa rankings");
 
 
     }

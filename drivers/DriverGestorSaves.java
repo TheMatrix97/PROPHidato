@@ -27,7 +27,7 @@ public class DriverGestorSaves {
             switch (opt) {
                 case 1:
                     if (p == null) {
-                        p = new Partida();
+                        p = new Partida("test");
                         System.out.println("Partida creada");
                     } else System.out.println("Ja tenim una instacia de partida!");
                     break;

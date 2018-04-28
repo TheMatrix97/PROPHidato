@@ -37,13 +37,67 @@ public class Gestor implements Serializable{
         return new Ranking(conf);
     }
 
+    public void crearPartidaBuida(String nomJugador){
+        game = new Partida(nomJugador);
+    }
+    public void crearPartidaBD(String nom, String nomJugador){
+        try{
+            game = new Partida(nom,nomJugador);
+        }catch(Exception e){
+            this.game = null;
+            //TODO avisar que la partida no es valida
+        }
+    }
 
+    public void ferJugada(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
+        if(game != null) {
+            try {
+                game.fesJugadaIns(i, j, num);
 
+            }catch(Utils.ExceptionTaulerResolt e){
+                Time t = game.getTiempo();
+                Jugador jug = game.getJugador();
+                if(jug != null) { //si lo ha hecho una persona
+                    Record r = new Record(t, jug.getNom());
+                    boolean exists = false;
+                    for(Ranking rank : rankings){ //todo testear
+                        if(rank.getConf().equals(game.getConf())){
+                            rank.addRecord(r);
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if(!exists){
+                        Ranking rank = new Ranking(game.getConf());
+                        rank.addRecord(r);
+                        rankings.add(rank);
+
+                    }
+
+                }
+                throw new Utils.ExceptionTaulerResolt();
+
+            }
+        }
+    }
+    public void ferJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida {
+        if(game != null){
+            game.fesJugadaDel(i,j);
+        }
+    }
+    public void demanarAjuda() throws Utils.ExceptionTaulerResolt { //Si la maquina posa l'últim número no tens record.
+        if(game != null){
+            game.pedirAyuda();
+        }
+    }
     public void setPartida(Partida p){
         this.game = p;
     }
     public Partida getPartida(){
         return this.game;
+    }
+    public ArrayList<Ranking> getRankings(){
+        return this.rankings;
     }
 
 

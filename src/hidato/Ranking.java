@@ -50,7 +50,7 @@ public class Ranking implements Serializable{
         return true;
     }
     public Configuracio getConf(){
-        return this.getConf();
+        return this.conf;
     }
 
     private void actualizar_peor_tiempo(){
@@ -73,5 +73,8 @@ public class Ranking implements Serializable{
             else if(dif == 0) return 0;
             else return -1;
         }
+    }
+    public ArrayList<Record> getRecords(){
+        return this.records;
     }
 }
