@@ -9,19 +9,18 @@ public class Partida implements Serializable{
     Tauler solucio;
     ArrayList<Jugada> jug;
     Configuracio conf;
-    Maquina bot;
+    Jugador jugador;
+
     public Partida(String id) throws IOException { //crea partida amb tauler de bd
         this.encurs = new Tauler(id);
         this.solucio = new Tauler(id);
-        this.bot = new Maquina();
         this.jug = new ArrayList<>();
-        bot.resolHidato(this.solucio);
+        Maquina.resolHidato(this.solucio);
         //generar solucio
     }
     public Partida(){ //partida sense tauler
         this.encurs = null;
         this.solucio = null;
-        this.bot = new Maquina();
         this.jug = new ArrayList<>();
     }
 
@@ -29,10 +28,10 @@ public class Partida implements Serializable{
         this.conf = conf;
         this.encurs = new Tauler(conf);
         this.solucio = new Tauler(encurs);
-        bot.resolHidato(this.solucio);
+        Maquina.resolHidato(this.solucio);
 
     }
-    public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
+    public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt { //ho fa un jugador
         Celda c = null;
         try {
             c = encurs.getCelda(i,j);
@@ -40,7 +39,7 @@ public class Partida implements Serializable{
         } catch (Utils.ExceptionPosicioNoValida e) {
             throw new Utils.ExceptionJugadaNoValida();
         }
-        Jugada jug = new Jugada(c,num);
+        Jugada jug = new Jugada(c,num,this.jugador);
         this.jug.add(jug);
         if(encurs.validador_tauler()) throw new Utils.ExceptionTaulerResolt();
     }
@@ -52,7 +51,7 @@ public class Partida implements Serializable{
         }catch (Utils.ExceptionPosicioNoValida e){
             throw new Utils.ExceptionJugadaNoValida();
         }
-        Jugada jug = new Jugada(c);
+        Jugada jug = new Jugada(c,this.jugador);
         this.jug.add(jug);
     }
 
@@ -64,9 +63,6 @@ public class Partida implements Serializable{
     }
     public Tauler getTaulerSolucio(){
         return this.solucio;
-    }
-    public Maquina getBot(){
-        return this.bot;
     }
 
 }

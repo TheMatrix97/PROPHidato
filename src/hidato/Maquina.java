@@ -1,28 +1,21 @@
 package hidato;
 
 import java.io.Serializable;
-import java.net.CacheRequest;
 import java.util.*;
 
 /**
  *
  * @author marc.catrisse & lluis.marques
  */
-public class Maquina extends Jugador implements Serializable{
-    
-    public Maquina()
-    {
-        super("nom:reservat:maquina");
-    }
-    //TODO Eliminar chivatos
+public abstract class Maquina implements Serializable{
 
-    public boolean resolHidato(Tauler t){
+    public static boolean resolHidato(Tauler t){
         SortedSet<Integer> pref = t.getPrefixats();
         ArrayList<ArrayList<Jugada>> jugades = new ArrayList<>();
         Time time = new Time();
         try {
             time.start_time();
-            resolHidatoAlgorito(t.getTauler(),pref,pref.last(),jugades, time);
+            resolHidatoAlgoritmo(t.getTauler(),pref,pref.last(),jugades, time);
         }catch(Utils.ExceptionHidatoSolucionat e){
             time.stop_time();
             return true;
@@ -36,7 +29,7 @@ public class Maquina extends Jugador implements Serializable{
         return false;
     }
 
-    private void resolHidatoAlgorito(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades, Time time) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat, Utils.ExceptionTimeOut { //TODO en vez de usar Celda[][] usar Tauler?
+    private static void resolHidatoAlgoritmo(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades, Time time) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat, Utils.ExceptionTimeOut { //TODO en vez de usar Celda[][] usar Tauler?
         int ini,seg;
         if(jugades.size() == 0){
             ini = 1;
@@ -78,7 +71,7 @@ public class Maquina extends Jugador implements Serializable{
                 if(!pas.isPrefijada() && pas.isVacia()){
                     Jugada i = null;
                     try{
-                        i = new Jugada(pas, ++cont);
+                        i = new Jugada(pas, ++cont,null);
                     }catch(Utils.ExceptionJugadaNoValida e){
                         e.printStackTrace();
                     }
@@ -92,7 +85,7 @@ public class Maquina extends Jugador implements Serializable{
             if(!time.checkTime(System.currentTimeMillis())){
                 throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
             }
-            resolHidatoAlgorito(t,pref,max,jugades, time);
+            resolHidatoAlgoritmo(t,pref,max,jugades, time);
         }
         if(jugades.isEmpty()) return;
         ArrayList<Jugada> j = jugades.get(jugades.size()-1);
@@ -102,16 +95,8 @@ public class Maquina extends Jugador implements Serializable{
             c.vaciar();
         }
     }
-    private int CalculaIniSeg(SortedSet<Integer> s, int last){
-        int max = 0;
-        Iterator<Integer> aux = s.iterator();
-        while(aux.hasNext()){
-            int aux2 = aux.next();
-            if(aux2 > last && aux2 > max) max = aux2;
-        }
-        return max;
-    }
-    private int seguentPref(SortedSet<Integer> s, int last){
+
+    private static int seguentPref(SortedSet<Integer> s, int last){
         Iterator<Integer> aux = s.iterator();
         while(aux.hasNext()){
             int l = aux.next();
@@ -120,29 +105,7 @@ public class Maquina extends Jugador implements Serializable{
         return 0;
     }
 
-    private void print_jugades(ArrayList<ArrayList<Jugada>> jug){
-        for(ArrayList<Jugada> aux : jug){
-            for(Jugada j : aux){
-                System.out.print(j.getCelda().getValor() + ",");
-            }
-            System.out.print("\n");
-
-        }
-    }
-    private void print_tauler_test(Celda[][] t, ArrayList<Vector<Celda>>camins){ //TODO ELIMINAR chivato
-        for(Celda[] c : t){
-            for(Celda celda : c){
-                if(celda.isFrontera())System.out.print("# ");
-                else if(celda.isVacia() && celda.isValida()) System.out.print("? ");
-                else if(!celda.isValida()) System.out.print("* ");
-                else System.out.print(celda.getValor() + " ");
-            }
-            System.out.print('\n');
-        }
-        System.out.print("-----------\n");
-    }
-
-    public ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
+    public static ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
         Stack<Vector<Celda>> s = new Stack<>();
         ArrayList<Vector<Celda>> rutasValidas = new ArrayList<>();
         AbstractMap.SimpleEntry<Integer,Integer> p = Utils.BuscarN(t,inici);

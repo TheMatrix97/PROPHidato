@@ -70,7 +70,7 @@ public class TaulerTest {
     @Test//(timeout=20000)
     public void test_generador(){
         //generar_tauler("Facil","C",'T');
-        generar_tauler("Dificil","C",'T');
+        generar_tauler("Dificil","CA",'T');
         //generar_tauler("Dificil", "CA", 'H');
     }
 
@@ -78,10 +78,9 @@ public class TaulerTest {
         Configuracio c = new Configuracio(dif,adj,type);
         Tauler t = new Tauler(c);
         Celda[][] aux = t.getTauler();
-        Maquina m = new Maquina();
         System.out.println(t.getTauler()[0][0].getForma() + "," +t.getTauler()[0][0].getAdj()+ "," + t.getN() + "," + t.getK());
         System.out.print(MaquinaTest.recorreCeldas(aux));
-        boolean b = m.resolHidato(t);
+        boolean b = Maquina.resolHidato(t);
         System.out.print("\n");
         System.out.print(MaquinaTest.recorreCeldas(aux));
         System.out.print("\n");

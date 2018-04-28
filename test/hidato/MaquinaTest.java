@@ -17,8 +17,7 @@ public class MaquinaTest {
     @Test
     public void TestRandomHCA() throws Exception {
         Tauler t = new Tauler("HCAHidato"); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        if (m.resolHidato(t)) {
+        if (Maquina.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());
             String res = "H,CA,11,14\n" + recorreCeldas(t.getTauler()).toString();
             String out = LectorTxt.llegirFile("HCAHidatoOut");
@@ -28,8 +27,7 @@ public class MaquinaTest {
     @Test
     public void TestRandomQCA() throws Exception {
         Tauler t = new Tauler("QCAHidato"); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        if (m.resolHidato(t)) {
+        if (Maquina.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());
             String res = "Q,CA,10,11\n" + recorreCeldas(t.getTauler()).toString();
             String out = LectorTxt.llegirFile("QCAHidatoOut");
@@ -38,9 +36,8 @@ public class MaquinaTest {
     }
     @Test
     public void TestRandomTCA() throws Exception {
-        Tauler t = new Tauler("TCAHidato"); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        if (m.resolHidato(t)) {
+        Tauler t = new Tauler("TCAHidato"); //Hidato sobre el que buscar
+        if (Maquina.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());
             String res = "T,CA,10,12\n" + recorreCeldas(t.getTauler()).toString();
             String out = LectorTxt.llegirFile("TCAHidatoOut");
@@ -50,8 +47,7 @@ public class MaquinaTest {
     @Test
     public void TestRandomQC() throws Exception {
         Tauler t = new Tauler("QCHidato"); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        if (m.resolHidato(t)) {
+        if (Maquina.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());
             String res = "Q,C,9,12\n" + recorreCeldas(t.getTauler()).toString();
             String out = LectorTxt.llegirFile("QCHidatoOut");
@@ -61,8 +57,7 @@ public class MaquinaTest {
     @Test
     public void TestRandomTC() throws Exception {
         Tauler t = new Tauler("TCHidato"); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        if (m.resolHidato(t)) {
+        if (Maquina.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());
             String res = "T,C,11,11\n" + recorreCeldas(t.getTauler()).toString();
             String out = LectorTxt.llegirFile("TCHidatoOut");
@@ -74,8 +69,7 @@ public class MaquinaTest {
     @Test
     public void TrobaCaminsValids() throws Exception { //PARA TESTEAR!!
         Tauler t = new Tauler("QCAEnunciat"); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        ArrayList<Vector<Celda>> aux = m.TrobaCaminsValids(3, 8, t.getTauler()); //AÑADE EN INICI Y EN FI LOS PREFIJADOS.
+        ArrayList<Vector<Celda>> aux = Maquina.TrobaCaminsValids(3, 8, t.getTauler()); //AÑADE EN INICI Y EN FI LOS PREFIJADOS.
         for (Vector<Celda> a : aux) {
             System.out.print("cami 1: ");
             for (Celda b : a) {
@@ -99,8 +93,7 @@ public class MaquinaTest {
     }
     private void ResolHidatoGen(String type, String capcelera, String next ) throws Exception {
         Tauler t = new Tauler(type+next); //Hidato sobre el que buscará
-        Maquina m = new Maquina();
-        if (m.resolHidato(t)) {
+        if (Maquina.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());
             String res = capcelera + recorreCeldas(t.getTauler()).toString();
             String out = LectorTxt.llegirFile(type+"EnunciatOut");
