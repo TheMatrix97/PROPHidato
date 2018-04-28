@@ -1,8 +1,6 @@
 package hidato;
 
 
-import sun.security.krb5.Config;
-
 import java.io.*;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -34,7 +32,7 @@ public class Tauler implements Serializable {
         this.tauler = GestorBD.llegir_hidato_bd(idHidato,this.prefixats);
         this.n = this.tauler.length;
         this.k = this.tauler[this.n-1].length;
-        System.out.println("n : " + n + "k: " + k);
+        //System.out.println("n : " + n + "k: " + k);
         Celda c = this.tauler[0][0];
         calcular_usats();
         carregaveins(c.getForma(), c.getAdj()); // todo passar configuracio
@@ -367,12 +365,12 @@ public class Tauler implements Serializable {
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
         } else if (tcela == 'H') { //TODO revisar que funciona bé
-            c = orientacio_triangle(i,j);
+            c = orientacio(i,j,tcela);
             if (!c) aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};
 
         } else { //triangle
-            c = orientacio_triangle(i, j); //true, mira cap adalt, sino mira cap abaix
+            c = orientacio(i, j, tcela); //true, mira cap adalt, sino mira cap abaix
             if (adj.equals("C")) {
                 if (c) aux = new int[][]{{1, 0}, {0, 1}, {0, -1}};
                 else aux = new int[][]{{-1, 0}, {0, 1}, {0, -1}};
@@ -387,7 +385,7 @@ public class Tauler implements Serializable {
         return aux;
     }
 
-    private boolean orientacio_triangle(int i, int j) { //TODO falla
+    private boolean orientacio(int i, int j, char type) {
         int contador = 0;
         for (Celda c : this.tauler[0]) {
             if (c.isFrontera()) contador++;
@@ -398,7 +396,7 @@ public class Tauler implements Serializable {
             if (c.equals(this.tauler[i][j])) break;
             if (!c.isFrontera()) contador2++;
         }
-        if (contador == this.tauler[0].length) {
+        if (contador == this.tauler[0].length && type == 'T') {
             return (contador2 % 2 == 0);
         } else {
             if (i % 2 == 0) {
