@@ -5,6 +5,7 @@ import hidato.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class DriverPartida {
     private static Partida p;
@@ -23,7 +24,7 @@ public class DriverPartida {
                 try {
                     opt = Integer.parseInt(cadena);
                 }catch(NumberFormatException e){
-                    opt = 5;
+                    opt = 200;
                 }
             switch (opt){
                 case 1:
@@ -40,8 +41,28 @@ public class DriverPartida {
                     Celda[][] t = p.getTauler().getTauler();
                     printa_tauler(t);
                     break;
-
                 case 3:
+                    ArrayList<String> noms = GestorBD.llista_hidatos_disponibles();
+                    for(String n : noms){
+                        System.out.println(noms.indexOf(n)+ " -> " + n);
+                    }
+                    int num;
+                    while(true) {
+                        System.out.println("Selecciona un tauler de la BD");
+                        String n = br.readLine();
+                        try{
+                            num = Integer.parseInt(n);
+                        }catch(NumberFormatException e){
+                            continue;
+                        }
+                        if(num >= 0 && num < noms.size()) break;
+                    }
+                    p = new Partida(noms.get(num));
+                    printa_tauler(p.getTauler().getTauler());
+
+
+                    break;
+                case 4:
                     if(p == null){
                         System.out.println("Primer crea una instancia de partida!");
                         break;
@@ -49,7 +70,7 @@ public class DriverPartida {
                     Celda[][] sol = p.getTaulerSolucio().getTauler();
                     printa_tauler(sol);
                     break;
-                case 4:
+                case 5:
                     //jugada;
                     Tauler encurs = p.getTauler();
                     int[] coord = demanaJugada(encurs.getN(),encurs.getK(),true);
@@ -65,7 +86,7 @@ public class DriverPartida {
                     printa_tauler(encurs.getTauler());
                     if(resolt) System.out.println("Tauler Resolt!!");
                     break;
-                case 5:
+                case 6:
                     Tauler en = p.getTauler();
                     int[] coord2 = demanaJugada(en.getN(),en.getK(),false);
                     try{
@@ -136,15 +157,27 @@ public class DriverPartida {
             String i = br.readLine();
             System.out.print("j: ");
             String j = br.readLine();
-            int auxi = Integer.parseInt(i);
-            int auxj = Integer.parseInt(j);
+            int auxi,auxj;
+            try {
+                auxi = Integer.parseInt(i);
+                auxj = Integer.parseInt(j);
+            }catch(NumberFormatException e){
+                System.out.println("Error de lectura, torna a intentar-ho");
+                continue;
+            }
             if((auxi >= 0 && auxi < imax) && (auxj >= 0 && auxj < jmax)){
                 valido = true;
                 a[0] = auxi;
                 a[1] = auxj;
                 if(ins){
                     System.out.print("Numero: ");
-                    a[2] = Integer.parseInt(br.readLine());
+                    try{
+                        a[2] = Integer.parseInt(br.readLine());
+                    }catch (NumberFormatException e){
+                        System.out.println("Error de lectura, torna a intentar-ho");
+                        valido = false;
+                    }
+
                 }
             }else{
                 System.out.println("Vuelve a intentar");
@@ -158,8 +191,10 @@ public class DriverPartida {
         System.out.println("Selecciona l'opcio:");
         System.out.println("1.Crea configuracio");
         System.out.println("2.Crea partida amb tauler generat");
-        System.out.println("3.Mostra solucio!");
-        System.out.println("4.Fes jugada");
+        System.out.println("3.Crea partida amb tauler de la BD");
+        System.out.println("4.Mostra solucio!");
+        System.out.println("5.Fes jugada per insertar num");
+        System.out.println("6.Fes jugada per eliminar num");
 
     }
 

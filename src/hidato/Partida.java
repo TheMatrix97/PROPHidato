@@ -15,6 +15,7 @@ public class Partida implements Serializable{
         this.solucio = new Tauler(id);
         this.bot = new Maquina();
         this.jug = new ArrayList<>();
+        bot.resolHidato(this.solucio);
         //generar solucio
     }
     public Partida(){ //partida sense tauler

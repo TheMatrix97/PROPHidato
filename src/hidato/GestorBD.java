@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.SortedSet;
 
 public abstract class GestorBD { //TODO hauria de formar part de Gestor?
@@ -62,6 +63,23 @@ public abstract class GestorBD { //TODO hauria de formar part de Gestor?
                 break;
         }
         return c;
+    }
+
+    public static ArrayList<String> llista_hidatos_disponibles(){
+        ArrayList<String> res = new ArrayList<>();
+        String filePath = new File("").getAbsolutePath();
+        File aux = new File(filePath + "/BaseDadesHidatos");
+        if(aux.exists()){
+            File[] ficheros = aux.listFiles();
+            if(ficheros == null) return res;
+            for(File f : ficheros){
+                String name = f.getName();
+                if(name.contains("Hidato") && !name.contains("Out")){
+                    res.add(name.replaceFirst(".txt", "")); //TODO tenim molta brossa dins de BaseDadesHidatos per fer els tests, a la propera entrega s'hauria de netejar una mica?
+                }
+            }
+        }
+        return res;
     }
 
 }
