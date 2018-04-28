@@ -32,7 +32,7 @@ public class Tauler implements Serializable {
         this.tauler = GestorBD.llegir_hidato_bd(idHidato,this.prefixats);
         this.n = this.tauler.length;
         this.k = this.tauler[this.n-1].length;
-        System.out.println("n : " + n + "k: " + k);
+        //System.out.println("n : " + n + "k: " + k);
         Celda c = this.tauler[0][0];
         calcular_usats();
         carregaveins(c.getForma(), c.getAdj()); // todo passar configuracio

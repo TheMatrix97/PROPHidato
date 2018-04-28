@@ -63,22 +63,6 @@ public class TaulerTest {
     }
 
     @Test
-    public void TestTaulerAdjHC() throws IOException{
-        Tauler t = new Tauler("HCresolt");
-        Celda[][] aux = t.getTauler();
-        String out = calculADJ(aux);
-        String expected = expected_out("HCresolt");
-        assertEquals(expected,out);
-    }
-    @Test
-    public void TestTaulerAdjHC2() throws IOException{
-        Tauler t = new Tauler("HCresolt2");
-        Celda[][] aux = t.getTauler();
-        String out = calculADJ(aux);
-        String expected = expected_out("HCresolt2");
-        assertEquals(expected,out);
-    }
-    @Test
     public void test_validador_tauler() throws IOException {
         Tauler t = new Tauler("QCAEnunciatOut");
         assert (t.validador_tauler());
@@ -86,8 +70,8 @@ public class TaulerTest {
     @Test//(timeout=20000)
     public void test_generador(){
         //generar_tauler("Facil","C",'T');
-        //generar_tauler("Normal","C",'H');
-        generar_tauler("Dificil", "CA", 'H');
+        generar_tauler("Dificil","C",'T');
+        //generar_tauler("Dificil", "CA", 'H');
     }
 
     private void generar_tauler(String dif, String adj, char type){
