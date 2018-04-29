@@ -40,11 +40,12 @@ public class Gestor implements Serializable{
     public void crearPartidaBuida(String nomJugador){
         game = new Partida(nomJugador);
     }
-    public void crearPartidaBD(String nom, String nomJugador){
+    public void crearPartidaBD(String nom, String nomJugador) throws Exception{
         try{
             game = new Partida(nom,nomJugador);
         }catch(Exception e){
             this.game = null;
+            throw new Exception();
             //TODO avisar que la partida no es valida
         }
     }
@@ -65,6 +66,7 @@ public class Gestor implements Serializable{
                             rank.addRecord(r);
                             exists = true;
                             break;
+
                         }
                     }
                     if(!exists){

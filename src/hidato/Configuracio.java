@@ -48,25 +48,12 @@ public class Configuracio implements Serializable{
         return tcelda; //Q:quadrat,H:hexàgon,T:triangle
     }
 
-    /* en duda...
-    public void Set_Config(String dif, String tipusadj, char celda , Partida p) throws Exception {
-        Configuraciocorrecta(dif,tipusadj,celda, p);
+    @Override
+    public boolean equals(Object c) {
+        return c != null && c instanceof Configuracio
+                && this.dificultat.equals(((Configuracio) c).getDificultat())
+                && this.tcelda == ((Configuracio) c).getcell()
+                && this.tadjacencia.equals(((Configuracio) c).getAdjacencia());
     }
-
-    private String Configuraciocorrecta(String dif , String tipusadj, char celda, Partida p) throws Exception {
-        Configuracio conf = p.getConf();
-        if (dif.equals("Facil") || dif.equals("Normal") || dif.equals("Dificil")) {
-            if (tipusadj.equals("C") || tipusadj.equals("CA")){
-                if (celda == 'Q' || celda == 'H' || celda == 'T'){
-                    this.dificultat = dif;
-                    this.tadjacencia = tipusadj;
-                    this.tcelda = celda;
-                }
-                else throw new  Exception("Tipus de celda incorrecte.");
-            }
-            else throw new  Exception("Tipus d'Adjacencia incorrecte.");
-        }
-        else throw new  Exception("Dificultat incorrecte.");
-    }*/
 }
 

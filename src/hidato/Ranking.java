@@ -5,8 +5,6 @@
  */
 package hidato;
 
-import sun.awt.ConstrainableGraphics;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;

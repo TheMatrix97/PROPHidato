@@ -17,7 +17,9 @@ public class Partida implements Serializable{
         this.encurs = new Tauler(id);
         this.solucio = new Tauler(id);
         this.jug = new ArrayList<>();
-        Maquina.resolHidato(this.solucio);
+        if(!Maquina.resolHidato(this.solucio)){
+            throw new Exception();
+        }
         int n = this.encurs.getN();
         int k = this.encurs.getK();
         char tcela = this.encurs.getTauler()[0][0].getForma();

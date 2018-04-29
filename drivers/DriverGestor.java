@@ -61,7 +61,13 @@ public class DriverGestor {
                         }
                         if(num >= 0 && num < noms.size()) break;
                     }
-                    g.crearPartidaBD(noms.get(num),jug.getNom());
+                    try {
+                        g.crearPartidaBD(noms.get(num), jug.getNom());
+                    }catch(Exception e){
+                        System.out.println("Tauler no valid!");
+                        p = null;
+                        break;
+                    }
                     p = g.getPartida();
                     printa_tauler(p.getTauler().getTauler());
 
@@ -77,6 +83,10 @@ public class DriverGestor {
                     break;
                 case 5:
                     //jugada;
+                    if(p == null){
+                        System.out.println("Primer crea una instancia de partida!");
+                        break;
+                    }
                     Tauler encurs = p.getTauler();
                     int[] coord = demanaJugada(encurs.getN(),encurs.getK(),true);
                     boolean resolt = false;
@@ -94,6 +104,10 @@ public class DriverGestor {
                     }
                     break;
                 case 6:
+                    if(p == null){
+                        System.out.println("Primer crea una instancia de partida!");
+                        break;
+                    }
                     Tauler en = p.getTauler();
                     int[] coord2 = demanaJugada(en.getN(),en.getK(),false);
                     try{
@@ -105,6 +119,10 @@ public class DriverGestor {
                     printa_tauler(en.getTauler());
                     break;
                 case 7:
+                    if(p == null){
+                        System.out.println("Primer crea una instancia de partida!");
+                        break;
+                    }
                     try{
                         g.demanarAjuda();
                     }catch(Utils.ExceptionTaulerResolt e){
@@ -113,6 +131,10 @@ public class DriverGestor {
                     printa_tauler(p.getTauler().getTauler());
                     break;
                 case 8:
+                    if(p == null){
+                        System.out.println("Primer crea una instancia de partida!");
+                        break;
+                    }
                     Configuracio co = p.getConf();
                     System.out.println("Adj: " + co.getAdjacencia() + " Tipus de cela: " + co.getcell() + " Dificultat: " + co.getDificultat());
                     break;
