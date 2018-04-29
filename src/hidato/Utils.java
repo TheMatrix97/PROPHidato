@@ -2,14 +2,15 @@ package hidato;
 
 import java.util.AbstractMap;
 
+//Class auxiliar per crear Excepcions noves i funcions auxiliars
 public class Utils {
-    public static class ExceptionHidatoSolucionat extends Exception{
+    static class ExceptionHidatoSolucionat extends Exception{
         ExceptionHidatoSolucionat(String s){
             super(s);
         }
     }
 
-    public static class ExceptionHidatoNoSol extends Exception{
+    static class ExceptionHidatoNoSol extends Exception{
         ExceptionHidatoNoSol(String s){
             super(s);
         }
@@ -19,7 +20,7 @@ public class Utils {
             super();
         }
     }
-    public static class ExceptionPosicioNoValida extends Exception {
+    static class ExceptionPosicioNoValida extends Exception {
         ExceptionPosicioNoValida() {
             super();
         }
@@ -37,13 +38,13 @@ public class Utils {
         }
         throw new Exception("Celda prefixada not found");
     }
-    public static class ExceptionTimeOut extends Exception{
+    static class ExceptionTimeOut extends Exception{
         ExceptionTimeOut(String s){
             super(s);
         }
     }
 
-    public static class ExceptionCeldaNotFound extends Exception {
+    static class ExceptionCeldaNotFound extends Exception {
         ExceptionCeldaNotFound() { super();}
     }
 }

@@ -2,7 +2,8 @@ package hidato;
 
 import java.io.Serializable;
 
-/* @author lluis.marques */
+/**
+ *  @author lluis.marques */
 public class Record implements Serializable{
     private Time time; 
     private String nomJugador;

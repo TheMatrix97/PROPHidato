@@ -2,6 +2,10 @@ package hidato;
 
 import java.io.Serializable;
 
+/**
+ * author Marc.Catrisse
+ */
+//Class cronòmetre per calcular el temps de partida.
 public class Time implements Serializable{
     private long time_end;
     private long time_start;
@@ -38,8 +42,9 @@ public class Time implements Serializable{
         return String.format("%02d",horas)+':'+String.format("%02d",minutos%60)+':'+String.format("%02d",segundos%60);
     }
 
+    //Si el temps t - temps d'inici es superior a 20 retorna true, (timeout)
     public boolean checkTime(long t){
-        return ((int) ((t-time_start)/1000)) < 20;
+        return ((int) ((t-time_start)/1000)) >= 20;
     }
     public long get_time_millis(){
         return time;

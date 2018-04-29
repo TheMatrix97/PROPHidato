@@ -7,8 +7,10 @@ import java.util.*;
  *
  * @author marc.catrisse & lluis.marques
  */
+//Class abstract que implementa l'algorisme de resolució
 public abstract class Maquina implements Serializable{
 
+    //Funció publica per resoldre un Tauler
     public static boolean resolHidato(Tauler t){
         SortedSet<Integer> pref = t.getPrefixats();
         ArrayList<ArrayList<Jugada>> jugades = new ArrayList<>();
@@ -19,16 +21,14 @@ public abstract class Maquina implements Serializable{
         }catch(Utils.ExceptionHidatoSolucionat e){
             time.stop_time();
             return true;
-        }catch(Utils.ExceptionHidatoNoSol e){
-            time.stop_time();
-            return false;
-        }catch(Utils.ExceptionTimeOut e){
+        }catch(Utils.ExceptionHidatoNoSol | Utils.ExceptionTimeOut e){
             time.stop_time();
             return false;
         }
         return false;
     }
 
+    //algorisme explicat a la documentació
     private static void resolHidatoAlgoritmo(Celda[][] t, SortedSet<Integer> pref, int max, ArrayList<ArrayList<Jugada>> jugades, Time time) throws Utils.ExceptionHidatoNoSol, Utils.ExceptionHidatoSolucionat, Utils.ExceptionTimeOut {
         int ini,seg;
         if(jugades.size() == 0){
@@ -65,7 +65,7 @@ public abstract class Maquina implements Serializable{
             return; //hay que deshacer ultimo movimiento
         }
         for(Vector<Celda> cami : camins){
-            if(!time.checkTime(System.currentTimeMillis())){
+            if(time.checkTime(System.currentTimeMillis())){ //timeout
                 throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
             }
             int cont = ini;
@@ -79,7 +79,7 @@ public abstract class Maquina implements Serializable{
                         e.printStackTrace();
                     }
                     jcami.add(i);
-                    if(i.getNum() + 1 == max){
+                    if((i != null ? i.getNum() : 0) + 1 == max){
                         throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
                     }
                 }
@@ -96,14 +96,14 @@ public abstract class Maquina implements Serializable{
         }
     }
 
+    //funció auxiliar per calcula el seguent prefixat a tractar
     private static int seguentPref(SortedSet<Integer> s, int last){
-        Iterator<Integer> aux = s.iterator();
-        while(aux.hasNext()){
-            int l = aux.next();
-            if(l > last) return l;
+        for (Integer l : s) {
+            if (l > last) return l;
         }
         return 0;
     }
+    //funció on donat 2 prefixats retorna tots els camins de x a y valids (l'utilitza l'algorisme de resolució
 
     public static ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t, Time time) throws Exception {//public per fer el test
         Stack<Vector<Celda>> s = new Stack<>();
@@ -113,7 +113,7 @@ public abstract class Maquina implements Serializable{
         v.add(t[p.getKey()][p.getValue()]);
         s.push(v);
         while(!s.empty()){
-            if(!time.checkTime(System.currentTimeMillis())) throw new Exception();
+            if(time.checkTime(System.currentTimeMillis())) throw new Exception(); //timeout
             Vector<Celda> auxv = s.pop();
             Celda node = auxv.lastElement();
             ArrayList<Celda> veins = node.getVecinos();
@@ -131,15 +131,5 @@ public abstract class Maquina implements Serializable{
             }
         }
         return rutasValidas;
-    }
-
-
-    private AbstractMap.SimpleEntry<Integer, Integer> BuscarNnopref(Celda[][] c, int n) throws Exception {
-        for(int i = 0; i < c.length; ++i){
-            for(int j = 0; j < c[i].length; ++j){
-                if(c[i][j].getValor() == n) return new AbstractMap.SimpleEntry<>(i, j);
-            }
-        }
-        throw new Exception("Celda not found");
     }
 }

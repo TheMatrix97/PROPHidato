@@ -4,42 +4,34 @@ package hidato;
 
 import java.io.*;
 import java.util.ArrayList;
-/* @author antonio.guilera & marc.blanca */
-
+/**
+ *
+ * @author Antonio.Guilera & Marc.Blanca
+ */
+//Classe singleton
 public class Gestor implements Serializable{
-    //Comprova Save
-    //Consulta Ranking
-    //Guardar Partida
-    //Cargar Partida
+
     private ArrayList<Ranking> rankings;
     private Partida game;
     private static Gestor Gest;
 
+    //constructora singleton
     private Gestor() {
-     this.rankings = new ArrayList<>();
+        this.rankings = new ArrayList<>();
     }
 
     public static Gestor getSingletonInstance() {
         if (Gest == null){
             Gest = new Gestor();
         }
-        else{
-            System.out.println("ya existe gestor");
-        }
-
         return Gest;
     }
-
-    public Ranking consulta_ranking(Configuracio conf){
-        for(Ranking r : this.rankings){
-            if(r.getConf().equals(conf)) return r;
-        }
-        return new Ranking(conf);
-    }
-
+    //funció per crear una partida sense tauler
     public void crearPartidaBuida(String nomJugador){
         game = new Partida(nomJugador);
     }
+
+    //funció per crear una partida partint d'un tauler de la BD
     public void crearPartidaBD(String nom, String nomJugador) throws Exception{
         try{
             game = new Partida(nom,nomJugador);
@@ -49,7 +41,7 @@ public class Gestor implements Serializable{
             //TODO avisar que la partida no es valida
         }
     }
-
+    //funció que utilitza un usuari per fer una jugada d'inserció
     public void ferJugada(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
         if(game != null) {
             try {
@@ -82,22 +74,28 @@ public class Gestor implements Serializable{
             }
         }
     }
+    //funció per eliminar un número del tauler
     public void ferJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida {
         if(game != null){
             game.fesJugadaDel(i,j);
         }
     }
+
+    //funció que utilitza l'usuari per demanar ajuda
     public void demanarAjuda() throws Utils.ExceptionTaulerResolt { //Si la maquina posa l'últim número no tens record.
         if(game != null){
             game.pedirAyuda();
         }
     }
+    //setter
     public void setPartida(Partida p){
         this.game = p;
     }
+    // getters
     public Partida getPartida(){
         return this.game;
     }
+
     public ArrayList<Ranking> getRankings(){
         return this.rankings;
     }

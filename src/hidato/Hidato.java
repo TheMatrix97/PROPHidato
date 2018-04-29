@@ -5,11 +5,11 @@
  */
 package hidato;
 
-import java.util.concurrent.TimeUnit;
+
 
 /**
  *
- * @author marc.catrisse
+ * @author none
  */
 public class Hidato {
 

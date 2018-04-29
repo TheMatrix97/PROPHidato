@@ -19,7 +19,7 @@ public class Tauler implements Serializable {
     private Celda[][] tauler;
 
     //Constructora en base un arxiu de la base de dades de Hidato (carreguem un fitxer amb el hidato)
-    public Tauler(Tauler c) { //contructora copia
+    Tauler(Tauler c) { //contructora copia
         this.tauler = clone_array(c.getTauler());
         this.prefixats = c.getPrefixats();
         this.n = c.getN();
@@ -27,18 +27,17 @@ public class Tauler implements Serializable {
 
     }
 
-    public Tauler(String idHidato) throws IOException {
+    Tauler(String idHidato) throws IOException {
         this.prefixats = new TreeSet<>();
         this.tauler = GestorBD.llegir_hidato_bd(idHidato,this.prefixats);
         this.n = this.tauler.length;
         this.k = this.tauler[this.n-1].length;
-        //System.out.println("n : " + n + "k: " + k);
         Celda c = this.tauler[0][0];
         calcular_usats();
         carregaveins(c.getForma(), c.getAdj());
     }
 
-    public Tauler(Configuracio conf) {
+    Tauler(Configuracio conf) {
         genera_tauler(conf);
         carregaveins(conf.getcell(), conf.getAdjacencia());
         //tenim el tauler carregat

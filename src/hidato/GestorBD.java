@@ -1,6 +1,5 @@
 package hidato;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,8 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.SortedSet;
 
+/**
+ * @author Marc.Catrisse
+ */
+//Class de la capa de dades encargada de gestionar la Base de dades d'hidatos
 public abstract class GestorBD {
 
+    //funció encarregada de llegir un hidato de la base de dades donat el nom de l'arxiu
     public static Celda[][] llegir_hidato_bd(String idHidato, SortedSet<Integer> prefixats) throws IOException{
         Celda[][] tauler = null;
         int n = 0;
@@ -45,6 +49,8 @@ public abstract class GestorBD {
         }
         return tauler;
     }
+
+    //funció que mapeja els caracters en objectes celda
     private static Celda obtecelda(String aux, char tcela, String adj) {
         Celda c;
         switch (aux) {
@@ -64,6 +70,7 @@ public abstract class GestorBD {
         return c;
     }
 
+    //funció que retorna els noms dels fitxers guardats a BD
     public static ArrayList<String> llista_hidatos_disponibles(){
         ArrayList<String> res = new ArrayList<>();
         String filePath = new File("").getAbsolutePath();
@@ -80,5 +87,4 @@ public abstract class GestorBD {
         }
         return res;
     }
-
 }

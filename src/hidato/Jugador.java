@@ -2,7 +2,9 @@ package hidato;
 
 import java.io.Serializable;
 
-/* @author lluis.marques */
+/**
+ *  @author lluis.marques
+ */
 public class Jugador implements Serializable{
     private String nom;
 

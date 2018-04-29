@@ -1,6 +1,5 @@
 package hidato;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public class Partida implements Serializable{
     private Jugador jugador;
     private Time tiempo;
 
-    public Partida(String id, String j) throws Exception { //crea partida amb tauler de bd
+    Partida(String id, String j) throws Exception { //crea partida amb tauler de bd
         this.encurs = new Tauler(id);
         this.solucio = new Tauler(id);
         this.jug = new ArrayList<>();
@@ -48,7 +47,7 @@ public class Partida implements Serializable{
 
     }
     public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt { //ho fa un jugador
-        Celda c = null;
+        Celda c;
         try {
             c = encurs.getCelda(i,j);
             if(c.isValida() && c.isVacia()) encurs.addUsat(num);
@@ -63,7 +62,7 @@ public class Partida implements Serializable{
         }
     }
     public void fesJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida{
-        Celda c = null;
+        Celda c;
         try{
             c = encurs.getCelda(i,j);
             if(!c.isVacia() && c.isValida()) encurs.delUsat(c.getValor());
