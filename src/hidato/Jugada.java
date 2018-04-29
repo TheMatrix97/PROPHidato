@@ -9,7 +9,8 @@ public class Jugada {
     private int num; //en cas de jugada d'inserció conté el núm a insertar
     private Jugador jg; //jugador que ha fet la jugada, per si en un futur ho utilitzem
 
-    Jugada(Celda m, int num, Jugador j) throws Utils.ExceptionJugadaNoValida { //constructora insertar si j == null es una jugada d'una máquina
+    //Constructoras
+    Jugada(Celda m, int num, Jugador j) throws Utils.ExceptionJugadaNoValida { //constructora insertar. si j == null es una jugada d'una màquina
         if(j != null) this.jg = j;
         this.mod = m;
         this.insertar = true;
@@ -21,6 +22,7 @@ public class Jugada {
         }
     }
 
+    //Constructora per a buidar una cel·la. Si j == null, es una jugada d'una màquina.
     Jugada(Celda m, Jugador j) throws Utils.ExceptionJugadaNoValida{
         if(j != null) this.jg = j;
         this.insertar = false;
@@ -32,6 +34,7 @@ public class Jugada {
         }
     }
 
+    //Funció auxiliar per filtrar jugades de insertar i de buidar (una cel·la)
     private void persistir(){
         if(this.insertar){
             mod.setValor(num);
@@ -40,9 +43,13 @@ public class Jugada {
             mod.vaciar();
         }
     }
+
+    //Funció auxiliar: retorna la cel·la que volem modificar en la nostra jugada
     Celda getCelda(){
         return this.mod;
     }
+
+    //Funció auxiliar: retorna el valor que volem insertar amb la nostra jugada
     int getNum(){
         return this.num;
     }

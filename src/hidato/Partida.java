@@ -12,6 +12,7 @@ public class Partida implements Serializable{
     private Jugador jugador;
     private Time tiempo;
 
+    //CONSTRUCTORES
     Partida(String id, String j) throws Exception { //crea partida amb tauler de bd
         this.encurs = new Tauler(id);
         this.solucio = new Tauler(id);
@@ -29,8 +30,10 @@ public class Partida implements Serializable{
         this.tiempo.start_time();
 
     }
+
     //TODO assegurar caso generar partida haga timeout
-    public Partida(String j){ //partida sense tauler
+    //Crea una partida sense tauler
+    public Partida(String j){
         this.encurs = null;
         this.solucio = null;
         this.jug = new ArrayList<>();
@@ -39,14 +42,16 @@ public class Partida implements Serializable{
         this.tiempo.start_time();
     }
 
+    //Crea un tauler en base a la configuració donada. La nostra màquina el resol per a poder donar pistes si el jugador ho demana.
     public void generar_partida_random(Configuracio conf){
         this.conf = conf;
         this.encurs = new Tauler(conf);
         this.solucio = new Tauler(encurs);
         Maquina.resolHidato(this.solucio);
-
     }
-    public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt { //ho fa un jugador
+
+    //Jugada insertar d'un jugador, sobre una posicio i,j del tauler
+    public void fesJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
         Celda c;
         try {
             c = encurs.getCelda(i,j);
@@ -61,6 +66,8 @@ public class Partida implements Serializable{
             throw new Utils.ExceptionTaulerResolt();
         }
     }
+
+    //Jugada esborrar d'un jugador, sobre una posició i,j del tauler
     public void fesJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida{
         Celda c;
         try{
@@ -73,6 +80,7 @@ public class Partida implements Serializable{
         this.jug.add(jug);
     }
 
+    //Retorna el valor de la proxima cel·la sense resoldre del tauler, en la posició correcta segons la solució obtinguda per la nostra màquina
     public void pedirAyuda() throws Utils.ExceptionTaulerResolt {
         boolean[] usados = this.encurs.getUsats();
         for(int i = 1; i < usados.length; ++i){
@@ -89,21 +97,26 @@ public class Partida implements Serializable{
         }
     }
 
-
-
-
+    //Retorna la configuració de la partida
     public Configuracio getConf(){
         return this.conf;
     }
+    //Retorna el tauler de la partida en curs.
     public Tauler getTauler(){
         return this.encurs;
     }
+
+    //retorna el tauler solució de la partida, generat per la màquina
     public Tauler getTaulerSolucio(){
         return this.solucio;
     }
+
+    //retorna el temps de la partida.
     public Time getTiempo(){
         return this.tiempo;
     }
+
+    //retorna el nom del jugador
     public Jugador getJugador(){
         return this.jugador;
     }
