@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TimeTest {
-
+    //Tests que verifiquen la class Time
     @Test
     public void get_time() {
         Time time = new Time();
@@ -16,7 +16,7 @@ public class TimeTest {
     }
 
     @Test
-    public void resume_time() {
+    public void resume_time() { //Test de start_time / pause_time / resume_time / stop_time, en total deixa passar 2 segons i es verifica al final
         Time time = new Time();
         time.start_time();
         sleep(1000);

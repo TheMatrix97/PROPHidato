@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 
 public class MaquinaTest {
 
+    //Test randoms generats pel generador guardats a la BD
     @Test
     public void TestRandomHCA() throws Exception {
         Tauler t = new Tauler("HCAHidato"); //Hidato sobre el que buscará
@@ -65,7 +66,7 @@ public class MaquinaTest {
         } else assert (false);
     }
 
-
+    //Test de l'algorisme que donat 2 prefixats et retorna tots els camins valids possibles entre els 2 prefixats
     @Test
     public void TrobaCaminsValids() throws Exception { //PARA TESTEAR!!
         Tauler t = new Tauler("QCAEnunciat"); //Hidato sobre el que buscará
@@ -81,19 +82,21 @@ public class MaquinaTest {
             System.out.print("\n");
         }
     }
+    //Tests hidatos de l'enunciat
     @Test
     public void ResolHidatoEnunciatQCA() throws Exception { //PARA TESTEAR!!
-        ResolHidatoGen("QCA", "Q,CA,5,5\n", "Enunciat");
+        ResolHidatoGen("QCA", "Q,CA,5,5\n");
     }
     @Test
     public void ResolHidatoEnunciatTC() throws Exception { //PARA TESTEAR!!
-        ResolHidatoGen("TC", "T,C,5,7\n","Enunciat");
+        ResolHidatoGen("TC", "T,C,5,7\n");
     }
     @Test
     public void ResolHidatoEnunciatHC() throws Exception { //No te solució!
-        ResolHidatoGen("HC", "H,C,3,4\n","Enunciat");
+        ResolHidatoGen("HC", "H,C,3,4\n");
     }
-    private void ResolHidatoGen(String type, String capcelera, String next ) throws Exception {
+    private void ResolHidatoGen(String type, String capcelera) throws Exception {
+        String next = "Enunciat";
         Tauler t = new Tauler(type+next); //Hidato sobre el que buscará
         if (Maquina.resolHidato(t)) {
             System.out.println(recorreCeldas(t.getTauler()).toString());

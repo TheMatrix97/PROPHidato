@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class RankingTest {
-
+    //Test get ranking
     @Test
     public void getRanking() throws IOException{
         Ranking leaderboard = new Ranking(new Configuracio("Facil","C", 'Q'));
         llegir_rank_fitxer(leaderboard);
         ArrayList<Record> lista = leaderboard.getRanking();
         for(Record a : lista){
-            System.out.println(a.getTime().get_time().toString() + ' ' + a.getnomJugador());
+            System.out.println(a.getTime().get_time() + ' ' + a.getnomJugador());
         }
     }
     public static void llegir_rank_fitxer(Ranking leaderboard) throws IOException {

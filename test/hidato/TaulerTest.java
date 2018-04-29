@@ -8,28 +8,9 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class TaulerTest {
-
-    public TaulerTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
+    //Tests per verificar l'adjecencia de cada casella
     @Test
-    public void TestTaulerAdjQCA() throws IOException{ //el cuadrado CA chusca!
+    public void TestTaulerAdjQCA() throws IOException{
         Tauler t = new Tauler("QCAresolt");
         Celda[][] aux = t.getTauler();
         String out = calculADJ(aux);
@@ -37,7 +18,7 @@ public class TaulerTest {
         assertEquals(expected,out);
     }
     @Test
-    public void TestTaulerAdjQC() throws IOException{ //el cuadrado CA chusca!
+    public void TestTaulerAdjQC() throws IOException{
         Tauler t = new Tauler("QCresolt");
         Celda[][] aux = t.getTauler();
         String out = calculADJ(aux);
@@ -61,14 +42,30 @@ public class TaulerTest {
         String expected = expected_out("TCAresolt");
         assertEquals(expected,out);
     }
-
     @Test
-    public void test_validador_tauler() throws IOException {
-        Tauler t = new Tauler("QCAEnunciatOut");
-        assert (t.validador_tauler());
+    public void TestTaulerAdjHC() throws IOException{
+        Tauler t = new Tauler("HCresolt");
+        Celda[][] aux = t.getTauler();
+        String out = calculADJ(aux);
+        String expected = expected_out("HCresolt");
+        assertEquals(expected,out);
     }
-    @Test//(timeout=20000)
-    public void test_generador(){
+
+    //Test que verifica l'algorisme que verifica si un hidato està solucionat
+    @Test
+    public void Test_validador_tauler() throws IOException {
+        Tauler t = new Tauler("QCAEnunciatOut"); //aquest hidato de la BD està solucionat
+        assert (t.validador_tauler()); // el validador ha de tornar true
+    }
+    //Aquest hidato no esta solucionat, el validor ha de retornar fals
+    @Test
+    public void Test_validador_tauler_contrari() throws IOException {
+        Tauler t = new Tauler("QCAEnunciat");
+        assert (!t.validador_tauler());
+    }
+    //Test que verifica el generador
+    @Test
+    public void Test_generador(){
         //generar_tauler("Facil","C",'T');
         generar_tauler("Dificil","CA",'T');
         //generar_tauler("Dificil", "CA", 'H');
@@ -92,32 +89,32 @@ public class TaulerTest {
         FileReader f = new FileReader(filePath+"/BaseDadesHidatos/"+name+"Out.txt");
         BufferedReader b = new BufferedReader(f);
         String auxs;
-        String expected = "";
-        while((auxs = b.readLine()) != null) expected += auxs + " \n";
-        return expected;
+        StringBuilder expected = new StringBuilder();
+        while((auxs = b.readLine()) != null) expected.append(auxs).append(" \n");
+        return expected.toString();
     }
     //TODO test QuadradoCA trianguloCA
 
     private String calculADJ(Celda[][] aux){
-        String out = "";
+        StringBuilder out = new StringBuilder();
         for(Celda[] a : aux) {
             for(Celda b: a){
                 if(b.isValida()) {
                     ArrayList<Celda> veins = b.getVecinos();
                     System.out.print("Celda " + b.getValor() + ": ");
-                    out += "Celda " + b.getValor() + ": ";
+                    out.append("Celda ").append(b.getValor()).append(": ");
                     for (Celda k : veins) {
                         if (k.isValida()){
                             System.out.print(k.getValor() + " ");
-                            out += k.getValor() + " ";
+                            out.append(k.getValor()).append(" ");
                         }
                     }
-                    out += '\n';
+                    out.append('\n');
                     System.out.print('\n');
                 }
             }
         }
-        return out;
+        return out.toString();
     }
 
 }
