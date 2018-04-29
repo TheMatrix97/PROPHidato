@@ -143,7 +143,7 @@ public class DriverGestor {
                     System.out.println("Ranking: ");
                     ArrayList<Ranking> r = g.getRankings();
                     for(Ranking rank : r){
-                        ArrayList<Record> records = rank.getRecords();
+                        ArrayList<Record> records = rank.getRanking();
                         Configuracio conf = rank.getConf();
                         System.out.println("Ranking: " + conf.getcell() + " " + conf.getAdjacencia() + " " + conf.getDificultat());
                         for(Record rec : records){
@@ -252,7 +252,6 @@ public class DriverGestor {
         System.out.println("7.Demanar ajuda");
         System.out.println("8.Printa configuració actual");
         System.out.println("9.Printa rankings");
-
 
     }
 

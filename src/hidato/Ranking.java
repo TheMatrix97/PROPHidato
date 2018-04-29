@@ -80,4 +80,5 @@ public class Ranking implements Serializable{
     public ArrayList<Record> getRecords(){
         return this.records;
     }
+
 }
