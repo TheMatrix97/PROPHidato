@@ -47,9 +47,9 @@ public abstract class Maquina implements Serializable{
         if(ini == max) throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
         ArrayList<Vector<Celda>> camins;
         try{
-            camins = TrobaCaminsValids(ini,seg,t);
+            camins = TrobaCaminsValids(ini,seg,t,time);
         }catch(Exception e){
-            throw new Utils.ExceptionHidatoNoSol("Hidato no solucionat!");
+            throw new Utils.ExceptionTimeOut("");
         }
         if(camins.size() == 0){
             if(jugades.size() == 0){
@@ -65,6 +65,9 @@ public abstract class Maquina implements Serializable{
             return; //hay que deshacer ultimo movimiento
         }
         for(Vector<Celda> cami : camins){
+            if(!time.checkTime(System.currentTimeMillis())){
+                throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
+            }
             int cont = ini;
             ArrayList<Jugada> jcami = new ArrayList<>();
             for(Celda pas : cami){
@@ -82,9 +85,6 @@ public abstract class Maquina implements Serializable{
                 }
             }
             if(jcami.size() != 0) jugades.add(jcami);
-            if(!time.checkTime(System.currentTimeMillis())){
-                throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
-            }
             resolHidatoAlgoritmo(t,pref,max,jugades, time);
         }
         if(jugades.isEmpty()) return;
@@ -105,7 +105,7 @@ public abstract class Maquina implements Serializable{
         return 0;
     }
 
-    public static ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t) throws Exception {//public per fer el test
+    public static ArrayList<Vector<Celda>> TrobaCaminsValids(int inici, int fi, Celda[][] t, Time time) throws Exception {//public per fer el test
         Stack<Vector<Celda>> s = new Stack<>();
         ArrayList<Vector<Celda>> rutasValidas = new ArrayList<>();
         AbstractMap.SimpleEntry<Integer,Integer> p = Utils.BuscarN(t,inici);
@@ -113,6 +113,7 @@ public abstract class Maquina implements Serializable{
         v.add(t[p.getKey()][p.getValue()]);
         s.push(v);
         while(!s.empty()){
+            if(!time.checkTime(System.currentTimeMillis())) throw new Exception();
             Vector<Celda> auxv = s.pop();
             Celda node = auxv.lastElement();
             ArrayList<Celda> veins = node.getVecinos();

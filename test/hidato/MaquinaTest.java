@@ -69,7 +69,8 @@ public class MaquinaTest {
     @Test
     public void TrobaCaminsValids() throws Exception { //PARA TESTEAR!!
         Tauler t = new Tauler("QCAEnunciat"); //Hidato sobre el que buscará
-        ArrayList<Vector<Celda>> aux = Maquina.TrobaCaminsValids(3, 8, t.getTauler()); //AÑADE EN INICI Y EN FI LOS PREFIJADOS.
+        Time time = new Time();
+        ArrayList<Vector<Celda>> aux = Maquina.TrobaCaminsValids(3, 8, t.getTauler(), time); //AÑADE EN INICI Y EN FI LOS PREFIJADOS.
         for (Vector<Celda> a : aux) {
             System.out.print("cami 1: ");
             for (Celda b : a) {

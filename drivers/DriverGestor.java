@@ -61,6 +61,7 @@ public class DriverGestor {
                         }
                         if(num >= 0 && num < noms.size()) break;
                     }
+                    System.out.println("Carregant hidato....");
                     try {
                         g.crearPartidaBD(noms.get(num), jug.getNom());
                     }catch(Exception e){
