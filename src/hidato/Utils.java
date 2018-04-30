@@ -2,6 +2,12 @@ package hidato;
 
 import java.util.AbstractMap;
 
+/**
+ *
+ * @author Lluis.Marquès & Marc.Catrisse
+ */
+
+
 //Class auxiliar per crear Excepcions noves i funcions auxiliars
 public class Utils {
     static class ExceptionHidatoSolucionat extends Exception{

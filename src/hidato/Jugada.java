@@ -1,7 +1,7 @@
 package hidato;
 
 /**
- * author per determinar
+ * author marc.catrisse
  */
 public class Jugada {
     private boolean insertar; //si false la cela s'ha de buidar

@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 /**
  *
- * @author marc.catrisse & lluis.marques
+ * @author marc.catrisse & lluis.marques & antonio.guilera & marc.blanca
  */
 
 public class Tauler implements Serializable {

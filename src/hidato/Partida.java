@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 
+/**
+ *
+ * @author marc.catrisse & lluis.marques & antonio.guilera & marc.blanca
+ */
+
 public class Partida implements Serializable{
     private Tauler encurs; //Tauler sobre el que es juga i el seu estat actual
     private Tauler solucio; //Tauler que conte la solucio del Tauler encurs
