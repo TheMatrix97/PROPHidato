@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  *  @author lluis.marques */
 public class Record implements Serializable{
-    private Time time; 
-    private String nomJugador;
+    private Time time;  //el temps que ha trigat un jugador en resoldre un Hidato
+    private String nomJugador; //el nom del jugador que ha resolt dit Hidato
 
     //Creadora. Requereix el nom del jugador i el temps que ha trigat en completar el hidato.
     Record(Time tim3, String nomJ){

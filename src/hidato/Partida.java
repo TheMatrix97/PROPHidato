@@ -5,12 +5,12 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 
 public class Partida implements Serializable{
-    private Tauler encurs;
-    private Tauler solucio;
-    private ArrayList<Jugada> jug;
-    private Configuracio conf;
-    private Jugador jugador;
-    private Time tiempo;
+    private Tauler encurs; //Tauler sobre el que es juga i el seu estat actual
+    private Tauler solucio; //Tauler que conte la solucio del Tauler encurs
+    private ArrayList<Jugada> jug; //Llista de jugades que s'han fet en el tauler encurs
+    private Configuracio conf; //Tipus de celda, Tipus d'adjacencia i dificultat de la partida
+    private Jugador jugador; //Jugador que esta resolent el tauler encurs
+    private Time tiempo; //Indica el temps que porta el jugador en la partida encurs
 
     //CONSTRUCTORES
     Partida(String id, String j) throws Exception { //crea partida amb tauler de bd

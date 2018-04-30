@@ -13,20 +13,20 @@ import java.util.TreeSet;
  */
 
 public class Tauler implements Serializable {
-    private int n, k; //n final
-    private SortedSet<Integer> prefixats;
-    private boolean[] usats;
-    private Celda[][] tauler;
+    private int n, k; //nombre de files i de columnes d'un Tauler
+    private SortedSet<Integer> prefixats; //llistat de nombres prefixats d'un Tauler
+    private boolean[] usats; //Aquesta estructura ens permet saber quins nombres ja han estat colocats en el Tauler
+    private Celda[][] tauler; //cos matricial del nostre Tauler.
 
-    //Constructora en base un arxiu de la base de dades de Hidato (carreguem un fitxer amb el hidato)
-    Tauler(Tauler c) { //contructora copia
+    //contructora copia
+    Tauler(Tauler c) {
         this.tauler = clone_array(c.getTauler());
         this.prefixats = c.getPrefixats();
         this.n = c.getN();
         this.k = c.getK();
 
     }
-
+    //Constructora en base un arxiu de la base de dades de Hidato (carreguem un fitxer amb el hidato)
     Tauler(String idHidato) throws IOException {
         this.prefixats = new TreeSet<>();
         this.tauler = GestorBD.llegir_hidato_bd(idHidato,this.prefixats);
@@ -36,12 +36,14 @@ public class Tauler implements Serializable {
         calcular_usats();
         carregaveins(c.getForma(), c.getAdj());
     }
-
+    //constructora que genera un tauler a partir d'una configuracio donada
     Tauler(Configuracio conf) {
         genera_tauler(conf);
         carregaveins(conf.getcell(), conf.getAdjacencia());
         //tenim el tauler carregat
     }
+
+    //funció que permet saber quins numeros han estat ja colocats en el tauler
     private void calcular_usats(){
         usats = new boolean[this.n*this.k+1];
         for(Celda[] l : tauler){
@@ -52,6 +54,8 @@ public class Tauler implements Serializable {
             }
         }
     }
+
+    //funció auxiliar per generar l'estructura d'un tauler a partir d'una configuracio
     private void genera_tauler(Configuracio conf) {
         int last = GetLast(conf);
         this.tauler = new Celda[last][last];
@@ -125,8 +129,7 @@ public class Tauler implements Serializable {
         }
         //System.out.println("FIN? : " + fin);
         //System.out.println("iMin: " + iMin + " iMax: " + iMax + " jMin: " + jMin + " jMax: " +jMax);
-        //NO PODEMOS PONER MAS CODIGO AQUI PORQUE SI NO EL BREAK HACE QUE SE VAYA A TOMAR TO-DO POR CULO, A NO SER QUE LO METAMOS DENTRO DE UN IF(FIN)
-        if (fin) {
+         if (fin) {
             if (conf.getcell() != 'Q') {
                 iMin += ajustesOrientacion(iMin, jMin, jMax);
             }
@@ -140,7 +143,7 @@ public class Tauler implements Serializable {
             //  System.out.println(b);
         }
     }
-
+    //Funcio auxiliar que serveix per controlar l'orientacio de triangles
     private int ajustesOrientacion(int iMin, int jMin, int jMax) {
         if (iMin % 2 != 0) { //hay que añadir fila arriba
             //System.out.println("Add fila");
@@ -154,6 +157,7 @@ public class Tauler implements Serializable {
         return 0;
     }
 
+    //Funció auxiliar que donat l'ultim valor d'un hidato i la configuració d'aquest omple les celes frontera i calcula i marca les celes prefixades d'un tauler generat
     private void calculaFronteres(int last, Configuracio conf) {
         this.prefixats = new TreeSet<>();
         this.usats = new boolean[last + 1];
@@ -197,6 +201,8 @@ public class Tauler implements Serializable {
         }
     }
 
+
+    //funcio auxiliar que donada una configuracio de forma semialeatoria generara nombres per a definir les celes prefixades
     private int random__segunDif(Configuracio  conf){
         switch(conf.getDificultat()){
             case "Dificil":
@@ -209,6 +215,8 @@ public class Tauler implements Serializable {
                 return (int) ((Math.random() * 5) + 3);
         }
     }
+
+    //funcio auxiliar que donats 4 enters que representen les cantonades de la part rellevant d'un tauler retalla les parts que no aporten informacio
     private Celda[][] retallaTauler(int iMin, int iMax, int jMin, int jMax) {
         Celda[][] taulerRetallat = new Celda[iMax - iMin + 1][jMax - jMin + 1];
         for (int i = 0; i < (iMax - iMin + 1); ++i) {
@@ -234,6 +242,7 @@ public class Tauler implements Serializable {
         return taulerRetallat;
     }
 
+    //funcio que marca com a invalides les celes corresponents d'un Tauler
     private void genera_invalides() {
         Celda[][] tauler = this.tauler;
         for (int i = 0; i < tauler.length; i++) {
@@ -262,6 +271,7 @@ public class Tauler implements Serializable {
         }
     }
 
+    //funcio auxiliar que donats una estructura amb probabilitats i un enter calcula la seguent posicio on introduirem en un tauler
     private int calcular_seguent(double[] prob, int length) throws Exception {
         boolean valido = false;
         int seguent = length - 1;
@@ -282,6 +292,8 @@ public class Tauler implements Serializable {
         return seguent;
     }
 
+    //funcio auxiliar que donats els moviments que ha seguit fins ara la generacio d'un hidato, la probailitat de moviment actual i dos enters que representen els valors límit
+    //recalcula les probabilitats de moviment
     private void recalcular_probs(int[] movimientos, double[] probabilidades, int min, int max) {
         int size = movimientos.length;
         //System.out.println("min: " + min + " max: " + max);
@@ -301,6 +313,7 @@ public class Tauler implements Serializable {
         }
     }
 
+    //funcio que genera un tauler amb totes les celes amb la configuracio corresponent pero sense cap valor
     private void ini_tauler_vacio(int last, Celda[][] tauler_gen, Configuracio c) {
         for (int i = 0; i < last; i++) {
             for (int j = 0; j < last; j++) {
@@ -310,6 +323,7 @@ public class Tauler implements Serializable {
 
     }
 
+    //funcio auxiliar que donada una configuracio retornara la mida del cami del nostre Hidato
     private int GetLast(Configuracio conf) {  //Función para generar un tablero
         String typedif = conf.getDificultat();
         char c = conf.getcell();
@@ -335,7 +349,8 @@ public class Tauler implements Serializable {
         }
     }
 
-    private void carregaveins(char tcela, String adj) { //genera enllaços entre veins segons configuracio
+    //funcio que genera enllaços entre veins segons la configuracio (tipus de cela i tipus d'adjacencia)
+    private void carregaveins(char tcela, String adj) {
         int nvecinos = this.tauler[0][0].getnVecinos(); //TODO petará, si .txt esta vacio?
         for (int i = 0; i < this.n; i++) {
             for (int j = 0; j < this.k; j++) {
@@ -352,10 +367,12 @@ public class Tauler implements Serializable {
         }
     }
 
+    //funcio que retorna un tauler
     public Celda[][] getTauler() {
         return tauler.clone();
     }
 
+    //funcio que donada una cela i el seu tipus d'adjacencia dona la posicio de les seves celes adjacents seguint estructura de matriu
     private int[][] getpossveins(char tcela, String adj, int j, int i) {
         int aux[][];
         boolean c = true;
@@ -384,6 +401,7 @@ public class Tauler implements Serializable {
         return aux;
     }
 
+    //funcio per a saber l'orientacio que tindran els triangles d'un Tauler
     private boolean orientacio(int i, int j, char type) {
         int contador = 0;
         for (Celda c : this.tauler[0]) {
@@ -406,25 +424,30 @@ public class Tauler implements Serializable {
         }
     }
 
+    //funcio per a saber si una posicio del tauler es valida
     private boolean esvalida(int i, int j) {
         return n > i && k > j && i >= 0 && j >= 0;
     }
 
+    //funcio que retorna el llistat de nombres prefixats d'un tauler
     public SortedSet<Integer> getPrefixats() {
         return this.prefixats;
     }
 
+    //funcio que retorna el nombre de nombres prefixats d'un tauler
     public int getNPrefixats() {
         return this.prefixats.size();
     }
 
-
+    //funcio que retorna si un nombre n ha estat usat en un tauler
     public boolean getUsat(int n){
         return this.usats[n];
     }
 
+    //funcio que retorna el llistat de nombres usats
     public boolean[] getUsats() { return this.usats; }
 
+    //funcio que indica que un nombre n ha estat usat
     public void addUsat(int n) throws Utils.ExceptionJugadaNoValida {
         if(n >= this.prefixats.last() || n < 1 || this.usats[n]){
             throw new Utils.ExceptionJugadaNoValida();
@@ -433,6 +456,8 @@ public class Tauler implements Serializable {
             this.usats[n] = true;
         }
     }
+
+    //funcio que indica que un nombre n que estaba usat deixa de estar-ho
     public void delUsat(int n) throws Utils.ExceptionJugadaNoValida {
         if(n >= this.prefixats.last() || n < 1){
             throw new Utils.ExceptionJugadaNoValida();
@@ -441,13 +466,17 @@ public class Tauler implements Serializable {
         }
     }
 
+    //funcio que retorna el nombre de files d'un tauler
     public int getN() {
         return this.n;
     }
 
+    //funcio que retorna el nombre de columnes d'un tauler
     public int getK() {
         return this.k;
     }
+
+    //funcio que permet copiar una cela
     private Celda[][] clone_array(Celda[][] c){
         Celda[][] aux = new Celda[c.length][c[0].length];
         for(int i = 0; i < c.length; i++){
@@ -459,6 +488,7 @@ public class Tauler implements Serializable {
         return aux;
     }
 
+    //funcio que permet obtenir una cela d'un Tauler
     public Celda getCelda(int i, int j) throws Utils.ExceptionPosicioNoValida {
         if((i >= 0 && i < this.n) && (j >= 0 && j < this.k)){
             return this.tauler[i][j];
@@ -467,6 +497,7 @@ public class Tauler implements Serializable {
         }
     }
 
+    //funcio que comprova si un tauler es valid
     public boolean validador_tauler(){
         AbstractMap.SimpleEntry<Integer,Integer> p;
         Celda c = null;
@@ -498,6 +529,7 @@ public class Tauler implements Serializable {
         return false;
     }
 
+    //funcio que donat un enter permet trobar en quina posicio d'un tauler es troba la cela amb aquell valor.
     public AbstractMap.SimpleEntry<Integer, Integer> buscarCeldaPerValor(int valor) throws Utils.ExceptionCeldaNotFound {
         for(int i = 0; i < tauler.length; ++i){
             for(int j = 0; j < tauler[i].length; ++j){

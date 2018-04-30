@@ -15,12 +15,12 @@ import java.util.Comparator;
  * @author marc.catrisse
  */
 public class Ranking implements Serializable{
-    private int sizemax;
+    private int sizemax; //mida maxima d'un ranking
     private ArrayList<Record> records; //lista que conté els 10 millors
-    private Record peorRecord;
-    private Configuracio conf;
+    private Record peorRecord; //guarda el pitjor record d'un ranking
+    private Configuracio conf; //guarda la configuracio associada al ranking
 
-    //Creadora. Genera un ranking the fins a 10 jugadors, donada una configuració. Hi ha un ranking diferent per configuració que s'hagi jugat
+    //Creadora. Genera un ranking de fins a 10 jugadors, donada una configuració. Hi ha un ranking diferent per configuració que s'hagi jugat
     public Ranking(Configuracio conf){
         this.sizemax = 10;
         this.records = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Ranking implements Serializable{
         return records;
     }
 
-    //Quan es completa un tauler es guarda el record del jugador.
+    //Quan es completa un tauler es guarda el record del jugador. Y en cas de ser necessari s'actualitza el ranking
     public boolean addRecord(Record r){
         if(records.size() < sizemax){
             this.records.add(r);
@@ -76,7 +76,7 @@ public class Ranking implements Serializable{
             else return -1;
         }
     }
-    //retorna l'ArrayList de records del ranking
+    //retorna la llista de records del ranking
     public ArrayList<Record> getRecords(){
         return this.records;
     }
