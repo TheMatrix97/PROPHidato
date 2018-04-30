@@ -201,7 +201,6 @@ public class Tauler implements Serializable {
         }
     }
 
-
     //funcio auxiliar que donada una configuracio de forma semialeatoria generara nombres per a definir les celes prefixades
     private int random__segunDif(Configuracio  conf){
         switch(conf.getDificultat()){

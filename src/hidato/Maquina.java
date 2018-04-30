@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  *
- * @author marc.catrisse & lluis.marques & antonio.guilera & marc.blanca
+ * @author marc.catrisse & lluis.marques
  */
 //Class abstract que implementa l'algorisme de resolució
 public abstract class Maquina implements Serializable{

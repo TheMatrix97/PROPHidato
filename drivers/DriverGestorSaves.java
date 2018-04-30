@@ -10,6 +10,23 @@ public class DriverGestorSaves {
     private static ArrayList<Ranking> r;
     private static GestorSaves g;
 
+        /*
+        *
+        "Driver del Gestor de dades guardades: "
+        "Selecciona l'opcio:"
+        "1.Crear instancia Partida"
+        "2.Crear instancia de conjunt de rankings (ArrayList)(amb 1 ranking amb dades de la BD)"
+        "3.Imprimir ranking de test"
+        "4.Guarda conjunt de rankings a bd"
+        "5.Carrega conjunt de rankings de bd"
+        6.Neteja instancia de conjunt de rankings"
+        "7.Neteja save conjunt de rankings"
+        "8.Guarda partida"
+        "9.Carrega partida"
+        "10.Exit"
+        *
+        *
+        * */
     public static void main(String[] args) throws IOException {
         GestorSaves g = new GestorSaves();
         int opt = 0;
@@ -114,6 +131,7 @@ public class DriverGestorSaves {
         }
 
     }
+
     private static void printa_menu(){
         System.out.println("Driver del Gestor de dades guardades: ");
         System.out.println("Selecciona l'opcio:");
