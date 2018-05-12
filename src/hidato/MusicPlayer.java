@@ -6,15 +6,15 @@ import java.io.*;
 
 
 public class MusicPlayer extends Thread {
-
     private Clip clip;
     private AudioInputStream p;
-    private boolean play;
     private String namemusic;
+    private boolean loop;
 
-    MusicPlayer(String name){
+    MusicPlayer(String name, boolean loop){
         super("MusicPlayer");
         this.namemusic = name;
+        this.loop = loop;
     }
 
     public void run() {
@@ -31,12 +31,12 @@ public class MusicPlayer extends Thread {
 
 
     public void startPlayback() {
-        this.play = true;
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
+        if(loop) {
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        }else clip.start();
     }
 
     public void stopPlayback() {
-        this.play = false;
         clip.stop();
     }
 }

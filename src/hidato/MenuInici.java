@@ -23,7 +23,7 @@ public class MenuInici {
 
     public MenuInici() {
         music = true;
-        player = new MusicPlayer("narutoInicio.wav");
+        player = new MusicPlayer("narutoInicio.wav", true);
         player.start();
         Color background = new Color(255,255,255);
         MenuInici.setBackground(background);
