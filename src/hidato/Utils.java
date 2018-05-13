@@ -53,4 +53,21 @@ public class Utils {
     static class ExceptionCeldaNotFound extends Exception {
         ExceptionCeldaNotFound() { super();}
     }
+
+    //TODO JUST FOR DEBUG ELIMINAR .--->
+    public static void printa_tauler(Celda[][] aux){
+        boolean first;
+        for(Celda[] c : aux){
+            first = true;
+            for(Celda celda : c){
+                if(!first) System.out.print(",");
+                else first = false;
+                if(celda.isFrontera())System.out.print("#");
+                else if(!celda.isValida()) System.out.print("*");
+                else if(celda.isVacia() && celda.isValida()) System.out.print("?");
+                else System.out.print(celda.getValor());
+            }
+            System.out.print("\n");
+        }
+    }
 }

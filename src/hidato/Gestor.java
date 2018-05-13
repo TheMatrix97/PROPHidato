@@ -41,6 +41,12 @@ public class Gestor implements Serializable{
             //TODO avisar que la partida no es valida
         }
     }
+
+    public void crearPartidaConf(char tcela, String adj, String dificultat, String nomjug){ //funció que crida la capa de presentació amb les opcions seleccionades
+        crearPartidaBuida(nomjug);
+        Configuracio conf =  new Configuracio(dificultat, adj,tcela);
+        this.game.generar_partida_random(conf);
+    }
     //funció que utilitza un usuari per fer una jugada d'inserció
     public void ferJugada(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
         if(game != null) {
