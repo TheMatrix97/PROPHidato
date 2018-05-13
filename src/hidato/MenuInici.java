@@ -18,16 +18,19 @@ public class MenuInici {
     private JLabel imageIni;
     private JButton musicButton;
     private JPanel southpanel;
+    private JButton sRankingButton;
+
 
     //Partida nova
     private PartidaNova partidaNova;
-
+    private SelectRanking selectRanking;
     private boolean music;
     private MusicPlayer player;
 
 
     public MenuInici() {
         partidaNova = new PartidaNova();
+        selectRanking = new SelectRanking();
         music = true;
         player = new MusicPlayer("narutoInicio.wav", true);
         player.start();
@@ -58,6 +61,12 @@ public class MenuInici {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CtrlPresentacio.getSingletonInstance().setContentFrame(partidaNova.getPanel());
+            }
+        });
+        sRankingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getSingletonInstance().setContentFrame(selectRanking.getPanel());
             }
         });
     }
