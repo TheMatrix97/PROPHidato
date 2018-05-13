@@ -19,6 +19,18 @@ public class PartidaNova {
                 CtrlPresentacio.getSingletonInstance().iniMenu();
             }
         });
+        carregarDeLaBaseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getSingletonInstance().setContentFrame(new SeleccionarBD().getPanel());
+            }
+        });
+        generarTaulerAleatoriButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getSingletonInstance().setContentFrame(new GenerarTauler().getPanel());
+            }
+        });
     }
 
     public JPanel getPanel(){
