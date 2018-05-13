@@ -12,6 +12,7 @@ public class CtrlPresentacio {
 
     //constructora singleton
     private CtrlPresentacio() {
+        menuInici = new MenuInici();
         g = Gestor.getSingletonInstance();
         frame = new JFrame("MenuInici");
     }
@@ -24,13 +25,16 @@ public class CtrlPresentacio {
     }
 
     public void iniMenu(){
-        frame.setContentPane(new MenuInici().getMenuIni());
+        frame.setContentPane(menuInici.getMenuIni());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
     public void setContentFrame(JPanel j){
-        this.frame.setContentPane(j);
+        frame.setContentPane(j);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+
     }
 }

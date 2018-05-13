@@ -19,19 +19,15 @@ public class MenuInici {
     private JButton musicButton;
     private JPanel southpanel;
 
-    //PARTIDA NOVA
-    private JPanel partidaNova;
-    private JPanel carregar_Generar;
-    private JPanel tornar;
-    private JButton tornarButton;
-    private JButton generarButton;
-    private JButton carregarButton;
+    //Partida nova
+    private PartidaNova partidaNova;
 
     private boolean music;
     private MusicPlayer player;
 
 
     public MenuInici() {
+        partidaNova = new PartidaNova();
         music = true;
         player = new MusicPlayer("narutoInicio.wav", true);
         player.start();
@@ -61,7 +57,7 @@ public class MenuInici {
         novaPartidaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.getSingletonInstance().setContentFrame(partidaNova);
+                CtrlPresentacio.getSingletonInstance().setContentFrame(partidaNova.getPanel());
             }
         });
     }
