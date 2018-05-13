@@ -6,12 +6,14 @@ import javax.swing.*;
 public class CtrlPresentacio {
     private Gestor g;
     private MenuInici menuInici;
+    private JFrame frame;
 
     private static CtrlPresentacio presentacio;
 
     //constructora singleton
     private CtrlPresentacio() {
         g = Gestor.getSingletonInstance();
+        frame = new JFrame("MenuInici");
     }
 
     public static CtrlPresentacio getSingletonInstance() {
@@ -22,10 +24,13 @@ public class CtrlPresentacio {
     }
 
     public void iniMenu(){
-        JFrame frame = new JFrame("MenuInici");
         frame.setContentPane(new MenuInici().getMenuIni());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void setContentFrame(JPanel j){
+        this.frame.setContentPane(j);
     }
 }

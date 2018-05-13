@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 public class MenuInici {
+    //MENU INICI
     private JButton novaPartidaButton;
     private JButton carregarPartidaButton;
     private JButton sortirButton;
@@ -17,6 +18,15 @@ public class MenuInici {
     private JLabel imageIni;
     private JButton musicButton;
     private JPanel southpanel;
+
+    //PARTIDA NOVA
+    private JPanel partidaNova;
+    private JPanel carregar_Generar;
+    private JPanel tornar;
+    private JButton tornarButton;
+    private JButton generarButton;
+    private JButton carregarButton;
+
     private boolean music;
     private MusicPlayer player;
 
@@ -46,6 +56,12 @@ public class MenuInici {
                     player.startPlayback();
                     musicButton.setText("Music OFF");
                 }
+            }
+        });
+        novaPartidaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getSingletonInstance().setContentFrame(partidaNova);
             }
         });
     }
