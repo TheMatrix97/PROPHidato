@@ -36,6 +36,12 @@ public class Utils {
             super();
         }
     }
+    public static class ExceptionNomNoValid extends Exception{
+        ExceptionNomNoValid(){
+            super();
+        }
+    }
+
     public static AbstractMap.SimpleEntry<Integer, Integer> BuscarN(Celda[][] c, int n) throws Exception {
         for(int i = 0; i < c.length; ++i){
             for(int j = 0; j < c[i].length; ++j){

@@ -108,4 +108,13 @@ public class GestorSaves {
             throw new ClassNotFoundException("Class incorrecta");
         }
     }
+
+    public boolean saveExiste(){
+        try{
+            existe_obj("partida");
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
 }

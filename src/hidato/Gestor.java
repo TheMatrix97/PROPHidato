@@ -14,9 +14,11 @@ public class Gestor implements Serializable{
     private ArrayList<Ranking> rankings;
     private Partida game;
     private static Gestor Gest;
+    private GestorSaves gs;
 
     //constructora singleton
     private Gestor() {
+        this.gs = new GestorSaves();
         this.rankings = new ArrayList<>();
     }
 
@@ -106,6 +108,9 @@ public class Gestor implements Serializable{
         return this.rankings;
     }
 
+    public boolean partidaGuardada(){ //si hi ha una partida guardada retorna true sino false
+        return gs.saveExiste();
+    }
 
 
     //La clase Gestor es de tipo Singleton, es decir q hay solo una instancia de gestor

@@ -13,6 +13,7 @@ public class GenerarTauler {
     private JButton OKButton;
     private JPanel insertarConf;
     private JPanel southPanel;
+    private JTextField textField1;
 
     public GenerarTauler() {
         tornarButton.addActionListener(new ActionListener() {
@@ -25,20 +26,36 @@ public class GenerarTauler {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Gestor g = Gestor.getSingletonInstance();
-                String nametemporal = "Marc";
-                g.crearPartidaConf(getOpcio("tcela").charAt(0),getOpcio("adj"),getOpcio("dif"),nametemporal);
+                String name;
+                try{
+                    name = getName();
+                }catch(Utils.ExceptionNomNoValid ex){
+                    return;
+                }
+                g.crearPartidaConf(getOpcio("tcela").charAt(0),getOpcio("adj"),getOpcio("dif"),name);
                 //TODO System.out 4 debug ELIMINAR!!!
                 Partida p = g.getPartida();
                 System.out.println("Nom user: " + p.getJugador().getNom());
+                System.out.println("Tipus cela: " + p.getConf().getcell());
                 System.out.println("Adj: " + p.getConf().getAdjacencia());
-                System.out.println("Tipus cela: " + p.getConf().getAdjacencia());
                 System.out.println("Dificultat: " + p.getConf().getDificultat());
                 System.out.println("Tauler: ");
                 Utils.printa_tauler(p.getTauler().getTauler());
             }
         });
     }
+    private String getName() throws Utils.ExceptionNomNoValid {
+        String aux = textField1.getText();
+        aux = aux.replace(" ","");
+        if(!aux.isEmpty()){
+            return aux;
+        }else{
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Inserta un nom de jugador!");
+            throw new Utils.ExceptionNomNoValid();
+        }
 
+    }
     public JPanel getPanel(){
         return generarT;
     }

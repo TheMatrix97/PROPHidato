@@ -1,6 +1,7 @@
 package hidato;
 
 import javax.swing.*;
+import java.awt.*;
 
 //sigleton com el domini
 public class CtrlPresentacio {
@@ -23,7 +24,7 @@ public class CtrlPresentacio {
         }
         return presentacio;
     }
-
+    //TODO revisar resolucion fija / mínima
     public void iniMenu(){
         frame.setContentPane(menuInici.getMenuIni());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
