@@ -2,12 +2,23 @@ package hidato;
 
 import javax.swing.*;
 
+//sigleton com el domini
 public class CtrlPresentacio {
     private Gestor g;
     private MenuInici menuInici;
 
-    public CtrlPresentacio(){
+    private static CtrlPresentacio presentacio;
+
+    //constructora singleton
+    private CtrlPresentacio() {
         g = Gestor.getSingletonInstance();
+    }
+
+    public static CtrlPresentacio getSingletonInstance() {
+        if (presentacio == null){
+            presentacio = new CtrlPresentacio();
+        }
+        return presentacio;
     }
 
     public void iniMenu(){
