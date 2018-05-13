@@ -17,6 +17,7 @@ public class MusicPlayer extends Thread {
         this.loop = loop;
     }
 
+    @Override
     public void run() {
         String soundName = "res/music/" + this.namemusic;
         try {
