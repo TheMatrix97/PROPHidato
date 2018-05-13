@@ -50,19 +50,15 @@ public class MenuInici {
         });
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("MenuInici");
-        frame.setContentPane(new MenuInici().MenuInici);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
 
     private void createUIComponents() {
         String path = new File("").getAbsolutePath();
         // TODO: place custom component creation code here
         imageIni = new JLabel(new ImageIcon(path+"/res/hidato1.png"));
 
+    }
+    public JPanel getMenuIni(){
+        return MenuInici;
     }
 
 }
