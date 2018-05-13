@@ -54,7 +54,6 @@ public class GenerarTauler {
                     "Inserta un nom de jugador!");
             throw new Utils.ExceptionNomNoValid();
         }
-
     }
     public JPanel getPanel(){
         return generarT;

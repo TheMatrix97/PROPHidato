@@ -13,6 +13,7 @@ public class SeleccionarBD {
     private JComboBox comboBox1;
     private JPanel northPanel;
     private JProgressBar progressBar1;
+    private JTextField textField1;
     private Thread threadsolver;
 
     public SeleccionarBD() {
@@ -43,7 +44,12 @@ public class SeleccionarBD {
                     threadsolver = null;
                 }
                 String nom = (String) comboBox1.getSelectedItem();
-                String naux = "marc";
+                String naux;
+                try{
+                    naux = getName();
+                }catch(Utils.ExceptionNomNoValid ex){
+                    return;
+                }
                 //TODO arreglar threads!!!
                 threadsolver = new Thread(new Runnable() {
                     @Override
@@ -77,6 +83,14 @@ public class SeleccionarBD {
                 threadsolver.start();
             }
         });
+    }
+
+    private String getName() throws Utils.ExceptionNomNoValid {
+        String aux = textField1.getText();
+        aux = aux.replace(" ", "");
+        if(!aux.isEmpty()) return aux;
+        JOptionPane.showMessageDialog(new JFrame(),"Inserta un nom de jugador!");
+        throw new Utils.ExceptionNomNoValid();
     }
 
     public JPanel getPanel(){
