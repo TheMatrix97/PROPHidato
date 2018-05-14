@@ -26,11 +26,11 @@ public class SelectRanking {
             public void actionPerformed(ActionEvent e) {
                 Vranking vrank = new Vranking();
                 String value = comboBox1.getSelectedItem().toString();
-                vrank.textField1.setText(value);
+                vrank.label1.setText(value);
                 String value2 = comboBox2.getSelectedItem().toString();
-                vrank.textField2.setText(value2);
+                vrank.label2.setText(value2);
                 String value3 = comboBox3.getSelectedItem().toString();
-                vrank.textField3.setText(value3);
+                vrank.label3.setText(value3);
                 CtrlPresentacio.getSingletonInstance().setContentFrame(vrank.getPanel());
             }
         });

@@ -10,16 +10,12 @@ import java.io.IOException;
 
 public class Vranking {
     public JPanel panel1;
-    public JTextField textField1;
-    public JTextField textField2;
-    public JTextField textField3;
-    private JTextField formaTextField;
-    private JTextField adjacenciaTextField;
-    private JTextField dificultatTextField;
     private JPanel southPanel;
     private JButton tornarButton;
     private JButton OKButton;
-
+    public JLabel label1;
+    public JLabel label2;
+    public JLabel label3;
 
 
     public Vranking(){
