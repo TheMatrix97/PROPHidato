@@ -53,9 +53,9 @@
             </constraints>
             <properties>
               <model>
-                <item value="Fàcil"/>
+                <item value="Facil"/>
                 <item value="Normal"/>
-                <item value="Difícil"/>
+                <item value="Dificil"/>
               </model>
             </properties>
           </component>
