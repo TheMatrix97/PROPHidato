@@ -25,11 +25,11 @@ public class SelectRanking {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Vranking vrank = new Vranking();
-                String value = comboBox1.getSelectedItem().toString();
+                String value = (String)comboBox1.getSelectedItem();
                 vrank.label1.setText(value);
-                String value2 = comboBox2.getSelectedItem().toString();
+                String value2 = (String)comboBox2.getSelectedItem();
                 vrank.label2.setText(value2);
-                String value3 = comboBox3.getSelectedItem().toString();
+                String value3 = (String)comboBox3.getSelectedItem();
                 vrank.label3.setText(value3);
                 CtrlPresentacio.getSingletonInstance().setContentFrame(vrank.getPanel());
             }
