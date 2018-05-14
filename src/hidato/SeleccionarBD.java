@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 public class SeleccionarBD {
     private JButton tornarButton;
     private JButton OKButton;
@@ -27,7 +29,6 @@ public class SeleccionarBD {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(threadsolver != null && !threadsolver.isInterrupted()){
-                    System.out.println("Interrupted!");
                     threadsolver.interrupt();
                     threadsolver = null;
                 }
@@ -37,12 +38,6 @@ public class SeleccionarBD {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                progressBar1.setVisible(true);
-                if(threadsolver != null && !threadsolver.isInterrupted()){
-                    threadsolver.interrupt();
-                    System.out.println("Interrupted!");
-                    threadsolver = null;
-                }
                 String nom = (String) comboBox1.getSelectedItem();
                 String naux;
                 try{
@@ -50,27 +45,33 @@ public class SeleccionarBD {
                 }catch(Utils.ExceptionNomNoValid ex){
                     return;
                 }
-                //TODO arreglar threads!!!
+                //TODO encpasular Thread en una clase nova per evitar repetir codi aqui i a generarTauler
                 threadsolver = new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar1.setVisible(true);
+                        OKButton.setEnabled(false);
+                        comboBox1.setEnabled(false);
                         try {
                             Gestor.getSingletonInstance().crearPartidaBD(nom, naux);
                         }
                         catch (Exception e1) {
-                            if(e1 instanceof InterruptedException){
-                                System.err.println("Me han matado");
-                                Thread.currentThread().interrupt();
-                                return;
+                            if(!Thread.currentThread().isInterrupted()) {
+                                JOptionPane.showMessageDialog(new JFrame(),
+                                        "Aquest hidato no te solució!, selecciona un altre",
+                                        "Error",
+                                        JOptionPane.ERROR_MESSAGE);
                             }
-                            JOptionPane.showMessageDialog(new JFrame(),
-                                    "Aquest hidato no te solució!, selecciona un altre",
-                                    "Error",
-                                    JOptionPane.ERROR_MESSAGE);
+
                             progressBar1.setVisible(false);
+                            OKButton.setEnabled(true);
+                            comboBox1.setEnabled(true);
                             return;
                         }
                         progressBar1.setVisible(false);
+                        OKButton.setEnabled(true);
+                        comboBox1.setEnabled(true);
+                        //AQUI ES CRIDA AL FRAME DE PARTIDA
                         Partida p = Gestor.getSingletonInstance().getPartida();
                         System.out.println("Nom user: " + p.getJugador().getNom());
                         System.out.println("Tipus cela: " + p.getConf().getcell());

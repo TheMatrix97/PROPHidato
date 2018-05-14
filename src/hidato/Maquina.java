@@ -65,7 +65,7 @@ public abstract class Maquina implements Serializable{
             return; //hay que deshacer ultimo movimiento
         }
         for(Vector<Celda> cami : camins){
-            if(time.checkTime(System.currentTimeMillis())){ //timeout
+            if(time.checkTime(System.currentTimeMillis()) ||Thread.currentThread().isInterrupted()){ //timeout per temps o interrupció
                 throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
             }
             int cont = ini;
@@ -113,7 +113,7 @@ public abstract class Maquina implements Serializable{
         v.add(t[p.getKey()][p.getValue()]);
         s.push(v);
         while(!s.empty()){
-            if(time.checkTime(System.currentTimeMillis())) throw new Exception(); //timeout
+            if(time.checkTime(System.currentTimeMillis()) || Thread.currentThread().isInterrupted()) throw new Exception(); //timeout per temps o interrupció
             Vector<Celda> auxv = s.pop();
             Celda node = auxv.lastElement();
             ArrayList<Celda> veins = node.getVecinos();

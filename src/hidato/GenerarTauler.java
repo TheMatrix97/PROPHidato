@@ -14,8 +14,11 @@ public class GenerarTauler {
     private JPanel insertarConf;
     private JPanel southPanel;
     private JTextField textField1;
+    private JProgressBar progressBar1;
+    private Thread threadSolver;
 
     public GenerarTauler() {
+        threadSolver = null;
         tornarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -25,22 +28,33 @@ public class GenerarTauler {
         OKButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Gestor g = Gestor.getSingletonInstance();
                 String name;
                 try{
                     name = getName();
                 }catch(Utils.ExceptionNomNoValid ex){
                     return;
                 }
-                g.crearPartidaConf(getOpcio("tcela").charAt(0),getOpcio("adj"),getOpcio("dif"),name);
-                //TODO System.out 4 debug ELIMINAR!!!
-                Partida p = g.getPartida();
-                System.out.println("Nom user: " + p.getJugador().getNom());
-                System.out.println("Tipus cela: " + p.getConf().getcell());
-                System.out.println("Adj: " + p.getConf().getAdjacencia());
-                System.out.println("Dificultat: " + p.getConf().getDificultat());
-                System.out.println("Tauler: ");
-                Utils.printa_tauler(p.getTauler().getTauler());
+                OKButton.setEnabled(false);
+                threadSolver = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar1.setVisible(true);
+                        Gestor g = Gestor.getSingletonInstance();
+                        g.crearPartidaConf(getOpcio("tcela").charAt(0),getOpcio("adj"),getOpcio("dif"),name);
+                        //TODO System.out 4 debug ELIMINAR!!!
+                        Partida p = g.getPartida();
+                        System.out.println("Nom user: " + p.getJugador().getNom());
+                        System.out.println("Tipus cela: " + p.getConf().getcell());
+                        System.out.println("Adj: " + p.getConf().getAdjacencia());
+                        System.out.println("Dificultat: " + p.getConf().getDificultat());
+                        System.out.println("Tauler: ");
+                        Utils.printa_tauler(p.getTauler().getTauler());
+                        progressBar1.setVisible(false);
+                        OKButton.setEnabled(true);
+                    }
+                });
+                threadSolver.start();
+
             }
         });
     }
