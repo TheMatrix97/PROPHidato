@@ -60,7 +60,7 @@ public class Partida implements Serializable{
         Celda c;
         try {
             c = encurs.getCelda(i,j);
-            if(c.isValida() && c.isVacia()) encurs.addUsat(num);
+            if(c.isValida() && (c.isVacia() || !c.isPrefijada())) encurs.addUsat(num);
         } catch (Utils.ExceptionPosicioNoValida e) {
             throw new Utils.ExceptionJugadaNoValida();
         }

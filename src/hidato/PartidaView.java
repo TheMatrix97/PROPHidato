@@ -23,7 +23,9 @@ public class PartidaView {
     private JLabel timeLabel;
     private JLabel nomJLabel;
     private JPanel gamePanel;
+    private JTextField valorJugada;
     private JFrame framePartida;
+    private JButton[][] fieldG;
 
     public void main(String[] args) {
         framePartida = new JFrame("PartidaView");
@@ -36,6 +38,12 @@ public class PartidaView {
     public PartidaView() {
         setValues();
         createQGrid(); //Grid pels Quadrats!!!!!
+
+        for(int i = 0; i < fieldG.length; ++i){
+            for(int j = 0; j < fieldG[0].length; ++j){
+                fieldG[i][j].addActionListener(new MyListener(i, j));
+            }
+        }
     }
 
     public void createQGrid(){
@@ -43,7 +51,7 @@ public class PartidaView {
         int j = Gestor.getSingletonInstance().getPartida().getTauler().getK();
         gamePanel.setLayout(new GridLayout(i, j));
         gamePanel.setBackground(Color.gray);
-        JButton[][] fieldG = new JButton[i][j];
+        fieldG = new JButton[i][j];
         Celda[][] c = Gestor.getSingletonInstance().getPartida().getTauler().getTauler();
         for(int x = 0; x < i; ++x){
                 for(int y = 0; y < j; ++y) {
@@ -77,5 +85,35 @@ public class PartidaView {
 
     public JPanel getPanel(){
         return bigPanel;
+    }
+
+    private class MyListener implements ActionListener {
+        private int i, j;
+        public MyListener(int i, int j){
+            this.i = i;
+            this.j = j;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e){
+            boolean del = false;
+            if(valorJugada.getText().equals("")) del = true;
+            try {
+                System.out.println("del: " + del);
+                if(!del){
+                    int valorIns = Integer.parseInt(valorJugada.getText());
+                    Gestor.getSingletonInstance().getPartida().fesJugadaIns(this.i,this.j, valorIns);
+                }
+                else Gestor.getSingletonInstance().getPartida().fesJugadaDel(this.i,this.j);
+                fieldG[this.i][this.j].setText(valorJugada.getText());
+            } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
+                exceptionJugadaNoValida.printStackTrace();
+            } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
+                fieldG[this.i][this.j].setText(valorJugada.getText());
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "GOOD GAME!");
+                exceptionTaulerResolt.printStackTrace();
+            }
+        }
     }
 }
