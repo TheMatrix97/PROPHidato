@@ -27,6 +27,8 @@ public class PartidaView {
     private JTextField valorJugada;
     private JFrame framePartida;
     private JButton[][] fieldG;
+    private Celda[][] c;
+
 
     public void main(String[] args) {
         framePartida = new JFrame("PartidaView");
@@ -39,10 +41,28 @@ public class PartidaView {
     public PartidaView() {
         setValues();
         createQGrid(); //Grid pels Quadrats!!!!!
-
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[0].length; ++j){
                 fieldG[i][j].addActionListener(new MyListener(i, j));
+            }
+        }
+        HELPButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Gestor.getSingletonInstance().demanarAjuda();
+                    recalcular_Matrix();
+                } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
+                    exceptionTaulerResolt.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void recalcular_Matrix(){
+        for(int i = 0; i < fieldG.length; ++i){
+            for(int j = 0; j < fieldG[0].length; ++j){
+                if(!c[i][j].isVacia()) fieldG[i][j].setText(String.valueOf(c[i][j].getValor()));
             }
         }
     }
@@ -53,7 +73,7 @@ public class PartidaView {
         gamePanel.setLayout(new GridLayout(i, j));
         gamePanel.setBackground(Color.gray);
         fieldG = new JButton[i][j];
-        Celda[][] c = Gestor.getSingletonInstance().getPartida().getTauler().getTauler();
+        c = Gestor.getSingletonInstance().getPartida().getTauler().getTauler();
         for(int x = 0; x < i; ++x){
                 for(int y = 0; y < j; ++y) {
                     fieldG[x][y] =  new JButton();
@@ -114,7 +134,7 @@ public class PartidaView {
             } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
                 fieldG[this.i][this.j].setText(valorJugada.getText());
                 JOptionPane.showMessageDialog(new JFrame(),
-                        "GOOD GAME!");
+                        "GOOD GAME!\n Guardant record...");
                 exceptionTaulerResolt.printStackTrace();
             }
         }
