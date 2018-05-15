@@ -53,6 +53,7 @@ public class PartidaView {
                     Gestor.getSingletonInstance().demanarAjuda();
                     recalcular_Matrix();
                 } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
+                    recalcular_Matrix(); //Necessari per l'ultim valor, a lo chapuza
                     exceptionTaulerResolt.printStackTrace();
                 }
             }
@@ -62,7 +63,9 @@ public class PartidaView {
     public void recalcular_Matrix(){
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[0].length; ++j){
-                if(!c[i][j].isVacia()) fieldG[i][j].setText(String.valueOf(c[i][j].getValor()));
+                if(!c[i][j].isVacia()) {
+                    fieldG[i][j].setText(String.valueOf(c[i][j].getValor()));
+                }
             }
         }
     }
