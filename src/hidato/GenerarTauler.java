@@ -1,6 +1,7 @@
 package hidato;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -52,8 +53,7 @@ public class GenerarTauler {
                         Utils.printa_tauler(p.getTauler().getTauler());
                         progressBar1.setVisible(false);
                         OKButton.setEnabled(true);
-                        PartidaView pv = new PartidaView();
-                        pv.main(null);
+                        Utils.start_partida();
                     }
                 });
                 threadSolver.start();

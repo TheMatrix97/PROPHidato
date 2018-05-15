@@ -28,26 +28,29 @@ public class PartidaView {
     private JFrame framePartida;
     private JButton[][] fieldG;
 
-    public void main(String[] args) {
-        framePartida = new JFrame("PartidaView");
-        framePartida.setContentPane(new PartidaView().bigPanel);
-        framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        framePartida.pack();
-        framePartida.setVisible(true);
-    }
 
-    public PartidaView() {
+    public PartidaView(JFrame frame) {
+        this.framePartida = frame;
         setValues();
         createQGrid(); //Grid pels Quadrats!!!!!
-
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[0].length; ++j){
                 fieldG[i][j].addActionListener(new MyListener(i, j));
             }
         }
+        SAVEButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //todo això no ho hauria de portar la capa de domini?
+                GestorSaves g = new GestorSaves();
+                g.guardar_partida(Gestor.getSingletonInstance().getPartida());
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Partida guardada!");
+            }
+        });
     }
 
-    public void createQGrid(){
+    private void createQGrid(){
         int i = Gestor.getSingletonInstance().getPartida().getTauler().getN();
         int j = Gestor.getSingletonInstance().getPartida().getTauler().getK();
         gamePanel.setLayout(new GridLayout(i, j));
@@ -58,7 +61,7 @@ public class PartidaView {
                 for(int y = 0; y < j; ++y) {
                     fieldG[x][y] =  new JButton();
                     fieldG[x][y].setHorizontalAlignment(CENTER);
-                    fieldG[x][y].setPreferredSize(new Dimension(2,8));
+                    fieldG[x][y].setPreferredSize(new Dimension(4,4));
                     if(!c[x][y].isValida()){
                         if(!c[x][y].isFrontera()) {
                             fieldG[x][y].setBackground(Color.ORANGE); //ES UN '*'
@@ -71,17 +74,20 @@ public class PartidaView {
                         fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                         fieldG[x][y].setBackground(Color.CYAN);
                         fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
+                    }else if(!c[x][y].isVacia()){ //si es una celda de una partida cargada puede tener un numero dentro
+                        fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                     }
                     gamePanel.add(fieldG[x][y]);
                 }
         }
     }
 
-    public void setValues(){
-        difLabel.setText(Gestor.getSingletonInstance().getPartida().getConf().getDificultat());
-        adjLabel.setText(Gestor.getSingletonInstance().getPartida().getConf().getAdjacencia());
-        timeLabel.setText(Gestor.getSingletonInstance().getPartida().getTiempo().get_time());
-        nomJLabel.setText(Gestor.getSingletonInstance().getPartida().getJugador().getNom());
+    private void setValues(){
+        Partida aux = Gestor.getSingletonInstance().getPartida();
+        difLabel.setText(aux.getConf().getDificultat());
+        adjLabel.setText(aux.getConf().getAdjacencia());
+        timeLabel.setText(aux.getTiempo().get_time());
+        nomJLabel.setText(aux.getJugador().getNom());
     }
 
     public JPanel getPanel(){
@@ -90,7 +96,7 @@ public class PartidaView {
 
     private class MyListener implements ActionListener {
         private int i, j;
-        public MyListener(int i, int j){
+        private MyListener(int i, int j){
             this.i = i;
             this.j = j;
         }
@@ -116,6 +122,7 @@ public class PartidaView {
                 JOptionPane.showMessageDialog(new JFrame(),
                         "GOOD GAME!");
                 exceptionTaulerResolt.printStackTrace();
+                end_game();
             }
         }
     }
@@ -126,5 +133,8 @@ public class PartidaView {
             if(!al[i]) return String.valueOf(i);
         }
         return null;
+    }
+    private void end_game(){
+
     }
 }

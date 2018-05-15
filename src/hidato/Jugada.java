@@ -1,9 +1,11 @@
 package hidato;
 
+import java.io.Serializable;
+
 /**
  * author marc.catrisse
  */
-public class Jugada {
+public class Jugada implements Serializable{
     private boolean insertar; //si false la cela s'ha de buidar
     private Celda mod; //celda a modificar amb la jugada
     private int num; //en cas de jugada d'inserció conté el núm a insertar
