@@ -53,6 +53,9 @@ public class PartidaView {
                     Gestor.getSingletonInstance().demanarAjuda();
                     recalcular_Matrix();
                 } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
+                    recalcular_Matrix();
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "GOOD GAME!\n Guardant record...");
                     exceptionTaulerResolt.printStackTrace();
                 }
             }
