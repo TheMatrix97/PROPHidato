@@ -24,7 +24,7 @@ public class MenuInici {
 
 
     public MenuInici() {
-        carregarPartidaButton.setEnabled(Gestor.getSingletonInstance().partidaGuardada());
+        setCarregarPartidaButton();
         partidaNova = new PartidaNova();
         music = true;
         player = new MusicPlayer("narutoInicio.wav", true);
@@ -83,8 +83,11 @@ public class MenuInici {
 
     }
     public JPanel getMenuIni(){
-
         return MenuInici;
+    }
+
+    public void setCarregarPartidaButton(){
+        carregarPartidaButton.setEnabled(Gestor.getSingletonInstance().partidaGuardada());
     }
 
 }

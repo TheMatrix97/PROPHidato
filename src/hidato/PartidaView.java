@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import static javax.swing.SwingConstants.CENTER;
 
@@ -60,11 +62,25 @@ public class PartidaView {
                 }
             }
         });
+        framePartida.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                CtrlPresentacio.getSingletonInstance().iniMenu();
+                super.windowClosed(e);
+            }
+        });
+        MENUButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CtrlPresentacio.getSingletonInstance().iniMenu();
+                framePartida.setVisible(false);
+            }
+        });
     }
     private void recalcular_Matrix(){
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[0].length; ++j){
-                if(!c[i][j].isVacia()) {
+                if(!c[i][j].isVacia() && !c[i][j].isPrefijada() && c[i][j].isValida()) {
                     fieldG[i][j].setText(String.valueOf(c[i][j].getValor()));
                 }
             }

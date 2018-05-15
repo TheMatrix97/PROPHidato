@@ -26,6 +26,7 @@ public class CtrlPresentacio {
     }
     //TODO revisar resolucion fija / mínima
     public void iniMenu(){
+        menuInici.setCarregarPartidaButton();
         frame.setContentPane(menuInici.getMenuIni());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
