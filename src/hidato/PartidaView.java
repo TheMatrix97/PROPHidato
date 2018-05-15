@@ -43,17 +43,17 @@ public class PartidaView {
         int j = Gestor.getSingletonInstance().getPartida().getTauler().getK();
         gamePanel.setLayout(new GridLayout(i, j));
         gamePanel.setBackground(Color.gray);
-        JTextField[][] fieldG = new JTextField[i][j];
+        JButton[][] fieldG = new JButton[i][j];
         Celda[][] c = Gestor.getSingletonInstance().getPartida().getTauler().getTauler();
         for(int x = 0; x < i; ++x){
                 for(int y = 0; y < j; ++y) {
-                    fieldG[x][y] =  new JTextField();
+                    fieldG[x][y] =  new JButton();
                     fieldG[x][y].setHorizontalAlignment(CENTER);
                     fieldG[x][y].setPreferredSize(new Dimension(2,8));
                     if(!c[x][y].isValida()){
                         if(!c[x][y].isFrontera()) {
                             fieldG[x][y].setBackground(Color.ORANGE); //ES UN '*'
-                            fieldG[x][y].setEditable(false); //NO EL PODEM SOBRESCRIURE
+                            fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                         }
                         else fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
                     }
@@ -61,7 +61,7 @@ public class PartidaView {
                         //obtenim el valor per mostrar-lo
                         fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                         fieldG[x][y].setBackground(Color.CYAN);
-                        fieldG[x][y].setEditable(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
+                        fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
                     }
                     gamePanel.add(fieldG[x][y]);
                 }
