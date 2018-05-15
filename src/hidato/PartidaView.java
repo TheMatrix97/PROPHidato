@@ -1,13 +1,10 @@
 package hidato;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
-import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 import static javax.swing.SwingConstants.CENTER;
 
 public class PartidaView {
