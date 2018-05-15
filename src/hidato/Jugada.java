@@ -15,7 +15,7 @@ public class Jugada {
         this.mod = m;
         this.insertar = true;
         this.num = num;
-        if(m.isValida() && m.isVacia()) {
+        if(m.isValida() && (m.isVacia() || !m.isPrefijada())){
             persistir();
         }else{
             throw new Utils.ExceptionJugadaNoValida();

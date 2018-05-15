@@ -5,6 +5,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import static com.sun.deploy.uitoolkit.ToolkitStore.dispose;
 import static javax.swing.SwingConstants.CENTER;
@@ -103,9 +104,11 @@ public class PartidaView {
                 if(!del){
                     int valorIns = Integer.parseInt(valorJugada.getText());
                     Gestor.getSingletonInstance().getPartida().fesJugadaIns(this.i,this.j, valorIns);
+                    ++valorIns;
                 }
                 else Gestor.getSingletonInstance().getPartida().fesJugadaDel(this.i,this.j);
                 fieldG[this.i][this.j].setText(valorJugada.getText());
+                if(!del) valorJugada.setText(nextValue());
             } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
                 exceptionJugadaNoValida.printStackTrace();
             } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
@@ -115,5 +118,13 @@ public class PartidaView {
                 exceptionTaulerResolt.printStackTrace();
             }
         }
+    }
+
+    private String nextValue(){
+        boolean[] al = Gestor.getSingletonInstance().getPartida().getTauler().getUsats();
+        for(int i = 1; i < al.length; ++i){
+            if(!al[i]) return String.valueOf(i);
+        }
+        return null;
     }
 }
