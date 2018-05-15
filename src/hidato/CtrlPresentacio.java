@@ -36,6 +36,5 @@ public class CtrlPresentacio {
         frame.setContentPane(j);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
     }
 }

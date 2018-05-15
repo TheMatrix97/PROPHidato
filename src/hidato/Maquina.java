@@ -65,7 +65,7 @@ public abstract class Maquina implements Serializable{
             return; //hay que deshacer ultimo movimiento
         }
         for(Vector<Celda> cami : camins){
-            if(time.checkTime(System.currentTimeMillis()) ||Thread.currentThread().isInterrupted()){ //timeout per temps o interrupció
+            if(time.checkTime(System.currentTimeMillis()) || Thread.currentThread().isInterrupted()){ //timeout per temps o interrupció
                 throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
             }
             int cont = ini;

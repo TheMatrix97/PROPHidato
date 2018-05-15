@@ -16,6 +16,7 @@ public class GenerarTauler {
     private JTextField textField1;
     private JProgressBar progressBar1;
     private Thread threadSolver;
+    public Partida p;
 
     public GenerarTauler() {
         threadSolver = null;
@@ -42,7 +43,7 @@ public class GenerarTauler {
                         Gestor g = Gestor.getSingletonInstance();
                         g.crearPartidaConf(getOpcio("tcela").charAt(0),getOpcio("adj"),getOpcio("dif"),name);
                         //TODO System.out 4 debug ELIMINAR!!!
-                        Partida p = g.getPartida();
+                        p = g.getPartida();
                         System.out.println("Nom user: " + p.getJugador().getNom());
                         System.out.println("Tipus cela: " + p.getConf().getcell());
                         System.out.println("Adj: " + p.getConf().getAdjacencia());
@@ -54,7 +55,6 @@ public class GenerarTauler {
                     }
                 });
                 threadSolver.start();
-
             }
         });
     }
@@ -106,4 +106,5 @@ public class GenerarTauler {
                 }
         }
     }
+
 }

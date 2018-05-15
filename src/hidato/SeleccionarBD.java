@@ -1,6 +1,7 @@
 package hidato;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class SeleccionarBD {
             public void actionPerformed(ActionEvent e) {
                 String nom = (String) comboBox1.getSelectedItem();
                 String naux;
+                final String[] nomJ = new String[1];
+                final String[] adj = new String[1];
+                final String[] dif = new String[1];
                 try{
                     naux = getName();
                 }catch(Utils.ExceptionNomNoValid ex){
@@ -74,11 +78,16 @@ public class SeleccionarBD {
                         //AQUI ES CRIDA AL FRAME DE PARTIDA
                         Partida p = Gestor.getSingletonInstance().getPartida();
                         System.out.println("Nom user: " + p.getJugador().getNom());
+                        nomJ[0] = p.getJugador().getNom();
                         System.out.println("Tipus cela: " + p.getConf().getcell());
                         System.out.println("Adj: " + p.getConf().getAdjacencia());
+                        adj[0] = p.getConf().getAdjacencia();
                         System.out.println("Dificultat: " + p.getConf().getDificultat());
+                        dif[0] = p.getConf().getDificultat();
                         System.out.println("Tauler: ");
                         Utils.printa_tauler(p.getTauler().getTauler());
+                        PartidaView pv = new PartidaView();
+                        pv.main(null);
                     }
                 });
                 threadsolver.start();
@@ -97,5 +106,4 @@ public class SeleccionarBD {
     public JPanel getPanel(){
         return seleccionarBD;
     }
-
 }
