@@ -28,7 +28,6 @@ public class MenuInici {
 
     public MenuInici() {
         carregarPartidaButton.setEnabled(Gestor.getSingletonInstance().partidaGuardada());
-        System.out.println("hola ->" + Gestor.getSingletonInstance().partidaGuardada());
         partidaNova = new PartidaNova();
         music = true;
         player = new MusicPlayer("narutoInicio.wav", true);
