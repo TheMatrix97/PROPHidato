@@ -35,28 +35,37 @@ public class PartidaView {
 
     public PartidaView() {
         setValues();
-        //createGrid();
-        MENUButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //CtrlPresentacio.getSingletonInstance().iniMenu();
-                framePartida.setVisible(false);
-            }
-        });
+        createQGrid(); //Grid pels Quadrats!!!!!
     }
 
-    public void createGrid(){
+    public void createQGrid(){
         int i = Gestor.getSingletonInstance().getPartida().getTauler().getN();
         int j = Gestor.getSingletonInstance().getPartida().getTauler().getK();
-            JLabel[][] grid = new JLabel[i][j];
-            for(int x = 0; x < i; ++x){
-                for(int y = 0; y < j; ++j) {
-                    grid[x][y] = new JLabel(String.valueOf(i), CENTER);
-                    grid[x][y].setBorder(new LineBorder(Color.BLACK));
-                    gamePanel.add(grid[x][y]);
+        gamePanel.setLayout(new GridLayout(i, j));
+        gamePanel.setBackground(Color.gray);
+        JTextField[][] fieldG = new JTextField[i][j];
+        Celda[][] c = Gestor.getSingletonInstance().getPartida().getTauler().getTauler();
+        for(int x = 0; x < i; ++x){
+                for(int y = 0; y < j; ++y) {
+                    fieldG[x][y] =  new JTextField();
+                    fieldG[x][y].setHorizontalAlignment(CENTER);
+                    fieldG[x][y].setPreferredSize(new Dimension(2,8));
+                    if(!c[x][y].isValida()){
+                        if(!c[x][y].isFrontera()) {
+                            fieldG[x][y].setBackground(Color.ORANGE); //ES UN '*'
+                            fieldG[x][y].setEditable(false); //NO EL PODEM SOBRESCRIURE
+                        }
+                        else fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
+                    }
+                    else if(c[x][y].isPrefijada()){
+                        //obtenim el valor per mostrar-lo
+                        fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                        fieldG[x][y].setBackground(Color.CYAN);
+                        fieldG[x][y].setEditable(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
+                    }
+                    gamePanel.add(fieldG[x][y]);
                 }
         }
-        grid[0][0].setBackground(Color.white);
     }
 
     public void setValues(){
