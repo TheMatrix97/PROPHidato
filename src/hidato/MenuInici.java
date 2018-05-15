@@ -1,8 +1,5 @@
 package hidato;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,7 +24,7 @@ public class MenuInici {
 
 
     public MenuInici() {
-        carregarPartidaButton.setEnabled(Gestor.getSingletonInstance().partidaGuardada());
+        setCarregarPartidaButton();
         partidaNova = new PartidaNova();
         music = true;
         player = new MusicPlayer("narutoInicio.wav", true);
@@ -61,6 +58,21 @@ public class MenuInici {
                 CtrlPresentacio.getSingletonInstance().setContentFrame(partidaNova.getPanel());
             }
         });
+        carregarPartidaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //todo gestorsaves ho hauria de portar gestor?
+                GestorSaves g = new GestorSaves();
+                try {
+                    Gestor.getSingletonInstance().setPartida(g.cargar_partida());
+                    Utils.start_partida();
+                }catch(Exception ex){
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "Error al carregar la partida");
+                }
+
+            }
+        });
     }
 
 
@@ -71,8 +83,11 @@ public class MenuInici {
 
     }
     public JPanel getMenuIni(){
-
         return MenuInici;
+    }
+
+    public void setCarregarPartidaButton(){
+        carregarPartidaButton.setEnabled(Gestor.getSingletonInstance().partidaGuardada());
     }
 
 }

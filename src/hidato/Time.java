@@ -35,6 +35,7 @@ public class Time implements Serializable{
     public void resume_time(){
         time_start = System.currentTimeMillis();
     }
+
     public String get_time(){
         int segundos = (int)(time/1000);
         int minutos = segundos / 60;

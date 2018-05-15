@@ -1,5 +1,6 @@
 package hidato;
 
+import javax.swing.*;
 import java.util.AbstractMap;
 
 /**
@@ -75,5 +76,13 @@ public class Utils {
             }
             System.out.print("\n");
         }
+    }
+    //TODO no se donde poner esto, puesto aqui para no repetir codigo en el generador / seleccionar BD
+    public static void start_partida(){
+        JFrame framePartida = new JFrame("PartidaView");
+        framePartida.setContentPane(new PartidaView(framePartida).getPanel());
+        framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        framePartida.pack();
+        framePartida.setVisible(true);
     }
 }
