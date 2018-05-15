@@ -28,7 +28,7 @@ public class PartidaView {
     public void main(String[] args) {
         framePartida = new JFrame("PartidaView");
         framePartida.setContentPane(new PartidaView().bigPanel);
-        framePartida.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         framePartida.pack();
         framePartida.setVisible(true);
     }
