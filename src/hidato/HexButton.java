@@ -7,7 +7,7 @@ class HexButton extends JButton {
     private static final long serialVersionUID = 1L;
     private static final int SIDES = 6;
     private static final int SIDE_LENGTH = 25;
-    public static final int LENGTH = 45;
+    public static final int LENGTH = 50;
     public static final int WIDTH = 50;
 
 
@@ -20,20 +20,6 @@ class HexButton extends JButton {
     }
 
     @Override
-    /*public void paintComponent(Graphics g){
-        Polygon hex = new Polygon();
-        int w = getWidth() - 1;
-        int h = getHeight() - 1;
-        int ratio = (int) (h * .25);
-
-        hex.addPoint(w/2, 0);
-        hex.addPoint(w, ratio);
-        hex.addPoint(w, h - ratio);
-        hex.addPoint(w/2, h);
-        hex.addPoint(0, h - ratio);
-        hex.addPoint(0, ratio);
-        g.drawPolygon(hex);
-    }*/
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Polygon hex = new Polygon();
@@ -42,5 +28,6 @@ class HexButton extends JButton {
                     (int) (25 + SIDE_LENGTH * Math.sin(i * 2 * Math.PI / SIDES)));   //calculation for side
         }
         g.drawPolygon(hex);
+        g.setColor(Color.CYAN);
     }
 }
