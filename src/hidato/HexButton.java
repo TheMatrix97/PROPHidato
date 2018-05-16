@@ -6,9 +6,9 @@ import java.awt.*;
 class HexButton extends JButton {
     private static final long serialVersionUID = 1L;
     private static final int SIDES = 6;
-    private static final int SIDE_LENGTH = 25;
-    public static final int LENGTH = 50;
-    public static final int WIDTH = 50;
+    private static final int SIDE_LENGTH = 24;
+    public static final int LENGTH = 48;
+    public static final int WIDTH = 53;
     private Polygon hex;
     public Color c;
 
