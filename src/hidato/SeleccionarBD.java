@@ -57,7 +57,7 @@ public class SeleccionarBD {
                         OKButton.setEnabled(false);
                         comboBox1.setEnabled(false);
                         try {
-                            Gestor.getSingletonInstance().crearPartidaBD(nom, naux);
+                            CtrlPresentacio.getSingletonInstance().crearPartidaBD(nom, naux);
                         }
                         catch (Exception e1) {
                             if(!Thread.currentThread().isInterrupted()) {
@@ -76,7 +76,7 @@ public class SeleccionarBD {
                         OKButton.setEnabled(true);
                         comboBox1.setEnabled(true);
                         //AQUI ES CRIDA AL FRAME DE PARTIDA
-                        Partida p = Gestor.getSingletonInstance().getPartida();
+                        Partida p = CtrlPresentacio.getSingletonInstance().getPartida();
                         System.out.println("Nom user: " + p.getJugador().getNom());
                         nomJ[0] = p.getJugador().getNom();
                         System.out.println("Tipus cela: " + p.getConf().getcell());

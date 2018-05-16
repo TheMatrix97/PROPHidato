@@ -24,7 +24,7 @@ public class MenuInici {
 
 
     public MenuInici() {
-        setCarregarPartidaButton();
+        //setCarregarPartidaButton();
         partidaNova = new PartidaNova();
         music = true;
         player = new MusicPlayer("narutoInicio.wav", true);
@@ -61,10 +61,8 @@ public class MenuInici {
         carregarPartidaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //todo gestorsaves ho hauria de portar gestor?
-                GestorSaves g = new GestorSaves();
                 try {
-                    Gestor.getSingletonInstance().setPartida(g.cargar_partida());
+                    CtrlPresentacio.getSingletonInstance().cargarPartida();
                     Utils.start_partida();
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(new JFrame(),
@@ -87,7 +85,8 @@ public class MenuInici {
     }
 
     public void setCarregarPartidaButton(){
-        carregarPartidaButton.setEnabled(Gestor.getSingletonInstance().partidaGuardada());
+        CtrlPresentacio  ctrl = CtrlPresentacio.getSingletonInstance();
+        carregarPartidaButton.setEnabled(ctrl.existePartidaGuardada());
     }
 
 }

@@ -38,4 +38,52 @@ public class CtrlPresentacio {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
+    public void crearPartida(String cell, String adj, String dif, String name){
+        g.crearPartidaConf(cell.charAt(0), adj,dif, name);
+    }
+
+    public Partida getPartida(){
+        return g.getPartida();
+    }
+
+    public void guardarPartida(){
+        g.guardarPartida();
+    }
+
+    public void cargarPartida(){
+        g.cargarPartida();
+    }
+
+    public boolean existePartidaGuardada(){
+        return Gestor.getSingletonInstance().partidaGuardada();
+    }
+
+    public void demanarHelp() throws Utils.ExceptionTaulerResolt {
+        g.demanarAjuda();
+    }
+
+    public Celda[][] getTaulerdeCelles(){
+        return g.getPartida().getTauler().getTauler();
+    }
+
+    public int sacaN(){
+        return  g.getPartida().getTauler().getN();
+    }
+
+    public int sacaK(){
+        return g.getPartida().getTauler().getK();
+    }
+
+    public void ferJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
+        g.getPartida().fesJugadaIns(i,j,num);
+    }
+
+    public void ferJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida {
+        g.getPartida().fesJugadaDel(i, j);
+    }
+
+    public void crearPartidaBD(String nom, String naux) throws Exception {
+        g.crearPartidaBD(nom, naux);
+    }
 }

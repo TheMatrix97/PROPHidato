@@ -41,9 +41,7 @@ public class PartidaView {
         SAVEButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //todo això no ho hauria de portar la capa de domini?
-                GestorSaves g = new GestorSaves();
-                g.guardar_partida(Gestor.getSingletonInstance().getPartida());
+                CtrlPresentacio.getSingletonInstance().guardarPartida();
                 JOptionPane.showMessageDialog(new JFrame(),
                         "Partida guardada!");
             }
@@ -52,7 +50,7 @@ public class PartidaView {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Gestor.getSingletonInstance().demanarAjuda();
+                    CtrlPresentacio.getSingletonInstance().demanarHelp();
                     recalcular_Matrix();
                 } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
                     recalcular_Matrix();
@@ -88,12 +86,12 @@ public class PartidaView {
     }
 
     private void createQGrid(){
-        int i = Gestor.getSingletonInstance().getPartida().getTauler().getN();
-        int j = Gestor.getSingletonInstance().getPartida().getTauler().getK();
+        int i = CtrlPresentacio.getSingletonInstance().sacaN();
+        int j = CtrlPresentacio.getSingletonInstance().sacaK();
         gamePanel.setLayout(new GridLayout(i, j));
         gamePanel.setBackground(Color.gray);
         fieldG = new JButton[i][j];
-        c = Gestor.getSingletonInstance().getPartida().getTauler().getTauler();
+        c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         for(int x = 0; x < i; ++x){
                 for(int y = 0; y < j; ++y) {
                     fieldG[x][y] =  new JButton();
@@ -120,7 +118,8 @@ public class PartidaView {
     }
 
     private void setValues(){
-        Partida aux = Gestor.getSingletonInstance().getPartida();
+        Partida aux = CtrlPresentacio.getSingletonInstance().getPartida();
+        //TODO lo deberia hacer Ctrlpresentacio?
         difLabel.setText(aux.getConf().getDificultat());
         adjLabel.setText(aux.getConf().getAdjacencia());
         timeLabel.setText(aux.getTiempo().get_time());
@@ -146,10 +145,10 @@ public class PartidaView {
                 System.out.println("del: " + del);
                 if(!del){
                     int valorIns = Integer.parseInt(valorJugada.getText());
-                    Gestor.getSingletonInstance().getPartida().fesJugadaIns(this.i,this.j, valorIns);
+                    CtrlPresentacio.getSingletonInstance().ferJugadaIns(this.i, this.j, valorIns);
                     ++valorIns;
                 }
-                else Gestor.getSingletonInstance().getPartida().fesJugadaDel(this.i,this.j);
+                else CtrlPresentacio.getSingletonInstance().ferJugadaDel(this.i, this.j);
                 fieldG[this.i][this.j].setText(valorJugada.getText());
                 if(!del) valorJugada.setText(nextValue());
             } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
