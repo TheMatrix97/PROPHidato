@@ -24,7 +24,7 @@ public class Time implements Serializable{
     }
     public void stop_time(){
         time_end = System.currentTimeMillis();
-        time = time_end-time_start;
+        time += time_end-time_start;
         time_start = 0;
         time_end = 0;
     }

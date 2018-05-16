@@ -29,6 +29,7 @@ public class PartidaView {
     private Celda[][] c;
     private boolean b = true;
     private Thread timerinoCapuccino;
+    private boolean resolt = false;
 
 
     public PartidaView(JFrame frame) {
@@ -60,9 +61,13 @@ public class PartidaView {
                     recalcular_Matrix();
                 } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
                     recalcular_Matrix();
+                    resolt = true;
+                    timerinoCapuccino.interrupt();
+                    timerinoCapuccino = null;
+                    //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
                     JOptionPane.showMessageDialog(new JFrame(),
                             "GOOD GAME!\n Guardant record...");
-                    exceptionTaulerResolt.printStackTrace();
+                    end_game();
                 }
             }
         });
@@ -128,7 +133,7 @@ public class PartidaView {
         //TODO lo deberia hacer Ctrlpresentacio?
         difLabel.setText(aux.getConf().getDificultat());
         adjLabel.setText(aux.getConf().getAdjacencia());
-        timeLabel.setText(aux.getTiempo().get_time());
+        //timeLabel.setText(aux.getTiempo().get_time());
         nomJLabel.setText(aux.getJugador().getNom());
     }
 
@@ -161,9 +166,12 @@ public class PartidaView {
                 exceptionJugadaNoValida.printStackTrace();
             } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
                 fieldG[this.i][this.j].setText(valorJugada.getText());
+                resolt = true;
+                timerinoCapuccino.interrupt();
+                timerinoCapuccino = null;
+                //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
                 JOptionPane.showMessageDialog(new JFrame(),
                         "GOOD GAME!\n Guardant record...");
-                exceptionTaulerResolt.printStackTrace();
                 recalcular_Matrix(); //Necessari per l'ultim valor, a lo chapuza
                 end_game();
             }
@@ -185,12 +193,12 @@ public class PartidaView {
         timerinoCapuccino = new Thread(new Runnable() {
             @Override
             public void run() {
-                System.out.println("Estic al thread del timer");
+               //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
                Timer timer = new Timer(1000, new ActionListener() {
                    @Override
                    public void actionPerformed(ActionEvent e) {
-                       System.out.println("Actualitzant timer...");
-                       timeLabel.setText(CtrlPresentacio.getSingletonInstance().getTimerinoPartida());
+                       //System.out.println("Actualitzant timer...");
+                       if(!resolt) timeLabel.setText(CtrlPresentacio.getSingletonInstance().getTimerinoPartida());
                    }
                });
                timer.start();
