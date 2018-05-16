@@ -113,13 +113,13 @@ public class PartidaView {
         }
         gamePanel.setBackground(Color.white);
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
-        int offsetX = -10, offsetY = 0;
+        int offsetX = 0, offsetY = 0;
         for(int x = 0; x < i; ++x){
                 for(int y = 0; y < j; ++y) {
                     switch (tcela){
                         case 'H':
                             fieldG[x][y] = new HexButton();
-                            fieldG[x][y].setBounds(offsetY, offsetX, 50, 50);
+                            fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
                             break;
                         default:
                             fieldG[x][y] = new JButton();
@@ -141,11 +141,12 @@ public class PartidaView {
                         fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                     }
                     gamePanel.add(fieldG[x][y]);
-                    offsetX += 42;
+                    if(y%2 == 0) offsetY += 25;
+                    else offsetY -= 25;
+                    offsetX += 43;
                 }
-            if(x%2 == 0) offsetX = -33;
-            else offsetX = -11;
-            offsetY += 38;
+            offsetY += 50;
+            offsetX = 0;
         }
     }
 
