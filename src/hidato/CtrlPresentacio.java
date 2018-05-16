@@ -90,4 +90,8 @@ public class CtrlPresentacio {
     public String getTimerinoPartida(){
         return g.getPartida().getTiempo().get_time();
     }
+
+    public char getTcela(){
+        return g.getPartida().getConf().getcell();
+    }
 }

@@ -35,7 +35,7 @@ public class PartidaView {
     public PartidaView(JFrame frame) {
         this.framePartida = frame;
         setValues();
-        createQGrid(); //Grid pels Quadrats!!!!!
+        createQGrid(); //Grid!!!!!
         if(b){
             actTimer();
             b = false;
@@ -99,15 +99,28 @@ public class PartidaView {
     private void createQGrid(){
         int i = CtrlPresentacio.getSingletonInstance().sacaN();
         int j = CtrlPresentacio.getSingletonInstance().sacaK();
+        char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
         gamePanel.setLayout(new GridLayout(i, j));
         gamePanel.setBackground(Color.gray);
-        fieldG = new JButton[i][j];
+        System.out.println("Tcela: " + tcela);
+        switch (tcela){
+            case 'H':
+                fieldG = new HexButton[i][j];
+            default:
+                fieldG = new JButton[i][j];
+        }
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
+        int offsetX = -10, offsetY = 0;
         for(int x = 0; x < i; ++x){
                 for(int y = 0; y < j; ++y) {
-                    fieldG[x][y] =  new JButton();
+                    switch (tcela){
+                        case 'H':
+                            fieldG[x][y] = new HexButton();
+                            fieldG[x][y].setBounds(offsetY, offsetX, 105, 95);
+                        default:
+                            fieldG[x][y] = new JButton();
+                    }
                     fieldG[x][y].setHorizontalAlignment(CENTER);
-                    fieldG[x][y].setPreferredSize(new Dimension(4,4));
                     if(!c[x][y].isValida()){
                         if(!c[x][y].isFrontera()) {
                             fieldG[x][y].setBackground(Color.ORANGE); //ES UN '*'
@@ -124,7 +137,11 @@ public class PartidaView {
                         fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                     }
                     gamePanel.add(fieldG[x][y]);
+                    offsetX += 87;
                 }
+            if(x%2 == 0) offsetX = -52;
+            else offsetX = -10;
+            offsetY += 76;
         }
     }
 
