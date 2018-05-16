@@ -27,12 +27,18 @@ public class PartidaView {
     private JFrame framePartida;
     private JButton[][] fieldG;
     private Celda[][] c;
+    private boolean b = true;
+    private Thread timerinoCapuccino;
 
 
     public PartidaView(JFrame frame) {
         this.framePartida = frame;
         setValues();
         createQGrid(); //Grid pels Quadrats!!!!!
+        if(b){
+            actTimer();
+            b = false;
+        }
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[0].length; ++j){
                 fieldG[i][j].addActionListener(new MyListener(i, j));
@@ -173,5 +179,23 @@ public class PartidaView {
     }
     private void end_game(){
 
+    }
+
+    public void actTimer() {
+        timerinoCapuccino = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Estic al thread del timer");
+               Timer timer = new Timer(1000, new ActionListener() {
+                   @Override
+                   public void actionPerformed(ActionEvent e) {
+                       System.out.println("Actualitzant timer...");
+                       timeLabel.setText(CtrlPresentacio.getSingletonInstance().getTimerinoPartida());
+                   }
+               });
+               timer.start();
+            }
+        });
+        timerinoCapuccino.start();
     }
 }

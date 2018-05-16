@@ -53,6 +53,7 @@ public class Partida implements Serializable{
         this.encurs = new Tauler(conf);
         this.solucio = new Tauler(encurs);
         Maquina.resolHidato(this.solucio);
+        this.tiempo.start_time();
     }
 
     //Jugada insertar d'un jugador, sobre una posicio i,j del tauler
@@ -124,6 +125,7 @@ public class Partida implements Serializable{
 
     //retorna el temps de la partida.
     public Time getTiempo(){
+        this.tiempo.actualitzaTime();
         return this.tiempo;
     }
 

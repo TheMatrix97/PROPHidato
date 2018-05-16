@@ -86,4 +86,8 @@ public class CtrlPresentacio {
     public void crearPartidaBD(String nom, String naux) throws Exception {
         g.crearPartidaBD(nom, naux);
     }
+
+    public String getTimerinoPartida(){
+        return g.getPartida().getTiempo().get_time();
+    }
 }
