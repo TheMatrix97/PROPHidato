@@ -105,6 +105,7 @@ public class PartidaView {
             case 'H':
                 fieldG = new HexButton[i][j];
                 gamePanel.setLayout(null);
+                framePartida.pack();
                 break;
             default:
                 fieldG = new JButton[i][j];
@@ -154,7 +155,6 @@ public class PartidaView {
         //TODO lo deberia hacer Ctrlpresentacio?
         difLabel.setText(aux.getConf().getDificultat());
         adjLabel.setText(aux.getConf().getAdjacencia());
-        //timeLabel.setText(aux.getTiempo().get_time());
         nomJLabel.setText(aux.getJugador().getNom());
     }
 
