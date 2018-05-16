@@ -11,10 +11,12 @@ class HexButton extends JButton {
     public static final int WIDTH = 53;
     private Polygon hex;
     public Color c;
+    boolean b;
 
 
-    public HexButton() {
+    public HexButton(boolean b) {
         super();
+        this.b = b;
         setContentAreaFilled(false);
         setFocusPainted(true);
         setBorderPainted(false);
@@ -30,7 +32,7 @@ class HexButton extends JButton {
                     (int) (25 + SIDE_LENGTH * Math.sin(i * 2 * Math.PI / SIDES)));   //calculation for side
         }
         g.setColor(Color.ORANGE);
-        //g.fillPolygon(hex);
+        if(this.b) g.fillPolygon(hex);
         g.drawPolygon(hex);
     }
 }

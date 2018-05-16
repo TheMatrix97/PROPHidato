@@ -35,7 +35,15 @@ public class PartidaView {
     public PartidaView(JFrame frame) {
         this.framePartida = frame;
         setValues();
-        createQGrid(); //Grid!!!!!
+        char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
+        switch(tcela){
+            case 'H':
+                createHGrid();
+                break;
+            default:
+                createQGrid();
+                break;
+        }
         if(b){
             actTimer();
             b = false;
@@ -96,35 +104,62 @@ public class PartidaView {
         }
     }
 
-    private void createQGrid(){
+    private void createHGrid(){
         int i = CtrlPresentacio.getSingletonInstance().sacaN();
         int j = CtrlPresentacio.getSingletonInstance().sacaK();
-        char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
-        System.out.println("Tcela: " + tcela);
-        switch (tcela){
-            case 'H':
-                fieldG = new HexButton[i][j];
-                gamePanel.setLayout(null);
-                framePartida.pack();
-                break;
-            default:
-                fieldG = new JButton[i][j];
-                gamePanel.setLayout(new GridLayout(i, j));
-                break;
-        }
+        fieldG = new HexButton[i][j];
+        gamePanel.setLayout(null);
+        framePartida.pack();
         gamePanel.setBackground(Color.white);
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         int offsetX = 0, offsetY = 0;
         for(int x = 0; x < i; ++x){
-                for(int y = 0; y < j; ++y) {
-                    switch (tcela){
-                        case 'H':
-                            fieldG[x][y] = new HexButton();
-                            fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
-                            break;
-                        default:
-                            fieldG[x][y] = new JButton();
+            for(int y = 0; y < j; ++y) {
+                if(!c[x][y].isValida()){
+                    fieldG[x][y] = new HexButton(true);
+                    if(!c[x][y].isFrontera()) {
+                         //ES UN '*'
+                        fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                     }
+                    else{
+                        fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
+                    }
+                }
+                else if(c[x][y].isPrefijada()){ //Casella buida/prefixada
+                    //obtenim el valor per mostrar-lo
+                    fieldG[x][y] = new HexButton(false);
+                    fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                    fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
+                }else if(!c[x][y].isVacia()){ //si es una celda de una partida cargada puede tener un numero dentro
+                    fieldG[x][y] = new HexButton(false); //Casella buida/prefixada
+                    fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                }
+                else{ //Casella buida!
+                    fieldG[x][y] = new HexButton(false);
+                }
+                fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
+                fieldG[x][y].setHorizontalAlignment(CENTER);
+
+                gamePanel.add(fieldG[x][y]);
+                if (y % 2 == 0) offsetY -= 25;
+                else offsetY += 25;
+                offsetX += 43;
+            }
+            offsetY += 50;
+            offsetX = 0;
+        }
+    }
+
+    private void createQGrid(){
+        int i = CtrlPresentacio.getSingletonInstance().sacaN();
+        int j = CtrlPresentacio.getSingletonInstance().sacaK();
+        fieldG = new JButton[i][j];
+        gamePanel.setLayout(new GridLayout(i, j));
+        gamePanel.setBackground(Color.white);
+        c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
+        for(int x = 0; x < i; ++x){
+                for(int y = 0; y < j; ++y) {
+                    fieldG[x][y] = new JButton();
                     fieldG[x][y].setHorizontalAlignment(CENTER);
                     if(!c[x][y].isValida()){
                         if(!c[x][y].isFrontera()) {
@@ -142,12 +177,7 @@ public class PartidaView {
                         fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                     }
                     gamePanel.add(fieldG[x][y]);
-                    if(y%2 == 0) offsetY += 25;
-                    else offsetY -= 25;
-                    offsetX += 43;
                 }
-            offsetY += 50;
-            offsetX = 0;
         }
     }
 
