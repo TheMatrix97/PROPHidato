@@ -151,7 +151,7 @@ public class PartidaView {
                 fieldG[x][y].setHorizontalAlignment(CENTER);
 
                 gamePanel.add(fieldG[x][y]);
-                offsetX += 28;
+                offsetX += 26;
             }
             offsetY += 50;
             offsetX = 0;
