@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ *
+ * @author marc.catrisse & lluis.marques
+ */
 public class PartidaNova {
     private JButton carregarDeLaBaseButton;
     private JButton generarTaulerAleatoriButton;

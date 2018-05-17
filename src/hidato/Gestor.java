@@ -38,6 +38,7 @@ public class Gestor implements Serializable{
         try{
             game = new Partida(nom,nomJugador);
         }catch(Exception e){
+            e.printStackTrace();
             this.game = null;
             throw new Exception();
             //TODO avisar que la partida no es valida
@@ -116,10 +117,8 @@ public class Gestor implements Serializable{
         gs.guardar_partida(this.game);
     }
 
-    public void cargarPartida(){
-        try {
-            setPartida(gs.cargar_partida());
-        } catch (Exception e) {}
+    public void cargarPartida() throws Exception {
+        setPartida(gs.cargar_partida());
     }
 
 

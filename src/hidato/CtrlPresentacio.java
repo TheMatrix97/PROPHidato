@@ -51,7 +51,7 @@ public class CtrlPresentacio {
         g.guardarPartida();
     }
 
-    public void cargarPartida(){
+    public void cargarPartida() throws Exception {
         g.cargarPartida();
     }
 

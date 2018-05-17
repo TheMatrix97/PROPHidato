@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+/**
+ *
+ * @author marc.catrisse & lluis.marques
+ */
+
 public class MenuInici {
     //MENU INICI
     private JButton novaPartidaButton;

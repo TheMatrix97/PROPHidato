@@ -5,6 +5,10 @@ import javax.sound.sampled.Clip;
 import java.io.*;
 
 
+/**
+ *
+ * @author marc.catrisse
+ */
 public class MusicPlayer extends Thread {
     private Clip clip;
     private AudioInputStream p;

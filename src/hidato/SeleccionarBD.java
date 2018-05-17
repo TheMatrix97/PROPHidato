@@ -8,6 +8,11 @@ import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
+
+/**
+ *
+ * @author marc.catrisse & lluis.marques
+ */
 public class SeleccionarBD {
     private JButton tornarButton;
     private JButton OKButton;
@@ -60,6 +65,7 @@ public class SeleccionarBD {
                             CtrlPresentacio.getSingletonInstance().crearPartidaBD(nom, naux);
                         }
                         catch (Exception e1) {
+                            e1.printStackTrace();
                             if(!Thread.currentThread().isInterrupted()) {
                                 JOptionPane.showMessageDialog(new JFrame(),
                                         "Aquest hidato no te solució!, selecciona un altre",

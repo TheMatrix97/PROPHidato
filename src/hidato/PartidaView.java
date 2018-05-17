@@ -9,6 +9,10 @@ import java.awt.event.WindowEvent;
 
 import static javax.swing.SwingConstants.CENTER;
 
+/**
+ *
+ * @author marc.catrisse & lluis.marques
+ */
 public class PartidaView {
     private JLabel nomJugador;
     private JLabel time;
@@ -35,6 +39,7 @@ public class PartidaView {
     public PartidaView(JFrame frame) {
         this.framePartida = frame;
         setValues();
+        valorJugada.setText(nextValue());
         char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
         switch(tcela){
             case 'H':
@@ -112,7 +117,7 @@ public class PartidaView {
         framePartida.pack();
         gamePanel.setBackground(Color.white);
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
-        int offsetX = 0, offsetY = 0;
+        int offsetX = 0, offsetY = +25;
         for(int x = 0; x < i; ++x){
             for(int y = 0; y < j; ++y) {
                 if(!c[x][y].isValida()){
@@ -241,7 +246,7 @@ public class PartidaView {
 
     }
 
-    public void actTimer() {
+    private void actTimer() {
         timerinoCapuccino = new Thread(new Runnable() {
             @Override
             public void run() {
