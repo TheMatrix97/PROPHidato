@@ -125,7 +125,6 @@ public class PartidaView {
         for(int x = 0; x < i; ++x){
             for(int y = 0; y < j; ++y) {
                 boolean orientacio = t.orientacio(x,y,'T');
-                if(x % 2 == 0) orientacio = !orientacio;
                 if(!c[x][y].isValida()){
                     fieldG[x][y] = new TriButton(true, orientacio);
                     if(!c[x][y].isFrontera()) {

@@ -416,7 +416,8 @@ public class Tauler implements Serializable {
         if (contador == this.tauler[0].length && type == 'T') {
             return (contador2 % 2 == 0);
         } else {
-            return (!(contador2 % 2 == 0));
+            if (i % 2 == 0) return (contador2 % 2 == 0);
+            else return (contador2 % 2 != 0);
         }
     }
 
