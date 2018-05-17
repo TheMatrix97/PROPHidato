@@ -39,4 +39,12 @@ class HexButton extends JButton {
         if(this.b) g.fillPolygon(hex);
         g.drawPolygon(hex);
     }
+
+    public static int getLENGTH() {
+        return LENGTH;
+    }
+
+    public static int getWIDTH() {
+        return WIDTH;
+    }
 }

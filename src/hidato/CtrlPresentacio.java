@@ -24,18 +24,17 @@ public class CtrlPresentacio {
         }
         return presentacio;
     }
-    //TODO revisar resolucion fija / mínima
     public void iniMenu(){
         menuInici.setCarregarPartidaButton();
         frame.setContentPane(menuInici.getMenuIni());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
 
     public void setContentFrame(JPanel j){
         frame.setContentPane(j);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
     }
 
@@ -93,5 +92,11 @@ public class CtrlPresentacio {
 
     public char getTcela(){
         return g.getPartida().getConf().getcell();
+    }
+
+    public void start_partida(){
+        JFrame framePartida = new JFrame("PartidaView");
+        new PartidaView(framePartida);
+        framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 }

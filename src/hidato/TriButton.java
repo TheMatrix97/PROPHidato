@@ -40,4 +40,12 @@ public class TriButton extends JButton{
         if(this.b) g.fillPolygon(tri);
         g.drawPolygon(tri);
     }
+
+    public static int getHEIGHT() {
+        return HEIGHT;
+    }
+
+    public static int getWIDTH() {
+        return WIDTH;
+    }
 }

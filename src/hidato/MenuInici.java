@@ -68,7 +68,7 @@ public class MenuInici {
             public void actionPerformed(ActionEvent e) {
                 try {
                     CtrlPresentacio.getSingletonInstance().cargarPartida();
-                    Utils.start_partida();
+                    CtrlPresentacio.getSingletonInstance().start_partida();
                 }catch(Exception ex){
                     JOptionPane.showMessageDialog(new JFrame(),
                             "Error al carregar la partida");

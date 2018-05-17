@@ -41,6 +41,7 @@ public class PartidaView {
         setValues();
         valorJugada.setText(nextValue());
         char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
+        setTaulerLayout(tcela); //configurem el layout per H / T
         switch(tcela){
             case 'H':
                 createHGrid();
@@ -57,10 +58,15 @@ public class PartidaView {
             b = false;
         }
         for(int i = 0; i < fieldG.length; ++i){
-            for(int j = 0; j < fieldG[0].length; ++j){
+            for(int j = 0; j < fieldG[i].length; ++j){
                 fieldG[i][j].addActionListener(new MyListener(i, j));
             }
         }
+        //carreguem el frame i el mostem
+        framePartida.setContentPane(bigPanel);
+        framePartida.pack();
+        framePartida.setVisible(true);
+
         SAVEButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,8 +122,6 @@ public class PartidaView {
         int i = CtrlPresentacio.getSingletonInstance().sacaN();
         int j = CtrlPresentacio.getSingletonInstance().sacaK();
         fieldG = new TriButton[i][j];
-        gamePanel.setLayout(null);
-        framePartida.pack();
         gamePanel.setBackground(Color.white);
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         Tauler t = CtrlPresentacio.getSingletonInstance().getPartida().getTauler();
@@ -162,8 +166,6 @@ public class PartidaView {
         int i = CtrlPresentacio.getSingletonInstance().sacaN();
         int j = CtrlPresentacio.getSingletonInstance().sacaK();
         fieldG = new HexButton[i][j];
-        gamePanel.setLayout(null);
-        framePartida.pack();
         gamePanel.setBackground(Color.white);
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         int offsetX = 0, offsetY = +25;
@@ -313,5 +315,55 @@ public class PartidaView {
             }
         });
         timerinoCapuccino.start();
+    }
+    private void setTaulerLayout(char tcela){ //funció que aplica el layout segons el tcela(H i T) i fixa el min i max size
+        int i = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getN();
+        int j = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getK();
+        int height = 50; //per defecte quadrat
+        int width = 50;
+        switch(tcela){
+            case 'T':
+                height = TriButton.getHEIGHT();
+                width = TriButton.getWIDTH();
+                break;
+            case 'H':
+                height = HexButton.getLENGTH();
+                width = HexButton.getWIDTH();
+                break;
+        }
+        int margen = 10;
+        height = height * (i+1) + margen;
+        width = width * j + margen;
+        System.out.println("H: " + height + " w:" + width);
+        int finalHeight = height;
+        int finalWidth = width;
+        if(tcela != 'Q') {
+            gamePanel.setLayout(new LayoutManager() {
+                @Override
+                public void addLayoutComponent(String name, Component comp) {
+
+                }
+
+                @Override
+                public void removeLayoutComponent(Component comp) {
+
+                }
+
+                @Override
+                public Dimension preferredLayoutSize(Container parent) {
+                    return new Dimension(finalWidth, finalHeight);
+                }
+
+                @Override
+                public Dimension minimumLayoutSize(Container parent) {
+                    return new Dimension(finalWidth, finalHeight);
+                }
+
+                @Override
+                public void layoutContainer(Container parent) {
+
+                }
+            });
+        }
     }
 }

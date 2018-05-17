@@ -92,7 +92,7 @@ public class SeleccionarBD {
                         dif[0] = p.getConf().getDificultat();
                         System.out.println("Tauler: ");
                         Utils.printa_tauler(p.getTauler().getTauler());
-                        Utils.start_partida();
+                        CtrlPresentacio.getSingletonInstance().start_partida();
                     }
                 });
                 threadsolver.start();

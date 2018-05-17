@@ -57,7 +57,7 @@ public class GenerarTauler {
                         Utils.printa_tauler(p.getTauler().getTauler());
                         progressBar1.setVisible(false);
                         OKButton.setEnabled(true);
-                        Utils.start_partida();
+                        CtrlPresentacio.getSingletonInstance().start_partida();
                     }
                 });
                 threadSolver.start();
