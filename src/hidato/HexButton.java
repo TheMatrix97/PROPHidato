@@ -14,7 +14,6 @@ class HexButton extends JButton {
     private static final int LENGTH = 48;
     private static final int WIDTH = 53;
     private Polygon hex;
-    public Color c;
     private boolean b;
 
 

@@ -7,8 +7,6 @@ public class TriButton extends JButton{
     private static final long serialVersionUID = 1L;
     private static final int HEIGHT = 48;
     private static final int WIDTH = 48;
-    private Polygon tri;
-    public Color c;
     private boolean b;
     private boolean rev;
 
@@ -26,7 +24,7 @@ public class TriButton extends JButton{
     @Override
     public  void paintComponent(Graphics g){
         super.paintComponent(g);
-        tri = new Polygon();
+        Polygon tri = new Polygon();
         if(!rev) {
             tri.addPoint(0, 0); //cantonada esq
             tri.addPoint(WIDTH, 0); //cantonada dreta
