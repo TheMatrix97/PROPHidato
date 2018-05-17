@@ -401,7 +401,7 @@ public class Tauler implements Serializable {
     }
 
     //funcio per a saber l'orientacio que tindran els triangles d'un Tauler
-    private boolean orientacio(int i, int j, char type) {
+    public boolean orientacio(int i, int j, char type) {
         int contador = 0;
         for (Celda c : this.tauler[0]) {
             if (c.isFrontera()) contador++;
@@ -412,6 +412,7 @@ public class Tauler implements Serializable {
             if (c.equals(this.tauler[i][j])) break;
             if (!c.isFrontera()) contador2++;
         }
+        if(type == 'H') return (!(contador2 % 2 == 0));
         if (contador == this.tauler[0].length && type == 'T') {
             return (contador2 % 2 == 0);
         } else {

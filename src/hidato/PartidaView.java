@@ -45,6 +45,9 @@ public class PartidaView {
             case 'H':
                 createHGrid();
                 break;
+            case 'T':
+                createTGrid();
+                break;
             default:
                 createQGrid();
                 break;
@@ -106,6 +109,53 @@ public class PartidaView {
                     fieldG[i][j].setText(String.valueOf(c[i][j].getValor()));
                 }
             }
+        }
+    }
+
+    private void createTGrid(){
+        int i = CtrlPresentacio.getSingletonInstance().sacaN();
+        int j = CtrlPresentacio.getSingletonInstance().sacaK();
+        fieldG = new TriButton[i][j];
+        gamePanel.setLayout(null);
+        framePartida.pack();
+        gamePanel.setBackground(Color.white);
+        c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
+        Tauler t = CtrlPresentacio.getSingletonInstance().getPartida().getTauler();
+        int offsetX = 0, offsetY = 0;
+        for(int x = 0; x < i; ++x){
+            for(int y = 0; y < j; ++y) {
+                boolean orientacio = t.orientacio(x,y,'T');
+                if(x % 2 == 0) orientacio = !orientacio;
+                if(!c[x][y].isValida()){
+                    fieldG[x][y] = new TriButton(true, orientacio);
+                    if(!c[x][y].isFrontera()) {
+                        //ES UN '*'
+                        fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
+                    }
+                    else{
+                        fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
+                    }
+                }
+                else if(c[x][y].isPrefijada()){ //Casella buida/prefixada
+                    //obtenim el valor per mostrar-lo
+                    fieldG[x][y] = new TriButton(false, orientacio);
+                    fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                    fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
+                }else if(!c[x][y].isVacia()){ //si es una celda de una partida cargada puede tener un numero dentro
+                    fieldG[x][y] = new TriButton(false, orientacio); //Casella buida/prefixada
+                    fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                }
+                else{ //Casella buida!
+                    fieldG[x][y] = new TriButton(false, orientacio);
+                }
+                fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
+                fieldG[x][y].setHorizontalAlignment(CENTER);
+
+                gamePanel.add(fieldG[x][y]);
+                offsetX += 28;
+            }
+            offsetY += 50;
+            offsetX = 0;
         }
     }
 

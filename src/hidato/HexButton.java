@@ -31,7 +31,7 @@ class HexButton extends JButton {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         hex = new Polygon();
-        for (int i = 0; i < SIDES; i++) {
+        for(int i = 0; i < SIDES; ++i) {
             hex.addPoint((int) (25 + SIDE_LENGTH * Math.cos(i * 2 * Math.PI / SIDES)), //calculation for side
                     (int) (25 + SIDE_LENGTH * Math.sin(i * 2 * Math.PI / SIDES)));   //calculation for side
         }
