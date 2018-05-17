@@ -151,7 +151,7 @@ public class PartidaView {
                 fieldG[x][y].setHorizontalAlignment(CENTER);
 
                 gamePanel.add(fieldG[x][y]);
-                offsetX += 26;
+                offsetX += 28;
             }
             offsetY += 50;
             offsetX = 0;
@@ -214,6 +214,8 @@ public class PartidaView {
         for(int x = 0; x < i; ++x){
                 for(int y = 0; y < j; ++y) {
                     fieldG[x][y] = new JButton();
+                    fieldG[x][y].setPreferredSize(new Dimension(50,50));
+
                     fieldG[x][y].setHorizontalAlignment(CENTER);
                     if(!c[x][y].isValida()){
                         if(!c[x][y].isFrontera()) {
