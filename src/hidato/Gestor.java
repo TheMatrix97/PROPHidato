@@ -30,11 +30,21 @@ public class Gestor implements Serializable{
     }
     //funció per crear una partida sense tauler
     public void crearPartidaBuida(String nomJugador){
+        try{
+            rankings = gs.cargar_ranking(); //todo controlar en gs
+        }catch(Exception e){
+
+        }
         game = new Partida(nomJugador);
     }
 
     //funció per crear una partida partint d'un tauler de la BD
     public void crearPartidaBD(String nom, String nomJugador) throws Exception{
+        try{
+            rankings = gs.cargar_ranking();
+        }catch(Exception e){
+
+        }
         try{
             game = new Partida(nom,nomJugador);
         }catch(Exception e){
