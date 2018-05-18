@@ -133,7 +133,6 @@ public class PartidaView {
             for(int y = 0; y < j; ++y) {
                 boolean orientacio = t.orientacio(x,y,'T');
                 if(!c[x][y].isValida()){
-                    fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                     switch (tcela){
                         case 'T':
                             fieldG[x][y] = new TriButton(true, orientacio);
@@ -146,6 +145,7 @@ public class PartidaView {
                             break;
                     }
                     if(c[x][y].isFrontera()) fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
+                    fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                 }
                 else{
                     switch (tcela){
@@ -187,7 +187,7 @@ public class PartidaView {
                         break;
                 }
             }
-            
+
             offsetY += 50;
             offsetX = 0;
         }
