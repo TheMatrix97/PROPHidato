@@ -98,14 +98,14 @@ public class PartidaView {
             @Override
             public void windowClosed(WindowEvent e) {
                 CtrlPresentacio.getSingletonInstance().iniMenu();
-                super.windowClosed(e);
+                framePartida.dispose();
             }
         });
         MENUButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CtrlPresentacio.getSingletonInstance().iniMenu();
-                framePartida.setVisible(false);
+                framePartida.dispose();
             }
         });
     }
@@ -313,7 +313,7 @@ public class PartidaView {
         return null;
     }
     private void end_game(){
-
+        framePartida.dispose();
     }
 
     private void actTimer() {
@@ -373,14 +373,14 @@ public class PartidaView {
             @Override
             public Dimension preferredLayoutSize(Container parent) {
                 if((finalHeight + northPanel.getHeight() + southPanel.getHeight()) > screen.getHeight()) return new Dimension(screen.width, screen.height - 50);
-                if(finalWidth > screen.getWidth()) return screen;
+                if(finalWidth > screen.getWidth()) return new Dimension(screen.width, screen.height - 50);
                 return new Dimension(finalWidth, finalHeight + northPanel.getHeight() + southPanel.getHeight());
             }
 
             @Override
             public Dimension minimumLayoutSize(Container parent) {
                 Dimension d = new Dimension(finalWidth, finalHeight + northPanel.getHeight() + southPanel.getHeight());
-                if(screen.getHeight() > d.getHeight() && screen.getWidth() > d.getWidth()) return d;
+                if(screen.getHeight() - 50 > d.getHeight() && screen.getWidth() > d.getWidth()) return d;
                 return new Dimension(screen.width, screen.height - 50);
             }
 
