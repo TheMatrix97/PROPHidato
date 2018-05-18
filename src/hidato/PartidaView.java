@@ -55,6 +55,7 @@ public class PartidaView {
         }
         //carreguem el frame i el mostem
         generateJScroll();
+        framePartida.setExtendedState(framePartida.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         framePartida.setContentPane(bigPanel);
         framePartida.pack();
         framePartida.setVisible(true);
@@ -82,7 +83,7 @@ public class PartidaView {
         framePartida.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                CtrlPresentacio.getSingletonInstance().iniMenu();
+                //CtrlPresentacio.getSingletonInstance().iniMenu();
                 framePartida.dispose();
             }
         });
