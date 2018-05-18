@@ -336,7 +336,7 @@ public class Tauler implements Serializable {
                 else if(c == 'H'){
                     return (int) (Math.random() * 25) + 50;
                 }
-                if(adj.equals("C")) return (int) (Math.random() * 100) + 50;
+                if(adj.equals("C")) return (int) (Math.random() * 50) + 50;
                 return (int) (Math.random() * 5) + 30;
 
             case "Normal":

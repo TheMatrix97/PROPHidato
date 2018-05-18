@@ -41,7 +41,7 @@ public class PartidaView {
         setValues();
         valorJugada.setText(nextValue());
         char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
-        setTaulerLayout(tcela); //configurem el layout per H / T
+        setTaulerLayout(tcela); //configurem el layout per H / T / Q
         switch(tcela){
             case 'H':
                 createHGrid();
@@ -63,6 +63,7 @@ public class PartidaView {
             }
         }
         //carreguem el frame i el mostem
+        generateJScroll();
         framePartida.setContentPane(bigPanel);
         framePartida.pack();
         framePartida.setVisible(true);
@@ -116,6 +117,13 @@ public class PartidaView {
                 }
             }
         }
+    }
+
+    private void generateJScroll(){
+        JScrollPane j = new JScrollPane(gamePanel);
+        j.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        j.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        bigPanel.add(j);
     }
 
     private void createTGrid(){
@@ -209,33 +217,42 @@ public class PartidaView {
     private void createQGrid(){
         int i = CtrlPresentacio.getSingletonInstance().sacaN();
         int j = CtrlPresentacio.getSingletonInstance().sacaK();
-        fieldG = new JButton[i][j];
-        gamePanel.setLayout(new GridLayout(i, j));
+        fieldG = new Qbutton[i][j];
         gamePanel.setBackground(Color.white);
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
+        int offsetX = 0; int offsetY = 0;
         for(int x = 0; x < i; ++x){
-                for(int y = 0; y < j; ++y) {
-                    fieldG[x][y] = new JButton();
-                    fieldG[x][y].setPreferredSize(new Dimension(50,50));
-
-                    fieldG[x][y].setHorizontalAlignment(CENTER);
-                    if(!c[x][y].isValida()){
-                        if(!c[x][y].isFrontera()) {
-                            fieldG[x][y].setBackground(Color.ORANGE); //ES UN '*'
-                            fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
-                        }
-                        else fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
+            for(int y = 0; y < j; ++y) {
+                if(!c[x][y].isValida()){
+                    fieldG[x][y] = new Qbutton(true);
+                    if(!c[x][y].isFrontera()) {
+                        //ES UN '*'
+                        fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                     }
-                    else if(c[x][y].isPrefijada()){
-                        //obtenim el valor per mostrar-lo
-                        fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
-                        fieldG[x][y].setBackground(Color.CYAN);
-                        fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
-                    }else if(!c[x][y].isVacia()){ //si es una celda de una partida cargada puede tener un numero dentro
-                        fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                    else{
+                        fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
                     }
-                    gamePanel.add(fieldG[x][y]);
                 }
+                else if(c[x][y].isPrefijada()){ //Casella buida/prefixada
+                    //obtenim el valor per mostrar-lo
+                    fieldG[x][y] = new Qbutton(false);
+                    fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                    fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
+                }else if(!c[x][y].isVacia()){ //si es una celda de una partida cargada puede tener un numero dentro
+                    fieldG[x][y] = new Qbutton(false); //Casella buida/prefixada
+                    fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
+                }
+                else{ //Casella buida!
+                    fieldG[x][y] = new Qbutton(false);
+                }
+                fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
+                fieldG[x][y].setHorizontalAlignment(CENTER);
+
+                gamePanel.add(fieldG[x][y]);
+                offsetX += 50;
+            }
+            offsetY += 50;
+            offsetX = 0;
         }
     }
 
@@ -319,8 +336,8 @@ public class PartidaView {
     private void setTaulerLayout(char tcela){ //funció que aplica el layout segons el tcela(H i T) i fixa el min i max size
         int i = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getN();
         int j = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getK();
-        int height = 50; //per defecte quadrat
-        int width = 50;
+        int height; //per defecte quadrat
+        int width;
         switch(tcela){
             case 'T':
                 height = TriButton.getHEIGHT();
@@ -330,40 +347,47 @@ public class PartidaView {
                 height = HexButton.getLENGTH();
                 width = HexButton.getWIDTH();
                 break;
+            default:
+                height = Qbutton.getHEIGHT();
+                width  = Qbutton.getWIDTH();
+                break;
         }
         int margen = 10;
         height = height * (i+1) + margen;
-        width = width * j + margen;
+        width = width * (j+1) + margen;
         System.out.println("H: " + height + " w:" + width);
         int finalHeight = height;
         int finalWidth = width;
-        if(tcela != 'Q') {
-            gamePanel.setLayout(new LayoutManager() {
-                @Override
-                public void addLayoutComponent(String name, Component comp) {
+        Dimension screen = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
+        gamePanel.setLayout(new LayoutManager() {
+            @Override
+            public void addLayoutComponent(String name, Component comp) {
 
-                }
+            }
 
-                @Override
-                public void removeLayoutComponent(Component comp) {
+            @Override
+            public void removeLayoutComponent(Component comp) {
 
-                }
+            }
 
-                @Override
-                public Dimension preferredLayoutSize(Container parent) {
-                    return new Dimension(finalWidth, finalHeight);
-                }
+            @Override
+            public Dimension preferredLayoutSize(Container parent) {
+                if((finalHeight + northPanel.getHeight() + southPanel.getHeight()) > screen.getHeight()) return new Dimension(screen.width, screen.height - 50);
+                if(finalWidth > screen.getWidth()) return screen;
+                return new Dimension(finalWidth, finalHeight + northPanel.getHeight() + southPanel.getHeight());
+            }
 
-                @Override
-                public Dimension minimumLayoutSize(Container parent) {
-                    return new Dimension(finalWidth, finalHeight);
-                }
+            @Override
+            public Dimension minimumLayoutSize(Container parent) {
+                Dimension d = new Dimension(finalWidth, finalHeight + northPanel.getHeight() + southPanel.getHeight());
+                if(screen.getHeight() > d.getHeight() && screen.getWidth() > d.getWidth()) return d;
+                return new Dimension(screen.width, screen.height - 50);
+            }
 
-                @Override
-                public void layoutContainer(Container parent) {
+            @Override
+            public void layoutContainer(Container parent) {
 
-                }
-            });
-        }
+            }
+        });
     }
 }

@@ -7,19 +7,16 @@ import java.awt.*;
  *
  * @author lluis.marques
  */
-public class TriButton extends JButton{
+public class Qbutton extends JButton {
     private static final long serialVersionUID = 1L;
     private static final int HEIGHT = 48;
     private static final int WIDTH = 48;
     private boolean b;
-    private boolean rev;
-    private Polygon tri;
+    private Polygon quad;
 
-
-    public TriButton(boolean b, boolean rev){
+    public Qbutton(boolean b){
         //b = true -> pintar triangle, rev = true -> triangle invers!
         this.b = b;
-        this.rev = rev;
         setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(true);
@@ -29,19 +26,14 @@ public class TriButton extends JButton{
     @Override
     public  void paintComponent(Graphics g){
         super.paintComponent(g);
-        tri = new Polygon();
-        if(!rev) {
-            tri.addPoint(0, 0); //cantonada esq
-            tri.addPoint(WIDTH, 0); //cantonada dreta
-            tri.addPoint(WIDTH/2, HEIGHT); //punta amunt
-        }else{
-            tri.addPoint(0, HEIGHT); //cantonada esq
-            tri.addPoint(WIDTH, HEIGHT); //cantonada dreta
-            tri.addPoint(WIDTH/2, 0); //punta avall
-        }
+        quad = new Polygon();
+        quad.addPoint(0, 0); //abaix esq
+        quad.addPoint(0, HEIGHT); //adalt esq
+        quad.addPoint(WIDTH, HEIGHT); //adalt dreta
+        quad.addPoint(WIDTH, 0); //abaix dreta
         g.setColor(Color.ORANGE);
-        if(this.b) g.fillPolygon(tri);
-        g.drawPolygon(tri);
+        if(this.b) g.fillPolygon(quad);
+        g.drawPolygon(quad);
     }
 
     public static int getHEIGHT() {
