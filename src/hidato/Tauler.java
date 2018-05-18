@@ -219,7 +219,7 @@ public class Tauler implements Serializable {
     private Celda[][] retallaTauler(int iMin, int iMax, int jMin, int jMax) {
         Celda[][] taulerRetallat = new Celda[iMax - iMin + 1][jMax - jMin + 1];
         for (int i = 0; i < (iMax - iMin + 1); ++i) {
-            System.arraycopy(this.tauler[iMin + i], jMin + 0, taulerRetallat[i], 0, jMax - jMin + 1);
+            System.arraycopy(this.tauler[iMin + i], jMin, taulerRetallat[i], 0, jMax - jMin + 1);
         }
         for (int i = 0; i < taulerRetallat.length; i++) {
             int contador = 0;
@@ -336,7 +336,7 @@ public class Tauler implements Serializable {
                 else if(c == 'H'){
                     return (int) (Math.random() * 25) + 50;
                 }
-                if(adj.equals("C")) return (int) (Math.random() * 100) + 50;
+                if(adj.equals("C")) return (int) (Math.random() * 50) + 50;
                 return (int) (Math.random() * 5) + 30;
 
             case "Normal":
@@ -374,7 +374,7 @@ public class Tauler implements Serializable {
     //funcio que donada una cela i el seu tipus d'adjacencia dona la posicio de les seves celes adjacents seguint estructura de matriu
     private int[][] getpossveins(char tcela, String adj, int j, int i) {
         int aux[][];
-        boolean c = true;
+        boolean c;
         if (tcela == 'Q') {
             if (adj.equals("C")) aux = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
@@ -401,7 +401,7 @@ public class Tauler implements Serializable {
     }
 
     //funcio per a saber l'orientacio que tindran els triangles d'un Tauler
-    private boolean orientacio(int i, int j, char type) {
+    public boolean orientacio(int i, int j, char type) {
         int contador = 0;
         for (Celda c : this.tauler[0]) {
             if (c.isFrontera()) contador++;
@@ -412,14 +412,12 @@ public class Tauler implements Serializable {
             if (c.equals(this.tauler[i][j])) break;
             if (!c.isFrontera()) contador2++;
         }
+        if(type == 'H') return (!(contador2 % 2 == 0));
         if (contador == this.tauler[0].length && type == 'T') {
             return (contador2 % 2 == 0);
         } else {
-            if (i % 2 == 0) {
-                return (contador2 % 2 == 0);
-            } else {
-                return (contador2 % 2 != 0);
-            }
+            if (i % 2 == 0) return (contador2 % 2 == 0);
+            else return (contador2 % 2 != 0);
         }
     }
 
@@ -499,7 +497,7 @@ public class Tauler implements Serializable {
     //funcio que comprova si un tauler es valid
     public boolean validador_tauler(){
         AbstractMap.SimpleEntry<Integer,Integer> p;
-        Celda c = null;
+        Celda c;
         try{
             p = Utils.BuscarN(this.tauler,1);
             c = getCelda(p.getKey(), p.getValue());

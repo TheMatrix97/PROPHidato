@@ -35,11 +35,16 @@ public class Time implements Serializable{
     public void resume_time(){
         time_start = System.currentTimeMillis();
     }
+
     public String get_time(){
         int segundos = (int)(time/1000);
         int minutos = segundos / 60;
         int horas = minutos/60;
         return String.format("%02d",horas)+':'+String.format("%02d",minutos%60)+':'+String.format("%02d",segundos%60);
+    }
+
+    public void actualitzaTime(){
+        time = System.currentTimeMillis() - time_start;
     }
 
     //Si el temps t - temps d'inici es superior a 20 retorna true, (timeout)

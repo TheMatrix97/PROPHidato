@@ -53,6 +53,7 @@ public class Partida implements Serializable{
         this.encurs = new Tauler(conf);
         this.solucio = new Tauler(encurs);
         Maquina.resolHidato(this.solucio);
+        this.tiempo.start_time();
     }
 
     //Jugada insertar d'un jugador, sobre una posicio i,j del tauler
@@ -60,7 +61,13 @@ public class Partida implements Serializable{
         Celda c;
         try {
             c = encurs.getCelda(i,j);
-            if(c.isValida() && c.isVacia()) encurs.addUsat(num);
+            if(c.isValida()){
+                if(c.isVacia()) encurs.addUsat(num);
+                else if(!c.isPrefijada()){ //Si toquem un valor que ja teniem, i el sobreescribim, eliminem el valor antic de usats i afegim el nou.
+                    encurs.delUsat(c.getValor());
+                    encurs.addUsat(num);
+                }
+            }
         } catch (Utils.ExceptionPosicioNoValida e) {
             throw new Utils.ExceptionJugadaNoValida();
         }
@@ -118,6 +125,7 @@ public class Partida implements Serializable{
 
     //retorna el temps de la partida.
     public Time getTiempo(){
+        this.tiempo.actualitzaTime();
         return this.tiempo;
     }
 

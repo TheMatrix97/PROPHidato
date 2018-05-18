@@ -1,5 +1,4 @@
 
-
 import hidato.*;
 
 import java.io.BufferedReader;

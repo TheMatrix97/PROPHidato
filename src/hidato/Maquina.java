@@ -44,7 +44,7 @@ public abstract class Maquina implements Serializable{
             ini = seg;
             seg = seguentPref(pref, ini);
         }
-        if(ini == max) throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
+        if(ini == max) throw new Utils.ExceptionHidatoSolucionat();
         ArrayList<Vector<Celda>> camins;
         try{
             camins = TrobaCaminsValids(ini,seg,t,time);
@@ -53,7 +53,7 @@ public abstract class Maquina implements Serializable{
         }
         if(camins.size() == 0){
             if(jugades.size() == 0){
-                throw new Utils.ExceptionHidatoNoSol("Hidato sense solucio");
+                throw new Utils.ExceptionHidatoNoSol();
             }
             ArrayList<Jugada> j = jugades.get(jugades.size()-1);
             jugades.remove(j);
@@ -65,7 +65,7 @@ public abstract class Maquina implements Serializable{
             return; //hay que deshacer ultimo movimiento
         }
         for(Vector<Celda> cami : camins){
-            if(time.checkTime(System.currentTimeMillis())){ //timeout
+            if(time.checkTime(System.currentTimeMillis()) || Thread.currentThread().isInterrupted()){ //timeout per temps o interrupció
                 throw new Utils.ExceptionTimeOut("És massa complicat per resoldre en 20s");
             }
             int cont = ini;
@@ -80,7 +80,7 @@ public abstract class Maquina implements Serializable{
                     }
                     jcami.add(i);
                     if((i != null ? i.getNum() : 0) + 1 == max){
-                        throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
+                        throw new Utils.ExceptionHidatoSolucionat();
                     }
                 }
             }
@@ -113,7 +113,7 @@ public abstract class Maquina implements Serializable{
         v.add(t[p.getKey()][p.getValue()]);
         s.push(v);
         while(!s.empty()){
-            if(time.checkTime(System.currentTimeMillis())) throw new Exception(); //timeout
+            if(time.checkTime(System.currentTimeMillis()) || Thread.currentThread().isInterrupted()) throw new Exception(); //timeout per temps o interrupció
             Vector<Celda> auxv = s.pop();
             Celda node = auxv.lastElement();
             ArrayList<Celda> veins = node.getVecinos();

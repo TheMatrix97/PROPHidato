@@ -14,9 +14,11 @@ public class Gestor implements Serializable{
     private ArrayList<Ranking> rankings;
     private Partida game;
     private static Gestor Gest;
+    private GestorSaves gs;
 
     //constructora singleton
     private Gestor() {
+        this.gs = new GestorSaves();
         this.rankings = new ArrayList<>();
     }
 
@@ -36,10 +38,17 @@ public class Gestor implements Serializable{
         try{
             game = new Partida(nom,nomJugador);
         }catch(Exception e){
+            e.printStackTrace();
             this.game = null;
             throw new Exception();
             //TODO avisar que la partida no es valida
         }
+    }
+
+    public void crearPartidaConf(char tcela, String adj, String dificultat, String nomjug){ //funció que crida la capa de presentació amb les opcions seleccionades
+        crearPartidaBuida(nomjug);
+        Configuracio conf =  new Configuracio(dificultat, adj,tcela);
+        this.game.generar_partida_random(conf);
     }
     //funció que utilitza un usuari per fer una jugada d'inserció
     public void ferJugada(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
@@ -100,6 +109,17 @@ public class Gestor implements Serializable{
         return this.rankings;
     }
 
+    public boolean partidaGuardada(){ //si hi ha una partida guardada retorna true sino false
+        return gs.saveExiste();
+    }
+
+    public void guardarPartida(){
+        gs.guardar_partida(this.game);
+    }
+
+    public void cargarPartida() throws Exception {
+        setPartida(gs.cargar_partida());
+    }
 
 
     //La clase Gestor es de tipo Singleton, es decir q hay solo una instancia de gestor
