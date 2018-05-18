@@ -47,6 +47,7 @@ public class PartidaView {
             actTimer();
             b = false;
         }
+
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[i].length; ++j){
                 fieldG[i][j].addActionListener(new MyListener(i, j));
@@ -132,6 +133,7 @@ public class PartidaView {
             for(int y = 0; y < j; ++y) {
                 boolean orientacio = t.orientacio(x,y,'T');
                 if(!c[x][y].isValida()){
+                    fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                     switch (tcela){
                         case 'T':
                             fieldG[x][y] = new TriButton(true, orientacio);
@@ -143,14 +145,7 @@ public class PartidaView {
                             fieldG[x][y] = new Qbutton(true);
                             break;
                     }
-
-                    if(!c[x][y].isFrontera()) {
-                        //ES UN '*'
-                        fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
-                    }
-                    else{
-                        fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
-                    }
+                    if(c[x][y].isFrontera()) fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
                 }
                 else{
                     switch (tcela){
@@ -173,12 +168,10 @@ public class PartidaView {
 
                         fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                     }
-                    //else casella buida?
                 }
 
                 fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
                 fieldG[x][y].setHorizontalAlignment(CENTER);
-
                 gamePanel.add(fieldG[x][y]);
                 switch (tcela){
                     case 'T':
@@ -193,8 +186,8 @@ public class PartidaView {
                         offsetX += 50;
                         break;
                 }
-
             }
+            
             offsetY += 50;
             offsetX = 0;
         }
@@ -271,6 +264,7 @@ public class PartidaView {
         });
         timerinoCapuccino.start();
     }
+
     private void setTaulerLayout(char tcela){ //funció que aplica el layout segons el tcela(H i T) i fixa el min i max size
         int i = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getN();
         int j = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getK();
@@ -290,6 +284,7 @@ public class PartidaView {
                 width  = Qbutton.getWIDTH();
                 break;
         }
+
         int margen = 20;
         height = height * (i+1) + margen;
         width = width * (j+1) + margen;
