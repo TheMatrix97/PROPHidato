@@ -63,7 +63,7 @@ public class DriverGestorSaves {
                         for (Ranking raux : r) {
                             System.out.println("Ranking " + contador);
                             for (Record recaux : raux.getRanking()) {
-                                System.out.println(recaux.getTime().get_time().toString() + ' ' + recaux.getnomJugador());
+                                System.out.println(recaux.getTime().get_time() + ' ' + recaux.getnomJugador());
                             }
                             System.out.println("------------------");
                             contador++;
