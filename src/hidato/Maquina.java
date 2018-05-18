@@ -44,7 +44,7 @@ public abstract class Maquina implements Serializable{
             ini = seg;
             seg = seguentPref(pref, ini);
         }
-        if(ini == max) throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
+        if(ini == max) throw new Utils.ExceptionHidatoSolucionat();
         ArrayList<Vector<Celda>> camins;
         try{
             camins = TrobaCaminsValids(ini,seg,t,time);
@@ -53,7 +53,7 @@ public abstract class Maquina implements Serializable{
         }
         if(camins.size() == 0){
             if(jugades.size() == 0){
-                throw new Utils.ExceptionHidatoNoSol("Hidato sense solucio");
+                throw new Utils.ExceptionHidatoNoSol();
             }
             ArrayList<Jugada> j = jugades.get(jugades.size()-1);
             jugades.remove(j);
@@ -80,7 +80,7 @@ public abstract class Maquina implements Serializable{
                     }
                     jcami.add(i);
                     if((i != null ? i.getNum() : 0) + 1 == max){
-                        throw new Utils.ExceptionHidatoSolucionat("Solucionat!");
+                        throw new Utils.ExceptionHidatoSolucionat();
                     }
                 }
             }

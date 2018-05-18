@@ -31,7 +31,6 @@ public class PartidaView {
     private JFrame framePartida;
     private JButton[][] fieldG;
     private Celda[][] c;
-    private boolean b = true;
     private Thread timerinoCapuccino;
     private boolean resolt = false;
 
@@ -53,6 +52,7 @@ public class PartidaView {
                 createQGrid();
                 break;
         }
+        boolean b = true;
         if(b){
             actTimer();
             b = false;
@@ -68,30 +68,24 @@ public class PartidaView {
         framePartida.pack();
         framePartida.setVisible(true);
 
-        SAVEButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.getSingletonInstance().guardarPartida();
-                JOptionPane.showMessageDialog(new JFrame(),
-                        "Partida guardada!");
-            }
+        SAVEButton.addActionListener(e -> {
+            CtrlPresentacio.getSingletonInstance().guardarPartida();
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Partida guardada!");
         });
-        HELPButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    CtrlPresentacio.getSingletonInstance().demanarHelp();
-                    recalcular_Matrix();
-                } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
-                    recalcular_Matrix();
-                    resolt = true;
-                    timerinoCapuccino.interrupt();
-                    timerinoCapuccino = null;
-                    //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            "GOOD GAME!\n Guardant record...");
-                    end_game();
-                }
+        HELPButton.addActionListener(e -> {
+            try {
+                CtrlPresentacio.getSingletonInstance().demanarHelp();
+                recalcular_Matrix();
+            } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
+                recalcular_Matrix();
+                resolt = true;
+                timerinoCapuccino.interrupt();
+                timerinoCapuccino = null;
+                //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "GOOD GAME!\n Guardant record...");
+                end_game();
             }
         });
         framePartida.addWindowListener(new WindowAdapter() {
@@ -101,12 +95,9 @@ public class PartidaView {
                 framePartida.dispose();
             }
         });
-        MENUButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.getSingletonInstance().iniMenu();
-                framePartida.dispose();
-            }
+        MENUButton.addActionListener(e -> {
+            CtrlPresentacio.getSingletonInstance().iniMenu();
+            framePartida.dispose();
         });
     }
     private void recalcular_Matrix(){
@@ -317,19 +308,13 @@ public class PartidaView {
     }
 
     private void actTimer() {
-        timerinoCapuccino = new Thread(new Runnable() {
-            @Override
-            public void run() {
-               //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
-               Timer timer = new Timer(1000, new ActionListener() {
-                   @Override
-                   public void actionPerformed(ActionEvent e) {
-                       //System.out.println("Actualitzant timer...");
-                       if(!resolt) timeLabel.setText(CtrlPresentacio.getSingletonInstance().getTimerinoPartida());
-                   }
-               });
-               timer.start();
-            }
+        timerinoCapuccino = new Thread(() -> {
+           //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
+           Timer timer = new Timer(1000, e -> {
+               //System.out.println("Actualitzant timer...");
+               if (!resolt) timeLabel.setText(CtrlPresentacio.getSingletonInstance().getTimerinoPartida());
+           });
+           timer.start();
         });
         timerinoCapuccino.start();
     }

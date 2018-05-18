@@ -37,44 +37,28 @@ public class MenuInici {
         Color background = new Color(255,255,255);
         MenuInici.setBackground(background);
         southpanel.setBackground(background);
-        sortirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+        sortirButton.addActionListener(e -> System.exit(0));
+        musicButton.addActionListener(e -> {
+            if(music){
+                music = false;
+                player.stopPlayback();
+                musicButton.setText("Music ON");
+            }else{
+                music = true;
+                player.startPlayback();
+                musicButton.setText("Music OFF");
             }
         });
-        musicButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(music){
-                    music = false;
-                    player.stopPlayback();
-                    musicButton.setText("Music ON");
-                }else{
-                    music = true;
-                    player.startPlayback();
-                    musicButton.setText("Music OFF");
-                }
+        novaPartidaButton.addActionListener(e -> CtrlPresentacio.getSingletonInstance().setContentFrame(partidaNova.getPanel()));
+        carregarPartidaButton.addActionListener(e -> {
+            try {
+                CtrlPresentacio.getSingletonInstance().cargarPartida();
+                CtrlPresentacio.getSingletonInstance().start_partida();
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(new JFrame(),
+                        "Error al carregar la partida");
             }
-        });
-        novaPartidaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.getSingletonInstance().setContentFrame(partidaNova.getPanel());
-            }
-        });
-        carregarPartidaButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    CtrlPresentacio.getSingletonInstance().cargarPartida();
-                    CtrlPresentacio.getSingletonInstance().start_partida();
-                }catch(Exception ex){
-                    JOptionPane.showMessageDialog(new JFrame(),
-                            "Error al carregar la partida");
-                }
 
-            }
         });
     }
 

@@ -1,12 +1,9 @@
 package hidato;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import static java.lang.Thread.sleep;
 
 
 /**
@@ -31,72 +28,62 @@ public class SeleccionarBD {
         for(String aux : llista){
             comboBox1.addItem(aux);
         }
-        tornarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(threadsolver != null && !threadsolver.isInterrupted()){
-                    threadsolver.interrupt();
-                    threadsolver = null;
-                }
-                CtrlPresentacio.getSingletonInstance().setContentFrame(new PartidaNova().getPanel());
+        tornarButton.addActionListener(e -> {
+            if(threadsolver != null && !threadsolver.isInterrupted()){
+                threadsolver.interrupt();
+                threadsolver = null;
             }
+            CtrlPresentacio.getSingletonInstance().setContentFrame(new PartidaNova().getPanel());
         });
-        OKButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String nom = (String) comboBox1.getSelectedItem();
-                String naux;
-                final String[] nomJ = new String[1];
-                final String[] adj = new String[1];
-                final String[] dif = new String[1];
-                try{
-                    naux = getName();
-                }catch(Utils.ExceptionNomNoValid ex){
+        OKButton.addActionListener(e -> {
+            String nom = (String) comboBox1.getSelectedItem();
+            String naux;
+            final String[] nomJ = new String[1];
+            final String[] adj = new String[1];
+            final String[] dif = new String[1];
+            try{
+                naux = getName();
+            }catch(Utils.ExceptionNomNoValid ex){
+                return;
+            }
+            //TODO encpasular Thread en una clase nova per evitar repetir codi aqui i a generarTauler
+            threadsolver = new Thread(() -> {
+                progressBar1.setVisible(true);
+                OKButton.setEnabled(false);
+                comboBox1.setEnabled(false);
+                try {
+                    CtrlPresentacio.getSingletonInstance().crearPartidaBD(nom, naux);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                    if (!Thread.currentThread().isInterrupted()) {
+                        JOptionPane.showMessageDialog(new JFrame(),
+                                "Aquest hidato no te solució!, selecciona un altre",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    progressBar1.setVisible(false);
+                    OKButton.setEnabled(true);
+                    comboBox1.setEnabled(true);
                     return;
                 }
-                //TODO encpasular Thread en una clase nova per evitar repetir codi aqui i a generarTauler
-                threadsolver = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar1.setVisible(true);
-                        OKButton.setEnabled(false);
-                        comboBox1.setEnabled(false);
-                        try {
-                            CtrlPresentacio.getSingletonInstance().crearPartidaBD(nom, naux);
-                        }
-                        catch (Exception e1) {
-                            e1.printStackTrace();
-                            if(!Thread.currentThread().isInterrupted()) {
-                                JOptionPane.showMessageDialog(new JFrame(),
-                                        "Aquest hidato no te solució!, selecciona un altre",
-                                        "Error",
-                                        JOptionPane.ERROR_MESSAGE);
-                            }
-
-                            progressBar1.setVisible(false);
-                            OKButton.setEnabled(true);
-                            comboBox1.setEnabled(true);
-                            return;
-                        }
-                        progressBar1.setVisible(false);
-                        OKButton.setEnabled(true);
-                        comboBox1.setEnabled(true);
-                        //AQUI ES CRIDA AL FRAME DE PARTIDA
-                        Partida p = CtrlPresentacio.getSingletonInstance().getPartida();
-                        System.out.println("Nom user: " + p.getJugador().getNom());
-                        nomJ[0] = p.getJugador().getNom();
-                        System.out.println("Tipus cela: " + p.getConf().getcell());
-                        System.out.println("Adj: " + p.getConf().getAdjacencia());
-                        adj[0] = p.getConf().getAdjacencia();
-                        System.out.println("Dificultat: " + p.getConf().getDificultat());
-                        dif[0] = p.getConf().getDificultat();
-                        System.out.println("Tauler: ");
-                        Utils.printa_tauler(p.getTauler().getTauler());
-                        CtrlPresentacio.getSingletonInstance().start_partida();
-                    }
-                });
-                threadsolver.start();
-            }
+                progressBar1.setVisible(false);
+                OKButton.setEnabled(true);
+                comboBox1.setEnabled(true);
+                //AQUI ES CRIDA AL FRAME DE PARTIDA
+                Partida p = CtrlPresentacio.getSingletonInstance().getPartida();
+                System.out.println("Nom user: " + p.getJugador().getNom());
+                nomJ[0] = p.getJugador().getNom();
+                System.out.println("Tipus cela: " + p.getConf().getcell());
+                System.out.println("Adj: " + p.getConf().getAdjacencia());
+                adj[0] = p.getConf().getAdjacencia();
+                System.out.println("Dificultat: " + p.getConf().getDificultat());
+                dif[0] = p.getConf().getDificultat();
+                System.out.println("Tauler: ");
+                Utils.printa_tauler(p.getTauler().getTauler());
+                CtrlPresentacio.getSingletonInstance().start_partida();
+            });
+            threadsolver.start();
         });
     }
 

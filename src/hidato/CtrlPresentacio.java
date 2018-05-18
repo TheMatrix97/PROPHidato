@@ -1,7 +1,6 @@
 package hidato;
 
 import javax.swing.*;
-import java.awt.*;
 
 //sigleton com el domini
 public class CtrlPresentacio {

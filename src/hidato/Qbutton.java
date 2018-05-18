@@ -12,7 +12,6 @@ public class Qbutton extends JButton {
     private static final int HEIGHT = 48;
     private static final int WIDTH = 48;
     private boolean b;
-    private Polygon quad;
 
     public Qbutton(boolean b){
         //b = true -> pintar triangle, rev = true -> triangle invers!
@@ -26,7 +25,7 @@ public class Qbutton extends JButton {
     @Override
     public  void paintComponent(Graphics g){
         super.paintComponent(g);
-        quad = new Polygon();
+        Polygon quad = new Polygon();
         quad.addPoint(0, 0); //abaix esq
         quad.addPoint(0, HEIGHT); //adalt esq
         quad.addPoint(WIDTH, HEIGHT); //adalt dreta

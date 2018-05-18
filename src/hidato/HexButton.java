@@ -13,7 +13,6 @@ class HexButton extends JButton {
     private static final int SIDE_LENGTH = 24;
     private static final int LENGTH = 48;
     private static final int WIDTH = 53;
-    private Polygon hex;
     private boolean b;
 
 
@@ -29,7 +28,7 @@ class HexButton extends JButton {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        hex = new Polygon();
+        Polygon hex = new Polygon();
         for(int i = 0; i < SIDES; ++i) {
             hex.addPoint((int) (25 + SIDE_LENGTH * Math.cos(i * 2 * Math.PI / SIDES)), //calculation for side
                     (int) (25 + SIDE_LENGTH * Math.sin(i * 2 * Math.PI / SIDES)));   //calculation for side

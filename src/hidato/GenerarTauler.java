@@ -1,7 +1,6 @@
 package hidato;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,43 +24,32 @@ public class GenerarTauler {
 
     public GenerarTauler() {
         threadSolver = null;
-        tornarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CtrlPresentacio.getSingletonInstance().setContentFrame(new PartidaNova().getPanel());
+        tornarButton.addActionListener(e -> CtrlPresentacio.getSingletonInstance().setContentFrame(new PartidaNova().getPanel()));
+        OKButton.addActionListener(e -> {
+            String name;
+            try{
+                name = getName();
+            }catch(Utils.ExceptionNomNoValid ex){
+                return;
             }
-        });
-        OKButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name;
-                try{
-                    name = getName();
-                }catch(Utils.ExceptionNomNoValid ex){
-                    return;
-                }
-                OKButton.setEnabled(false);
-                threadSolver = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar1.setVisible(true);
-                        //Gestor g = CtrlPresentacio.gestorSingleton();
-                        CtrlPresentacio.getSingletonInstance().crearPartida(getOpcio("tcela"),getOpcio("adj"),getOpcio("dif"),name);
-                        //TODO System.out 4 debug ELIMINAR!!!
-                        p = CtrlPresentacio.getSingletonInstance().getPartida();
-                        System.out.println("Nom user: " + p.getJugador().getNom());
-                        System.out.println("Tipus cela: " + p.getConf().getcell());
-                        System.out.println("Adj: " + p.getConf().getAdjacencia());
-                        System.out.println("Dificultat: " + p.getConf().getDificultat());
-                        System.out.println("Tauler: ");
-                        Utils.printa_tauler(p.getTauler().getTauler());
-                        progressBar1.setVisible(false);
-                        OKButton.setEnabled(true);
-                        CtrlPresentacio.getSingletonInstance().start_partida();
-                    }
-                });
-                threadSolver.start();
-            }
+            OKButton.setEnabled(false);
+            threadSolver = new Thread(() -> {
+                progressBar1.setVisible(true);
+                //Gestor g = CtrlPresentacio.gestorSingleton();
+                CtrlPresentacio.getSingletonInstance().crearPartida(getOpcio("tcela"), getOpcio("adj"), getOpcio("dif"), name);
+                //TODO System.out 4 debug ELIMINAR!!!
+                p = CtrlPresentacio.getSingletonInstance().getPartida();
+                System.out.println("Nom user: " + p.getJugador().getNom());
+                System.out.println("Tipus cela: " + p.getConf().getcell());
+                System.out.println("Adj: " + p.getConf().getAdjacencia());
+                System.out.println("Dificultat: " + p.getConf().getDificultat());
+                System.out.println("Tauler: ");
+                Utils.printa_tauler(p.getTauler().getTauler());
+                progressBar1.setVisible(false);
+                OKButton.setEnabled(true);
+                CtrlPresentacio.getSingletonInstance().start_partida();
+            });
+            threadSolver.start();
         });
     }
     private String getName() throws Utils.ExceptionNomNoValid {

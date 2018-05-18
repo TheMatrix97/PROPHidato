@@ -11,7 +11,6 @@ import java.io.*;
  */
 public class MusicPlayer extends Thread {
     private Clip clip;
-    private AudioInputStream p;
     private String namemusic;
     private boolean loop;
 
@@ -25,7 +24,7 @@ public class MusicPlayer extends Thread {
     public void run() {
         String soundName = "res/music/" + this.namemusic;
         try {
-            p = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+            AudioInputStream p = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
             clip = AudioSystem.getClip();
             clip.open(p);
         } catch (Exception e) {
