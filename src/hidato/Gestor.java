@@ -52,6 +52,7 @@ public class Gestor implements Serializable{
     }
     //funció que utilitza un usuari per fer una jugada d'inserció
     public void ferJugada(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
+        System.out.println("Faré una jugada " + game);
         if(game != null) {
             try {
                 game.fesJugadaIns(i, j, num);
@@ -59,11 +60,13 @@ public class Gestor implements Serializable{
             }catch(Utils.ExceptionTaulerResolt e){
                 Time t = game.getTiempo();
                 Jugador jug = game.getJugador();
+                System.out.println("jugador " + jug);
                 if(jug != null) { //si lo ha hecho una persona
                     Record r = new Record(t, jug.getNom());
                     boolean exists = false;
                     for(Ranking rank : rankings){ //todo testear
                         if(rank.getConf().equals(game.getConf())){
+                            System.out.println("Encontrado");
                             rank.addRecord(r);
                             exists = true;
                             break;
@@ -119,6 +122,17 @@ public class Gestor implements Serializable{
 
     public void cargarPartida() throws Exception {
         setPartida(gs.cargar_partida());
+    }
+
+    public void guardar_rankings(){
+        System.out.println("Hay -> " + rankings.size());
+        for(Ranking r : rankings){
+            ArrayList<Record> aux = r.getRanking();
+            for(Record auxr : aux){
+                System.out.println("Record -> " + auxr.getnomJugador() + " " + auxr.getTime().get_time());
+            }
+        }
+        gs.guardarRankings(this.rankings);
     }
 
 
