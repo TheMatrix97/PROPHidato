@@ -185,17 +185,15 @@ public class PartidaView {
                         offsetX += 28;
                         break;
                     case 'H':
-                        if(y != j) {
-                            if (y % 2 == 0) {
-                                offsetY -= 25;
-                                System.out.println("He de sumar -25 al offsetY, offsetY resultant " + offsetY);
-                            } else {
-                                offsetY += 25;
-                                System.out.println("He de sumar +25 al offsetY, offsetY resultant " + offsetY);
-                            }
-                            offsetX += 43;
-                            System.out.println("He de sumar +43 al offsetX, offsetX resultant " + offsetX);
+                        if (y % 2 == 0) {
+                            offsetY -= 25;
+                            System.out.println("He de sumar -25 al offsetY, offsetY resultant " + offsetY);
+                        } else {
+                            offsetY += 25;
+                            System.out.println("He de sumar +25 al offsetY, offsetY resultant " + offsetY);
                         }
+                        offsetX += 43;
+                        System.out.println("He de sumar +43 al offsetX, offsetX resultant " + offsetX);
                         break;
                     default:
                         offsetX += 50;
