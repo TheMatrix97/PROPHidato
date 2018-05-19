@@ -124,15 +124,17 @@ public class PartidaView {
                 fieldG = new Qbutton[i][j];
                 break;
         }
-
+        System.out.println("Sóc un: " + tcela);
         gamePanel.setBackground(Color.white);
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         Tauler t = CtrlPresentacio.getSingletonInstance().getPartida().getTauler();
         int offsetX = 0, offsetY = 0;
         if(tcela == 'H') offsetY += 25;
+        System.out.println("El meu offset inicial és: x: " + offsetX + " y: " + offsetY);
         for(int x = 0; x < i; ++x){
             for(int y = 0; y < j; ++y) {
                 boolean orientacio = t.orientacio(x,y,'T');
+                System.out.println("posicio: x: " + x + " y: " + y);
                 if(!c[x][y].isValida()){
                     switch (tcela){
                         case 'T':
@@ -145,7 +147,12 @@ public class PartidaView {
                             fieldG[x][y] = new Qbutton(true);
                             break;
                     }
-                    if(c[x][y].isFrontera()) fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
+                    if(c[x][y].isFrontera()){
+                        System.out.println("Cel·la no valida i #");
+                        //fieldG[x][y].setText("#");
+                        fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
+                    }
+                    else System.out.println("Cel·la no valida i *");
                     fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                 }
                 else{
@@ -166,7 +173,6 @@ public class PartidaView {
                         fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
                     }
                     else if(!c[x][y].isVacia()){ //si es una celda de una partida cargada puede tener un numero dentro
-
                         fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
                     }
                 }
@@ -179,18 +185,27 @@ public class PartidaView {
                         offsetX += 28;
                         break;
                     case 'H':
-                        if (y % 2 == 0) offsetY -= 25;
-                        else offsetY += 25;
-                        offsetX += 43;
+                        if(y != j) {
+                            if (y % 2 == 0) {
+                                offsetY -= 25;
+                                System.out.println("He de sumar -25 al offsetY, offsetY resultant " + offsetY);
+                            } else {
+                                offsetY += 25;
+                                System.out.println("He de sumar +25 al offsetY, offsetY resultant " + offsetY);
+                            }
+                            offsetX += 43;
+                            System.out.println("He de sumar +43 al offsetX, offsetX resultant " + offsetX);
+                        }
                         break;
                     default:
                         offsetX += 50;
                         break;
                 }
             }
-
-            offsetY += 50;
+            if(tcela == 'H') offsetY += 75;
+            else offsetY += 50;
             offsetX = 0;
+            System.out.println("He de sumar 50 al offsetY, offsetY resultant " + offsetY + " offsetX reiniciat a 0: " + offsetX);
         }
     }
 
