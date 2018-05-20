@@ -200,8 +200,8 @@ public class PartidaView {
                         break;
                 }
             }
-            if(tcela == 'H') offsetY += 75;
-            else offsetY += 50;
+            if(tcela == 'H' && (j % 2 != 0)) offsetY += 25;
+            offsetY += 50;
             offsetX = 0;
             System.out.println("He de sumar 50 al offsetY, offsetY resultant " + offsetY + " offsetX reiniciat a 0: " + offsetX);
         }
