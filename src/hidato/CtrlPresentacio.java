@@ -26,7 +26,7 @@ public class CtrlPresentacio {
     public void iniMenu(){
         menuInici.setCarregarPartidaButton();
         frame.setContentPane(menuInici.getMenuIni());
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
@@ -74,11 +74,12 @@ public class CtrlPresentacio {
     }
 
     public void ferJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
-        g.getPartida().fesJugadaIns(i,j,num);
+        System.out.println("Jugada!");
+        g.ferJugada(i,j,num);
     }
 
     public void ferJugadaDel(int i, int j) throws Utils.ExceptionJugadaNoValida {
-        g.getPartida().fesJugadaDel(i, j);
+        g.ferJugadaDel(i,j);
     }
 
     public void crearPartidaBD(String nom, String naux) throws Exception {
@@ -97,5 +98,8 @@ public class CtrlPresentacio {
         JFrame framePartida = new JFrame("PartidaView");
         new PartidaView(framePartida);
         framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+    public void salvar_rankings(){
+        g.guardar_rankings();
     }
 }
