@@ -26,7 +26,7 @@ public class CtrlPresentacio {
     public void iniMenu(){
         menuInici.setCarregarPartidaButton();
         frame.setContentPane(menuInici.getMenuIni());
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
