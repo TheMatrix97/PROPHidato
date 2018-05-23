@@ -42,6 +42,7 @@ public class GridHex extends GridGame {
                 else offsetY += 25;
                 offsetX += 43;
             }
+            if(!(j % 2 == 0)) offsetY += 25;
             offsetY += 50;
             offsetX = 0;
         }
