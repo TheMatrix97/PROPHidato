@@ -11,15 +11,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Vranking {
-    public JPanel panel1;
+    private JPanel panel1;
     private JPanel southPanel;
     private JButton tornarButton;
-    public JLabel label1;
-    public JLabel label2;
-    public JLabel label3;
+    private JLabel label1;
+    private JLabel label2;
+    private JLabel label3;
     private JTable table1;
     private JLabel labelr;
-    public Configuracio conf;
+    private Configuracio conf;
 
 
 
@@ -67,8 +67,9 @@ public class Vranking {
         modelo.addRow ( new String[] {"NomJugador", "Temps"} );
         table1.setEnabled(false);
         try {
-             GestorSaves gs = new GestorSaves();
-            ArrayList<Ranking> ar = gs.cargar_ranking();
+            //GestorSaves gs = new GestorSaves();
+            //ArrayList<Ranking> ar = gs.cargar_ranking();
+            ArrayList<Ranking> ar = Gestor.getSingletonInstance().getGs().cargar_ranking();
             boolean b = false;
             String auxiliar = "C";
            for(Ranking a : ar){
@@ -91,8 +92,20 @@ public class Vranking {
         }
     }
 
+    public void SetJPanel1(String value){
+        label1.setText(value);
+    }
 
+    public void SetJPanel2(String value){
+        label2.setText(value);
+    }
+    public void SetJPanel3(String value){
+        label3.setText(value);
+    }
 
+    public void SetConfiguracio(String dif, String adj, char tcelda){
+            conf = new Configuracio(dif,adj,tcelda);
+    }
 
     public JPanel getPanel() {
         return panel1;

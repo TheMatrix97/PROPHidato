@@ -37,7 +37,8 @@ public class SelectRanking {
                     case  "Hexagon":
                         forma = 'H';
                 }
-                vrank.label1.setText(value);
+                vrank.SetJPanel1(value);
+        //        vrank.label1.setText(value);
                 String value2 = (String)comboBox2.getSelectedItem();
                 String adj ="";
                 switch (value2) {
@@ -47,11 +48,13 @@ public class SelectRanking {
                     case "Costats+angles":
                         adj = "CA";
                 }
-                vrank.label2.setText(value2);
+           //     vrank.label2.setText(value2);
+                vrank.SetJPanel2(value2);
                 String value3 = (String)comboBox3.getSelectedItem();
-                vrank.label3.setText(value3);
-                Configuracio c = new Configuracio(value3,adj,forma);
-                vrank.conf = c;
+           //     vrank.label3.setText(value3);
+                vrank.SetJPanel3(value3);
+                vrank.SetConfiguracio(value3,adj,forma);
+              //  vrank.conf = new Configuracio(value3,adj,forma);
                 vrank.FerTaula();
                 CtrlPresentacio.getSingletonInstance().setContentFrame(vrank.getPanel());
             }

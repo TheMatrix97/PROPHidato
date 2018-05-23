@@ -109,6 +109,10 @@ public class Gestor implements Serializable{
         return this.rankings;
     }
 
+    public GestorSaves getGs() {
+        return gs;
+    }
+
     public boolean partidaGuardada(){ //si hi ha una partida guardada retorna true sino false
         return gs.saveExiste();
     }
