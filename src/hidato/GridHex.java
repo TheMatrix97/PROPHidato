@@ -9,8 +9,14 @@ public class GridHex extends GridGame {
     }
 
     @Override
-    public int incrementoIY() {
-        return 50;
+    public int offiniY() {
+        return 25;
+    }
+
+    @Override
+    public int incrementoIY(int j) {
+        if(!(j % 2 == 0)) return 75;
+        else return 50;
     }
 
     @Override

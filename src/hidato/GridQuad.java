@@ -9,12 +9,17 @@ public class GridQuad extends GridGame{
     }
 
     @Override
-    public int incrementoIY() {
+    public int incrementoIY(int j) {
         return 50;
     }
 
     @Override
     public int incrementoJY(int y) {
+        return 0;
+    }
+
+    @Override
+    public int offiniY() {
         return 0;
     }
 

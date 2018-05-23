@@ -8,7 +8,12 @@ public class GridTri extends GridGame {
     }
 
     @Override
-    public int incrementoIY() {
+    public int offiniY() {
+        return 0;
+    }
+
+    @Override
+    public int incrementoIY(int j) {
         return 50;
     }
 
@@ -19,7 +24,7 @@ public class GridTri extends GridGame {
 
     @Override
     public int incrementoJY(int y) {
-        return 50;
+        return 0;
     }
 
     public JButton[][] obteArrayCelda(){

@@ -19,10 +19,9 @@ public abstract class GridGame {
     }
     public JButton[][] pintaGrid(){
         //mapa celda
-        System.out.println(incrementoIY());
         JButton[][] fieldG = obteArrayCelda();
         gamePanel.setBackground(Color.white);
-        int offsetX = 0, offsetY = 0;
+        int offsetX = 0, offsetY = offiniY(); //a hexagons es diferent
         for(int x = 0; x < i; ++x) {
             for (int y = 0; y < j; ++y) {
                 boolean orientacio = getOrientacioTri(x,y,'T');
@@ -42,15 +41,17 @@ public abstract class GridGame {
                 fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
                 fieldG[x][y].setHorizontalAlignment(CENTER);
                 gamePanel.add(fieldG[x][y]);
+                System.out.println("seguent: " + offsetX + "," + offsetY);
                 offsetX += incrementoJX();
                 offsetY += incrementoJY(y);
             }
-            offsetY += incrementoIY();
+            offsetY += incrementoIY(j); //HEX usa j para decidir
             offsetX = 0;
         }
         return fieldG;
     }
-    public abstract int incrementoIY();
+    public abstract int offiniY();
+    public abstract int incrementoIY(int j);
     public abstract int incrementoJY(int y); //se usa y en hex
     public abstract int incrementoJX();
     public abstract JButton[][] obteArrayCelda();
