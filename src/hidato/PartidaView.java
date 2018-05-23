@@ -34,25 +34,24 @@ public class PartidaView {
     private Thread timerinoCapuccino;
     private boolean resolt = false;
 
+    public void setResolt(boolean resolt) {
+        this.resolt = resolt;
+    }
+
+    public JTextField getValorJugada() {
+        return valorJugada;
+    }
 
     public PartidaView(JFrame frame) {
         this.framePartida = frame;
+        c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         setValues();
         valorJugada.setText(nextValue());
         char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
         setTaulerLayout(tcela); //configurem el layout per H / T / Q
         createGrid();
-        boolean b = true;
-        if(b){
-            actTimer();
-            b = false;
-        }
-
-        for(int i = 0; i < fieldG.length; ++i){
-            for(int j = 0; j < fieldG[i].length; ++j){
-                fieldG[i][j].addActionListener(new MyListener(i, j));
-            }
-        }
+        actTimer();
+        addListeners();
         //carreguem el frame i el mostem
         generateJScroll();
         framePartida.setExtendedState(framePartida.getExtendedState() | JFrame.MAXIMIZED_BOTH);
@@ -72,8 +71,7 @@ public class PartidaView {
             } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
                 recalcular_Matrix();
                 resolt = true;
-                timerinoCapuccino.interrupt();
-                timerinoCapuccino = null;
+                stopTimerino();
                 //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
                 JOptionPane.showMessageDialog(new JFrame(),
                         "GOOD GAME!\n Guardant record...");
@@ -92,7 +90,20 @@ public class PartidaView {
             framePartida.dispose();
         });
     }
-    private void recalcular_Matrix(){
+
+    private void addListeners() {
+        for(int i = 0; i < fieldG.length; ++i){
+            for(int j = 0; j < fieldG[i].length; ++j){
+                fieldG[i][j].addActionListener(new MyListener(i, j));
+            }
+        }
+    }
+
+    public void stopTimerino(){
+        timerinoCapuccino.interrupt();
+        timerinoCapuccino = null;
+    }
+    public void recalcular_Matrix(){
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[0].length; ++j){
                 if(!c[i][j].isVacia() && !c[i][j].isPrefijada() && c[i][j].isValida()) {
@@ -109,89 +120,22 @@ public class PartidaView {
         bigPanel.add(j);
     }
 
-    private void createGrid(){
-        int i = CtrlPresentacio.getSingletonInstance().sacaN();
-        int j = CtrlPresentacio.getSingletonInstance().sacaK();
+    private void createGrid() {
         char tcela = CtrlPresentacio.getSingletonInstance().getPartida().getConf().getcell();
-        switch (tcela){
+        Celda[][] mapacelda = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
+        GridGame grid;
+        switch (tcela) {
             case 'T':
-                fieldG = new TriButton[i][j];
+                grid = new GridTri(gamePanel,mapacelda);
                 break;
             case 'H':
-                fieldG = new HexButton[i][j];
+                grid = new GridHex(gamePanel,mapacelda);
                 break;
             default:
-                fieldG = new Qbutton[i][j];
+                grid = new GridQuad(gamePanel,mapacelda);
                 break;
         }
-
-        gamePanel.setBackground(Color.white);
-        c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
-        Tauler t = CtrlPresentacio.getSingletonInstance().getPartida().getTauler();
-        int offsetX = 0, offsetY = 0;
-        if(tcela == 'H') offsetY += 25;
-        for(int x = 0; x < i; ++x){
-            for(int y = 0; y < j; ++y) {
-                boolean orientacio = t.orientacio(x,y,'T');
-                if(!c[x][y].isValida()){
-                    switch (tcela){
-                        case 'T':
-                            fieldG[x][y] = new TriButton(true, orientacio);
-                            break;
-                        case 'H':
-                            fieldG[x][y] = new HexButton(true);
-                            break;
-                        default:
-                            fieldG[x][y] = new Qbutton(true);
-                            break;
-                    }
-                    if(c[x][y].isFrontera()) fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
-                    fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
-                }
-                else{
-                    switch (tcela){
-                        case 'T':
-                            fieldG[x][y] = new TriButton(false, orientacio);
-                            break;
-                        case 'H':
-                            fieldG[x][y] = new HexButton(false);
-                            break;
-                        default:
-                            fieldG[x][y] = new Qbutton(false);
-                            break;
-                    }
-                    if(c[x][y].isPrefijada()){ //Casella buida/prefixada
-                        //obtenim el valor per mostrar-lo
-                        fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
-                        fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
-                    }
-                    else if(!c[x][y].isVacia()){ //si es una celda de una partida cargada puede tener un numero dentro
-
-                        fieldG[x][y].setText(String.valueOf(c[x][y].getValor()));
-                    }
-                }
-
-                fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
-                fieldG[x][y].setHorizontalAlignment(CENTER);
-                gamePanel.add(fieldG[x][y]);
-                switch (tcela){
-                    case 'T':
-                        offsetX += 28;
-                        break;
-                    case 'H':
-                        if (y % 2 == 0) offsetY -= 25;
-                        else offsetY += 25;
-                        offsetX += 43;
-                        break;
-                    default:
-                        offsetX += 50;
-                        break;
-                }
-            }
-
-            offsetY += 50;
-            offsetX = 0;
-        }
+        this.fieldG = grid.pintaGrid();
     }
 
     private void setValues(){

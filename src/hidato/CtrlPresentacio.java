@@ -98,4 +98,11 @@ public class CtrlPresentacio {
         new PartidaView(framePartida);
         framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+    public void orientacioHexagon(){
+
+    }
+
+    public boolean getOrientacioTriangle(int x, int y, char t) {
+        return g.getOrientacioTriangle(x,y,t);
+    }
 }
