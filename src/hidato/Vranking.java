@@ -69,7 +69,7 @@ public class Vranking {
         try {
             //GestorSaves gs = new GestorSaves();
             //ArrayList<Ranking> ar = gs.cargar_ranking();
-            ArrayList<Ranking> ar = Gestor.getSingletonInstance().getGs().cargar_ranking();
+            ArrayList<Ranking> ar = CtrlPresentacio.getSingletonInstance().getGestor().getGs().cargar_ranking();
             boolean b = false;
             String auxiliar = "C";
            for(Ranking a : ar){

@@ -93,6 +93,10 @@ public class CtrlPresentacio {
         return g.getPartida().getConf().getcell();
     }
 
+    public  Gestor getGestor (){
+        return g;
+    }
+
     public void start_partida(){
         JFrame framePartida = new JFrame("PartidaView");
         new PartidaView(framePartida);
