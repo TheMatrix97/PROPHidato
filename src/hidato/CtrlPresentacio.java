@@ -41,8 +41,20 @@ public class CtrlPresentacio {
         g.crearPartidaConf(cell.charAt(0), adj,dif, name);
     }
 
-    public Partida getPartida(){
-        return g.getPartida();
+    public int getN(){
+        return g.getN();
+    }
+    public int getK(){
+        return g.getK();
+    }
+    public String getDificultat(){
+        return g.getDificultat();
+    }
+    public String getAdj() {
+        return g.getAdj();
+    }
+    public char getTipusCela(){
+        return g.getTipusCela();
     }
 
     public void guardarPartida(){
@@ -54,7 +66,7 @@ public class CtrlPresentacio {
     }
 
     public boolean existePartidaGuardada(){
-        return Gestor.getSingletonInstance().partidaGuardada();
+        return g.partidaGuardada();
     }
 
     public void demanarHelp() throws Utils.ExceptionTaulerResolt {
@@ -62,15 +74,7 @@ public class CtrlPresentacio {
     }
 
     public Celda[][] getTaulerdeCelles(){
-        return g.getPartida().getTauler().getTauler();
-    }
-
-    public int sacaN(){
-        return  g.getPartida().getTauler().getN();
-    }
-
-    public int sacaK(){
-        return g.getPartida().getTauler().getK();
+        return g.getTaulerCeles();
     }
 
     public void ferJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
@@ -87,19 +91,23 @@ public class CtrlPresentacio {
     }
 
     public String getTimerinoPartida(){
-        return g.getPartida().getTiempo().get_time();
+        return g.getTempsPartida();
     }
 
-    public char getTcela(){
-        return g.getPartida().getConf().getcell();
-    }
 
     public void start_partida(){
         JFrame framePartida = new JFrame("PartidaView");
         new PartidaView(framePartida);
         framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+
+    public boolean getOrientacioTriangle(int x, int y, char t) {
+        return g.getOrientacioTriangle(x,y,t);
+    }
     public void salvar_rankings(){
         g.guardar_rankings();
+    }
+    public String getNomJugador(){
+        return g.getNomJugador();
     }
 }

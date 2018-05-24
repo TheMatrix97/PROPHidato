@@ -134,6 +134,10 @@ public class Gestor implements Serializable{
         setPartida(gs.cargar_partida());
     }
 
+    public boolean getOrientacioTriangle(int x, int y, char t) {
+        return game.getTauler().orientacio(x,y,t);
+    }
+
     public void guardar_rankings(){
         System.out.println("Hay -> " + rankings.size());
         for(Ranking r : rankings){
@@ -143,6 +147,35 @@ public class Gestor implements Serializable{
             }
         }
         gs.guardarRankings(this.rankings);
+    }
+
+    public char getTipusCela() {
+        return this.game.getConf().getcell();
+    }
+    public int getN(){
+        return this.game.getTauler().getN();
+    }
+    public int getK(){
+        return this.game.getTauler().getK();
+    }
+
+    public String getDificultat() {
+        return this.game.getConf().getDificultat();
+    }
+    public String getAdj() {
+        return this.game.getConf().getAdjacencia();
+    }
+
+    public String getNomJugador() {
+        return this.game.getJugador().getNom();
+    }
+
+    public Celda[][] getTaulerCeles() {
+        return this.game.getTauler().getTauler();
+    }
+
+    public String getTempsPartida() {
+        return this.game.getTiempo().get_time();
     }
 
 
