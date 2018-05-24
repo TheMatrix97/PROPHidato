@@ -149,6 +149,35 @@ public class Gestor implements Serializable{
         gs.guardarRankings(this.rankings);
     }
 
+    public char getTipusCela() {
+        return this.game.getConf().getcell();
+    }
+    public int getN(){
+        return this.game.getTauler().getN();
+    }
+    public int getK(){
+        return this.game.getTauler().getK();
+    }
+
+    public String getDificultat() {
+        return this.game.getConf().getDificultat();
+    }
+    public String getAdj() {
+        return this.game.getConf().getAdjacencia();
+    }
+
+    public String getNomJugador() {
+        return this.game.getJugador().getNom();
+    }
+
+    public Celda[][] getTaulerCeles() {
+        return this.game.getTauler().getTauler();
+    }
+
+    public String getTempsPartida() {
+        return this.game.getTiempo().get_time();
+    }
+
 
     //La clase Gestor es de tipo Singleton, es decir q hay solo una instancia de gestor
     //Para conseguir que una clase sea de tipo Singleton necesitamos en primer lugar que su constructor sea privado.

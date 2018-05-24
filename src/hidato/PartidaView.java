@@ -34,20 +34,13 @@ public class PartidaView {
     private Thread timerinoCapuccino;
     private boolean resolt = false;
 
-    public void setResolt(boolean resolt) {
-        this.resolt = resolt;
-    }
-
-    public JTextField getValorJugada() {
-        return valorJugada;
-    }
 
     public PartidaView(JFrame frame) {
         this.framePartida = frame;
         c = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         setValues();
         valorJugada.setText(nextValue());
-        char tcela = CtrlPresentacio.getSingletonInstance().getTcela();
+        char tcela = CtrlPresentacio.getSingletonInstance().getTipusCela();
         setTaulerLayout(tcela); //configurem el layout per H / T / Q
         createGrid();
         actTimer();
@@ -121,7 +114,7 @@ public class PartidaView {
     }
 
     private void createGrid() {
-        char tcela = CtrlPresentacio.getSingletonInstance().getPartida().getConf().getcell();
+        char tcela = CtrlPresentacio.getSingletonInstance().getTipusCela();
         Celda[][] mapacelda = CtrlPresentacio.getSingletonInstance().getTaulerdeCelles();
         GridGame grid;
         switch (tcela) {
@@ -139,15 +132,11 @@ public class PartidaView {
     }
 
     private void setValues(){
-        Partida aux = CtrlPresentacio.getSingletonInstance().getPartida();
+        CtrlPresentacio c = CtrlPresentacio.getSingletonInstance();
         //TODO lo deberia hacer Ctrlpresentacio?
-        difLabel.setText(aux.getConf().getDificultat());
-        adjLabel.setText(aux.getConf().getAdjacencia());
-        nomJLabel.setText(aux.getJugador().getNom());
-    }
-
-    public JPanel getPanel(){
-        return bigPanel;
+        difLabel.setText(c.getDificultat());
+        adjLabel.setText(c.getAdj());
+        nomJLabel.setText(c.getNomJugador());
     }
 
     private class MyListener implements ActionListener {
@@ -213,8 +202,8 @@ public class PartidaView {
     }
 
     private void setTaulerLayout(char tcela){ //funció que aplica el layout segons el tcela(H i T) i fixa el min i max size
-        int i = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getN();
-        int j = CtrlPresentacio.getSingletonInstance().getPartida().getTauler().getK();
+        int i = CtrlPresentacio.getSingletonInstance().getN();
+        int j = CtrlPresentacio.getSingletonInstance().getK();
         int height; //per defecte quadrat
         int width;
         switch(tcela){
