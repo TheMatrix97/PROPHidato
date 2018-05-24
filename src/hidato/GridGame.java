@@ -57,14 +57,6 @@ public abstract class GridGame {
     public abstract JButton[][] obteArrayCelda();
     public abstract JButton ObteCelda(boolean act, boolean orientacio);
 
-    public JPanel getGamePanel() {
-        return gamePanel;
-    }
-
-    public Celda[][] getMapaCeldas() {
-        return mapaCeldas;
-    }
-
     public int getI() {
         return i;
     }
