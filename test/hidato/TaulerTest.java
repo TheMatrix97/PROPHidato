@@ -67,8 +67,8 @@ public class TaulerTest {
     @Test
     public void Test_generador(){
         //generar_tauler("Facil","C",'T');
-        generar_tauler("Dificil","CA",'T');
-        //generar_tauler("Dificil", "CA", 'H');
+        //generar_tauler("Dificil","CA",'T');
+        generar_tauler("Dificil", "CA", 'T');
     }
 
     private void generar_tauler(String dif, String adj, char type){

@@ -205,7 +205,7 @@ public class Tauler implements Serializable {
     private int random__segunDif(Configuracio  conf){
         switch(conf.getDificultat()){
             case "Dificil":
-                if (conf.getAdjacencia().equals("CA") || conf.getcell() == 'H') return (int) ((Math.random() * 9) + 2);
+                if (conf.getAdjacencia().equals("CA") || conf.getcell() == 'H') return (int) ((Math.random() * 9) + 3);
                 return (int) ((Math.random() * 11) + 3);
             case "Normal":
                 if (conf.getAdjacencia().equals("CA") || conf.getcell() == 'H') return (int) ((Math.random() * 7) + 2);
@@ -331,16 +331,16 @@ public class Tauler implements Serializable {
             case "Dificil":
                 if(c == 'Q'){
                     if(adj.equals("C")) return (int) (Math.random() * 65) + 50;
-                    return (int) (Math.random() * 10) + 45;
+                    return (int) (Math.random() * 15) + 45;
                 }
                 else if(c == 'H'){
-                    return (int) (Math.random() * 25) + 50;
+                    return (int) (Math.random() * 25) + 55;
                 }
                 if(adj.equals("C")) return (int) (Math.random() * 50) + 50;
                 return (int) (Math.random() * 5) + 30;
 
             case "Normal":
-                if(c == 'Q' && adj.equals("CA")) return (int) (Math.random() * 15) + 30;
+                if(c == 'Q' && adj.equals("CA")) return (int) (Math.random() * 15) + 35;
                 if(c == 'T' && adj.equals("CA")) return (int) (Math.random() * 10) + 20;
                 return (int) (Math.random() * 20) + 30;
             default:
