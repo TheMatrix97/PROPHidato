@@ -19,7 +19,11 @@ public class Gestor implements Serializable{
     //constructora singleton
     private Gestor() {
         this.gs = new GestorSaves();
-        this.rankings = new ArrayList<>();
+        try {
+            this.rankings = gs.cargar_ranking();
+        } catch (Exception e) {
+            this.rankings = new ArrayList<>();
+        }
     }
 
     public static Gestor getSingletonInstance() {
@@ -107,10 +111,6 @@ public class Gestor implements Serializable{
 
     public ArrayList<Ranking> getRankings(){
         return this.rankings;
-    }
-
-    public GestorSaves getGs() {
-        return gs;
     }
 
     public boolean partidaGuardada(){ //si hi ha una partida guardada retorna true sino false

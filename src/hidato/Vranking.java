@@ -35,32 +35,7 @@ public class Vranking {
 
         });
     }
-  /*      switch (s) {
-            case "Quadrat":
-                forma = 'Q';
-                break;
-            case "Triangle":
-                forma = 'T';
-                break;
-            case  "Hexagon":
-                forma = 'H';
-        }
-        String s2 = label2.getText();
-        String adj ="";
-        switch (s2) {
-            case "Costats":
-                adj = "C";
-                break;
-            case "Costats+angles":
-                adj = "CA";
-        }
-        String dificult = label3.getText();
-        Configuracio c = new Configuracio(dificult,adj,forma); */
-   //     String [] filaux = new String[2];
-     //   filaux[0] = "NomJugador";
-      //  filaux[1] = "Temps";
-
-        public void FerTaula(){
+    public void FerTaula(){
         DefaultTableModel modelo = (DefaultTableModel) table1.getModel();
         modelo.addColumn("NomJugador");
         modelo.addColumn("Temps");
@@ -69,9 +44,8 @@ public class Vranking {
         try {
             //GestorSaves gs = new GestorSaves();
             //ArrayList<Ranking> ar = gs.cargar_ranking();
-            ArrayList<Ranking> ar = CtrlPresentacio.getSingletonInstance().getGestor().getGs().cargar_ranking();
+            ArrayList<Ranking> ar = CtrlPresentacio.getSingletonInstance().cargar_ranking();
             boolean b = false;
-            String auxiliar = "C";
            for(Ranking a : ar){
              //
                 a.getRanking();

@@ -1,6 +1,7 @@
 package hidato;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 //sigleton com el domini
 public class CtrlPresentacio {
@@ -102,4 +103,9 @@ public class CtrlPresentacio {
         new PartidaView(framePartida);
         framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+
+    public ArrayList<Ranking> cargar_ranking(){
+        return g.getRankings();
+    }
+
 }
