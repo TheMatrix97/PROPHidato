@@ -221,13 +221,13 @@ public class PartidaView {
                 break;
         }
 
-        int margen = 20;
+        int margen = 50;
         height = height * (i+1) + margen;
         width = width * (j+1) + margen;
         System.out.println("H: " + height + " w:" + width);
         int finalHeight = height;
         int finalWidth = width;
-        Dimension screen = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
+        //Dimension screen = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
         gamePanel.setLayout(new LayoutManager() {
             @Override
             public void addLayoutComponent(String name, Component comp) {
@@ -241,16 +241,14 @@ public class PartidaView {
 
             @Override
             public Dimension preferredLayoutSize(Container parent) {
-                if((finalHeight + northPanel.getHeight() + southPanel.getHeight()) > screen.getHeight()) return new Dimension(screen.width, screen.height - 50);
-                if(finalWidth > screen.getWidth()) return new Dimension(screen.width, screen.height - 50);
-                return new Dimension(finalWidth, finalHeight + northPanel.getHeight() + southPanel.getHeight());
+                //if(finalHeight > screen.getHeight()) return new Dimension(screen.width, screen.height);
+                //if(finalWidth > screen.getWidth()) return new Dimension(screen.width, screen.height);
+                return new Dimension(finalWidth, finalHeight);
             }
 
             @Override
             public Dimension minimumLayoutSize(Container parent) {
-                Dimension d = new Dimension(finalWidth, finalHeight + northPanel.getHeight() + southPanel.getHeight());
-                if(screen.getHeight() - 50 > d.getHeight() && screen.getWidth() > d.getWidth()) return d;
-                return new Dimension(screen.width, screen.height - 50);
+                return new Dimension(finalWidth, finalHeight);
             }
 
             @Override
