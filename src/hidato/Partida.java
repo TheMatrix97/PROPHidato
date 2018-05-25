@@ -74,7 +74,7 @@ public class Partida implements Serializable{
         Jugada jug = new Jugada(c,num,this.jugador);
         this.jug.add(jug);
         if(encurs.validador_tauler()){
-            this.tiempo.stop_time();
+            this.tiempo.pause_time();
             throw new Utils.ExceptionTaulerResolt();
         }
     }

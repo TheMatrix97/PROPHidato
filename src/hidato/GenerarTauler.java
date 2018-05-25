@@ -20,7 +20,6 @@ public class GenerarTauler {
     private JTextField textField1;
     private JProgressBar progressBar1;
     private Thread threadSolver;
-    private Partida p;
 
     public GenerarTauler() {
         threadSolver = null;
@@ -37,14 +36,6 @@ public class GenerarTauler {
                 progressBar1.setVisible(true);
                 //Gestor g = CtrlPresentacio.gestorSingleton();
                 CtrlPresentacio.getSingletonInstance().crearPartida(getOpcio("tcela"), getOpcio("adj"), getOpcio("dif"), name);
-                //TODO System.out 4 debug ELIMINAR!!!
-                p = CtrlPresentacio.getSingletonInstance().getPartida();
-                System.out.println("Nom user: " + p.getJugador().getNom());
-                System.out.println("Tipus cela: " + p.getConf().getcell());
-                System.out.println("Adj: " + p.getConf().getAdjacencia());
-                System.out.println("Dificultat: " + p.getConf().getDificultat());
-                System.out.println("Tauler: ");
-                Utils.printa_tauler(p.getTauler().getTauler());
                 progressBar1.setVisible(false);
                 OKButton.setEnabled(true);
                 CtrlPresentacio.getSingletonInstance().start_partida();

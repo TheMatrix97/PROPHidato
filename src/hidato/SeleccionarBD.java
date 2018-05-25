@@ -70,17 +70,6 @@ public class SeleccionarBD {
                 progressBar1.setVisible(false);
                 OKButton.setEnabled(true);
                 comboBox1.setEnabled(true);
-                //AQUI ES CRIDA AL FRAME DE PARTIDA
-                Partida p = CtrlPresentacio.getSingletonInstance().getPartida();
-                System.out.println("Nom user: " + p.getJugador().getNom());
-                nomJ[0] = p.getJugador().getNom();
-                System.out.println("Tipus cela: " + p.getConf().getcell());
-                System.out.println("Adj: " + p.getConf().getAdjacencia());
-                adj[0] = p.getConf().getAdjacencia();
-                System.out.println("Dificultat: " + p.getConf().getDificultat());
-                dif[0] = p.getConf().getDificultat();
-                System.out.println("Tauler: ");
-                Utils.printa_tauler(p.getTauler().getTauler());
                 CtrlPresentacio.getSingletonInstance().start_partida();
             });
             threadsolver.start();

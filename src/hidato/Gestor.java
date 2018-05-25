@@ -34,11 +34,21 @@ public class Gestor implements Serializable{
     }
     //funció per crear una partida sense tauler
     public void crearPartidaBuida(String nomJugador){
+        try{
+            rankings = gs.cargar_ranking(); //todo controlar en gs
+        }catch(Exception e){
+
+        }
         game = new Partida(nomJugador);
     }
 
     //funció per crear una partida partint d'un tauler de la BD
     public void crearPartidaBD(String nom, String nomJugador) throws Exception{
+        try{
+            rankings = gs.cargar_ranking();
+        }catch(Exception e){
+
+        }
         try{
             game = new Partida(nom,nomJugador);
         }catch(Exception e){
@@ -56,6 +66,7 @@ public class Gestor implements Serializable{
     }
     //funció que utilitza un usuari per fer una jugada d'inserció
     public void ferJugada(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
+        System.out.println("Faré una jugada " + game);
         if(game != null) {
             try {
                 game.fesJugadaIns(i, j, num);
@@ -63,11 +74,13 @@ public class Gestor implements Serializable{
             }catch(Utils.ExceptionTaulerResolt e){
                 Time t = game.getTiempo();
                 Jugador jug = game.getJugador();
+                System.out.println("jugador " + jug);
                 if(jug != null) { //si lo ha hecho una persona
                     Record r = new Record(t, jug.getNom());
                     boolean exists = false;
                     for(Ranking rank : rankings){ //todo testear
                         if(rank.getConf().equals(game.getConf())){
+                            System.out.println("Encontrado");
                             rank.addRecord(r);
                             exists = true;
                             break;
@@ -123,6 +136,50 @@ public class Gestor implements Serializable{
 
     public void cargarPartida() throws Exception {
         setPartida(gs.cargar_partida());
+    }
+
+    public boolean getOrientacioTriangle(int x, int y, char t) {
+        return game.getTauler().orientacio(x,y,t);
+    }
+
+    public void guardar_rankings(){
+        System.out.println("Hay -> " + rankings.size());
+        for(Ranking r : rankings){
+            ArrayList<Record> aux = r.getRanking();
+            for(Record auxr : aux){
+                System.out.println("Record -> " + auxr.getnomJugador() + " " + auxr.getTime().get_time());
+            }
+        }
+        gs.guardarRankings(this.rankings);
+    }
+
+    public char getTipusCela() {
+        return this.game.getConf().getcell();
+    }
+    public int getN(){
+        return this.game.getTauler().getN();
+    }
+    public int getK(){
+        return this.game.getTauler().getK();
+    }
+
+    public String getDificultat() {
+        return this.game.getConf().getDificultat();
+    }
+    public String getAdj() {
+        return this.game.getConf().getAdjacencia();
+    }
+
+    public String getNomJugador() {
+        return this.game.getJugador().getNom();
+    }
+
+    public Celda[][] getTaulerCeles() {
+        return this.game.getTauler().getTauler();
+    }
+
+    public String getTempsPartida() {
+        return this.game.getTiempo().get_time();
     }
 
 
