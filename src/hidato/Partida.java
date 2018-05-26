@@ -84,7 +84,7 @@ public class Partida implements Serializable{
         Celda c;
         try{
             c = encurs.getCelda(i,j);
-            if(!c.isVacia() && c.isValida()) encurs.delUsat(c.getValor());
+            if(!c.isVacia() && c.isValida() && !this.getTauler().getPrefixats().contains(c.getValor())) encurs.delUsat(c.getValor());
         }catch (Utils.ExceptionPosicioNoValida e){
             throw new Utils.ExceptionJugadaNoValida();
         }
