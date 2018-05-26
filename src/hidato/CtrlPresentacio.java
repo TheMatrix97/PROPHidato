@@ -119,4 +119,8 @@ public class CtrlPresentacio {
     public int getLast() {
         return g.getLast();
     }
+
+    public boolean[] getUsats() {
+        return g.getUsats();
+    }
 }
