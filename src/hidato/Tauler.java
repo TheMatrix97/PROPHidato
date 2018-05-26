@@ -537,4 +537,8 @@ public class Tauler implements Serializable {
         }
         throw new Utils.ExceptionCeldaNotFound();
     }
+
+    public int getLast() {
+        return prefixats.last();
+    }
 }

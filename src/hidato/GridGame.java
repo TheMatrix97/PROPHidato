@@ -26,12 +26,15 @@ public abstract class GridGame {
             for (int y = 0; y < j; ++y) {
                 boolean orientacio = getOrientacioTri(x,y,'T');
                 if (!mapaCeldas[x][y].isValida()) {
-                    fieldG[x][y] = ObteCelda(true,orientacio);
+                    fieldG[x][y] = ObteCelda(true,orientacio,Color.ORANGE);
                     if (mapaCeldas[x][y].isFrontera()) fieldG[x][y].setVisible(false); //Es un "#", no el volem mostrar!
                     fieldG[x][y].setEnabled(false); //NO EL PODEM SOBRESCRIURE
                 } else {
-                    fieldG[x][y] = ObteCelda(false,orientacio);
+                    fieldG[x][y] = ObteCelda(false,orientacio,Color.ORANGE);
                     if (mapaCeldas[x][y].isPrefijada()) {
+                        if(mapaCeldas[x][y].getValor() == CtrlPresentacio.getSingletonInstance().getLast() || mapaCeldas[x][y].getValor() == 1){
+                            fieldG[x][y] = ObteCelda(false,orientacio,Color.BLUE);
+                        }
                         fieldG[x][y].setText(String.valueOf(mapaCeldas[x][y].getValor()));
                         fieldG[x][y].setEnabled(false); //SON PREFIXADES; NO LES PODEM MODIFICAR!
                     } else if (!mapaCeldas[x][y].isVacia()) { //si es una celda de una partida cargada puede tener un numero dentro
@@ -55,7 +58,7 @@ public abstract class GridGame {
     public abstract int incrementoJY(int y); //se usa y en hex
     public abstract int incrementoJX();
     public abstract JButton[][] obteArrayCelda();
-    public abstract JButton ObteCelda(boolean act, boolean orientacio);
+    public abstract JButton ObteCelda(boolean act, boolean orientacio, Color c);
 
     public int getI() {
         return i;

@@ -182,6 +182,10 @@ public class Gestor implements Serializable{
         return this.game.getTiempo().get_time();
     }
 
+    public int getLast() {
+        return game.getTauler().getLast();
+    }
+
 
     //La clase Gestor es de tipo Singleton, es decir q hay solo una instancia de gestor
     //Para conseguir que una clase sea de tipo Singleton necesitamos en primer lugar que su constructor sea privado.

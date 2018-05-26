@@ -11,11 +11,13 @@ public class Qbutton extends JButton {
     private static final long serialVersionUID = 1L;
     private static final int HEIGHT = 48;
     private static final int WIDTH = 48;
+    private Color color;
     private boolean b;
 
-    public Qbutton(boolean b){
+    public Qbutton(boolean b, Color c){
         //b = true -> pintar triangle, rev = true -> triangle invers!
         this.b = b;
+        this.color = c;
         setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(true);
@@ -30,7 +32,7 @@ public class Qbutton extends JButton {
         quad.addPoint(0, HEIGHT); //adalt esq
         quad.addPoint(WIDTH, HEIGHT); //adalt dreta
         quad.addPoint(WIDTH, 0); //abaix dreta
-        g.setColor(Color.ORANGE);
+        g.setColor(color);
         if(this.b) g.fillPolygon(quad);
         g.drawPolygon(quad);
     }

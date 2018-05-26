@@ -116,4 +116,7 @@ public class CtrlPresentacio {
         return g.getRankings();
     }
 
+    public int getLast() {
+        return g.getLast();
+    }
 }
