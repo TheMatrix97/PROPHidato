@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.SortedSet;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * @author Marc.Catrisse
@@ -86,5 +89,13 @@ public abstract class GestorBD {
             }
         }
         return res;
+    }
+
+    public static void carregaTXTaBD(File f) throws IOException {
+        String filePath = new File("").getAbsolutePath() + "/BaseDadesHidatos";
+        File aux;
+        if(!f.getName().contains("Hidato")) aux = new File(filePath + "/Hidato" + f.getName().replaceAll("Out",""));
+        else aux = new File(filePath + "/" + f.getName().replaceAll("Out",""));
+        Files.copy(f.toPath(), aux.toPath(), REPLACE_EXISTING);
     }
 }

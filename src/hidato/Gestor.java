@@ -190,6 +190,10 @@ public class Gestor implements Serializable{
         return game.getTauler().getUsats();
     }
 
+    public void carregarTXTBD(File f) throws IOException {
+        GestorBD.carregaTXTaBD(f);
+    }
+
 
     //La clase Gestor es de tipo Singleton, es decir q hay solo una instancia de gestor
     //Para conseguir que una clase sea de tipo Singleton necesitamos en primer lugar que su constructor sea privado.

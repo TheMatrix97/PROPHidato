@@ -1,6 +1,8 @@
 package hidato;
 
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 //sigleton com el domini
@@ -122,5 +124,16 @@ public class CtrlPresentacio {
 
     public boolean[] getUsats() {
         return g.getUsats();
+    }
+
+    public void carregarTXTaBD(File f) {
+        try {
+            g.carregarTXTBD(f);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(new JFrame(),
+                    "Error al llegir el fitxer",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
