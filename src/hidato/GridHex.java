@@ -1,6 +1,7 @@
 package hidato;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public class GridHex extends GridGame {
@@ -36,7 +37,7 @@ public class GridHex extends GridGame {
     }
 
     @Override
-    public JButton ObteCelda(boolean act, boolean orientacio) {
-        return new HexButton(act);
+    public JButton ObteCelda(boolean act, boolean orientacio, Color c) {
+        return new HexButton(act,c);
     }
 }

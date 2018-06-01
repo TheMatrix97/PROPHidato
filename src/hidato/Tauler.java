@@ -46,6 +46,7 @@ public class Tauler implements Serializable {
     //funció que permet saber quins numeros han estat ja colocats en el tauler
     private void calcular_usats(){
         usats = new boolean[this.n*this.k+1];
+        this.usats[0] = true;
         for(Celda[] l : tauler){
             for(Celda c : l){
                 if(c.isValida() && c.getValor() != 0){
@@ -161,6 +162,7 @@ public class Tauler implements Serializable {
     private void calculaFronteres(int last, Configuracio conf) {
         this.prefixats = new TreeSet<>();
         this.usats = new boolean[last + 1];
+        this.usats[0] = true;
         String typeAdj = conf.getAdjacencia();
         boolean hex = (conf.getcell() == 'H');
         int rand = random__segunDif(conf);
@@ -536,5 +538,9 @@ public class Tauler implements Serializable {
             }
         }
         throw new Utils.ExceptionCeldaNotFound();
+    }
+
+    public int getLast() {
+        return prefixats.last();
     }
 }

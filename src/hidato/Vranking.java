@@ -39,7 +39,6 @@ public class Vranking {
         DefaultTableModel modelo = (DefaultTableModel) table1.getModel();
         modelo.addColumn("NomJugador");
         modelo.addColumn("Temps");
-        modelo.addRow ( new String[] {"NomJugador", "Temps"} );
         table1.setEnabled(false);
         try {
             //GestorSaves gs = new GestorSaves();

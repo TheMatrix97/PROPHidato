@@ -13,12 +13,15 @@ public class TriButton extends JButton{
     private static final int WIDTH = 48;
     private boolean b;
     private boolean rev;
+    private Polygon tri;
+    private Color color;
 
 
-    public TriButton(boolean b, boolean rev){
+    public TriButton(boolean b, boolean rev, Color color){
         //b = true -> pintar triangle, rev = true -> triangle invers!
         this.b = b;
         this.rev = rev;
+        this.color = color;
         setContentAreaFilled(false);
         setBorderPainted(false);
         setFocusPainted(true);
@@ -28,7 +31,7 @@ public class TriButton extends JButton{
     @Override
     public  void paintComponent(Graphics g){
         super.paintComponent(g);
-        Polygon tri = new Polygon();
+        tri = new Polygon();
         if(!rev) {
             tri.addPoint(0, 0); //cantonada esq
             tri.addPoint(WIDTH, 0); //cantonada dreta
@@ -38,7 +41,7 @@ public class TriButton extends JButton{
             tri.addPoint(WIDTH, HEIGHT); //cantonada dreta
             tri.addPoint(WIDTH/2, 0); //punta avall
         }
-        g.setColor(Color.ORANGE);
+        g.setColor(color);
         if(this.b) g.fillPolygon(tri);
         g.drawPolygon(tri);
     }

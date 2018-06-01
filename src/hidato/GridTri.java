@@ -1,6 +1,7 @@
 package hidato;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GridTri extends GridGame {
     public GridTri(JPanel gamePanel, Celda[][] mapaCeldas) {
@@ -30,7 +31,7 @@ public class GridTri extends GridGame {
     public JButton[][] obteArrayCelda(){
         return new TriButton[super.getI()][super.getJ()];
     }
-    public JButton ObteCelda(boolean act, boolean orientacio){
-        return new TriButton(act,orientacio);
+    public JButton ObteCelda(boolean act, boolean orientacio, Color c){
+        return new TriButton(act,orientacio,c);
     }
 }

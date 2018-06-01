@@ -1,8 +1,10 @@
 package hidato;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 
@@ -19,15 +21,14 @@ public class SeleccionarBD {
     private JPanel northPanel;
     private JProgressBar progressBar1;
     private JTextField textField1;
+    private JButton carregarHidatoALaButton;
     private Thread threadsolver;
+    final JFileChooser fc = new JFileChooser();
 
     public SeleccionarBD() {
         progressBar1.setVisible(false);
         threadsolver = null;
-        ArrayList<String> llista = GestorBD.llista_hidatos_disponibles();
-        for(String aux : llista){
-            comboBox1.addItem(aux);
-        }
+        loadBD();
         tornarButton.addActionListener(e -> {
             if(threadsolver != null && !threadsolver.isInterrupted()){
                 threadsolver.interrupt();
@@ -74,6 +75,25 @@ public class SeleccionarBD {
             });
             threadsolver.start();
         });
+        carregarHidatoALaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //HA DE CONTENIR HIDATO AL NOM!
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt", "txt");
+                fc.setFileFilter(filter);
+                int val = fc.showOpenDialog(null);
+                System.out.println("LE HE DADO AL BOTON");
+                if(val == JFileChooser.APPROVE_OPTION){
+                    File f = fc.getSelectedFile();
+                    System.out.println("Opening: " + f.getName() + ".");
+                    CtrlPresentacio.getSingletonInstance().carregarTXTaBD(f);
+                    loadBD();
+                }
+                else{
+                    System.out.println("nope");
+                }
+            }
+        });
     }
 
     private String getName() throws Utils.ExceptionNomNoValid {
@@ -88,4 +108,11 @@ public class SeleccionarBD {
         return seleccionarBD;
     }
 
+    public void loadBD(){
+        comboBox1.removeAllItems();
+        ArrayList<String> llista = GestorBD.llista_hidatos_disponibles();
+        for(String aux : llista){
+            comboBox1.addItem(aux);
+        }
+    }
 }

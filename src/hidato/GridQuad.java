@@ -1,6 +1,7 @@
 package hidato;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public class GridQuad extends GridGame{
@@ -34,7 +35,7 @@ public class GridQuad extends GridGame{
     }
 
     @Override
-    public JButton ObteCelda(boolean act, boolean orientacio) {
-        return new Qbutton(act);
+    public JButton ObteCelda(boolean act, boolean orientacio, Color c) {
+        return new Qbutton(act,c);
     }
 }

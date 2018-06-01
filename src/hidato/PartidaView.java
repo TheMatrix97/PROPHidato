@@ -2,10 +2,7 @@ package hidato;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 import static javax.swing.SwingConstants.CENTER;
 
@@ -60,6 +57,7 @@ public class PartidaView {
         HELPButton.addActionListener(e -> {
             try {
                 CtrlPresentacio.getSingletonInstance().demanarHelp();
+                valorJugada.setText(nextValue());
                 recalcular_Matrix();
             } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
                 recalcular_Matrix();
@@ -87,7 +85,7 @@ public class PartidaView {
     private void addListeners() {
         for(int i = 0; i < fieldG.length; ++i){
             for(int j = 0; j < fieldG[i].length; ++j){
-                fieldG[i][j].addActionListener(new MyListener(i, j));
+                fieldG[i][j].addMouseListener(new MyListener(i, j));
             }
         }
     }
@@ -139,46 +137,70 @@ public class PartidaView {
         nomJLabel.setText(c.getNomJugador());
     }
 
-    private class MyListener implements ActionListener {
+    private class MyListener implements MouseListener {
         private int i, j;
         private MyListener(int i, int j){
             this.i = i;
             this.j = j;
+
+        }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(SwingUtilities.isLeftMouseButton(e)) {
+                try {
+                    int valorIns = Integer.parseInt(valorJugada.getText());
+                    CtrlPresentacio.getSingletonInstance().ferJugadaIns(this.i, this.j, valorIns);
+                    fieldG[this.i][this.j].setText(valorJugada.getText());
+                    valorJugada.setText(nextValue());
+                } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
+                    exceptionJugadaNoValida.printStackTrace();
+                } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
+                    fieldG[this.i][this.j].setText(valorJugada.getText());
+                    resolt = true;
+                    timerinoCapuccino.interrupt();
+                    timerinoCapuccino = null;
+                    //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
+                    JOptionPane.showMessageDialog(new JFrame(),
+                            "GOOD GAME!\n Guardant record...");
+                    recalcular_Matrix(); //Necessari per l'ultim valor, a lo chapuza
+                    end_game();
+                }
+            }else if(SwingUtilities.isRightMouseButton(e)) {
+                try {
+                    CtrlPresentacio.getSingletonInstance().ferJugadaDel(this.i, this.j);
+                    fieldG[this.i][this.j].setText("");
+                    valorJugada.setText(nextValue());
+                } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
+                    exceptionJugadaNoValida.printStackTrace();
+                }
+            }
+
         }
 
         @Override
-        public void actionPerformed(ActionEvent e){
-            boolean del = false;
-            if(valorJugada.getText().equals("")) del = true;
-            try {
-                System.out.println("del: " + del);
-                if(!del){
-                    int valorIns = Integer.parseInt(valorJugada.getText());
-                    CtrlPresentacio.getSingletonInstance().ferJugadaIns(this.i, this.j, valorIns);
-                    ++valorIns;
-                }
-                else CtrlPresentacio.getSingletonInstance().ferJugadaDel(this.i, this.j);
-                fieldG[this.i][this.j].setText(valorJugada.getText());
-                if(!del) valorJugada.setText(nextValue());
-            } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
-                exceptionJugadaNoValida.printStackTrace();
-            } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
-                fieldG[this.i][this.j].setText(valorJugada.getText());
-                resolt = true;
-                timerinoCapuccino.interrupt();
-                timerinoCapuccino = null;
-                //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
-                JOptionPane.showMessageDialog(new JFrame(),
-                        "GOOD GAME!\n Guardant record...");
-                recalcular_Matrix(); //Necessari per l'ultim valor, a lo chapuza
-                end_game();
-            }
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
         }
     }
 
     private String nextValue(){
-        boolean[] al = Gestor.getSingletonInstance().getPartida().getTauler().getUsats();
-        for(int i = 1; i < al.length; ++i){
+        boolean[] al = CtrlPresentacio.getSingletonInstance().getUsats();
+        for(int i = 0; i < al.length; ++i){
             if(!al[i]) return String.valueOf(i);
         }
         return null;
