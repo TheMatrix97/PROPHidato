@@ -136,4 +136,8 @@ public class CtrlPresentacio {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    public void stopTimer() {
+        g.stopTimer();
+    }
 }

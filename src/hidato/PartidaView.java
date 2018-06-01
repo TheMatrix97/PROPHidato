@@ -206,6 +206,7 @@ public class PartidaView {
         return null;
     }
     private void end_game(){
+        CtrlPresentacio.getSingletonInstance().stopTimer();
         System.out.println("Fin!, voy a guardar");
         CtrlPresentacio.getSingletonInstance().salvar_rankings();
         framePartida.dispose();
