@@ -29,7 +29,8 @@ public class Partida implements Serializable{
         int k = this.encurs.getK();
         char tcela = this.encurs.getTauler()[0][0].getForma();
         String s = this.encurs.getTauler()[0][0].getAdj();
-        this.conf = new Configuracio(s, tcela, n, k);
+        int last = this.solucio.getLast();
+        this.conf = new Configuracio(s, tcela, last);
         this.tiempo = new Time();
         this.jugador = new Jugador(j);
         this.tiempo.start_time();
