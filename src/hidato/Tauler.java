@@ -332,21 +332,21 @@ public class Tauler implements Serializable {
         switch (typedif) {
             case "Dificil":
                 if(c == 'Q'){
-                    if(adj.equals("C")) return (int) (Math.random() * 65) + 50;
-                    return (int) (Math.random() * 15) + 45;
+                    if(adj.equals("C")) return (int) (Math.random() * 85) + 115;
+                    return (int) (Math.random() * 115) + 85;
                 }
                 else if(c == 'H'){
-                    return (int) (Math.random() * 25) + 55;
+                    return (int) (Math.random() * 100) + 100;
                 }
-                if(adj.equals("C")) return (int) (Math.random() * 50) + 50;
-                return (int) (Math.random() * 5) + 30;
+                if(adj.equals("C")) return (int) (Math.random() * 80) + 125;
+                return (int) (Math.random() * 50) + 50;
 
             case "Normal":
-                if(c == 'Q' && adj.equals("CA")) return (int) (Math.random() * 15) + 35;
-                if(c == 'T' && adj.equals("CA")) return (int) (Math.random() * 10) + 20;
-                return (int) (Math.random() * 20) + 30;
+                if(c == 'Q' && adj.equals("CA")) return (int) (Math.random() * 39) + 45;
+                if(c == 'T' && adj.equals("CA")) return (int) (Math.random() * 19) + 30;
+                return (int) (Math.random() * 59) + 40;
             default:
-                return (int) (Math.random() * 15) + 15;
+                return (int) (Math.random() * 10) + 20;
         }
     }
 
