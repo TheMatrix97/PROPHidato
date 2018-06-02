@@ -66,9 +66,9 @@ public class TaulerTest {
     //Test que verifica el generador
     @Test
     public void Test_generador(){
-        //generar_tauler("Facil","C",'T');
+        generar_tauler("Facil","C",'T');
         //generar_tauler("Dificil","CA",'T');
-        generar_tauler("Dificil", "CA", 'T');
+//        generar_tauler("Dificil", "CA", 'T');
     }
 
     private void generar_tauler(String dif, String adj, char type){
