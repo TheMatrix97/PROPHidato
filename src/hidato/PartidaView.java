@@ -131,7 +131,6 @@ public class PartidaView {
 
     private void setValues(){
         CtrlPresentacio c = CtrlPresentacio.getSingletonInstance();
-        //TODO lo deberia hacer Ctrlpresentacio?
         difLabel.setText(c.getDificultat());
         adjLabel.setText(c.getAdj());
         nomJLabel.setText(c.getNomJugador());

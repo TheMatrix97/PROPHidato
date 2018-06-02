@@ -381,7 +381,7 @@ public class Tauler implements Serializable {
             if (adj.equals("C")) aux = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, 1}, {0, -1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
-        } else if (tcela == 'H') { //TODO revisar que funciona bé
+        } else if (tcela == 'H') {
             c = orientacio(i,j,tcela);
             if (!c) aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}};
             else aux = new int[][]{{-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}};

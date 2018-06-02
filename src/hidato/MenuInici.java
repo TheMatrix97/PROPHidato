@@ -74,7 +74,6 @@ public class MenuInici {
 
     private void createUIComponents() {
         String path = new File("").getAbsolutePath();
-        // TODO: place custom component creation code here
         imageIni = new JLabel(new ImageIcon(path+"/res/hidato1.png"));
 
     }

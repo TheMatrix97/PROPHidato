@@ -35,7 +35,7 @@ public class Gestor implements Serializable{
     //funció per crear una partida sense tauler
     public void crearPartidaBuida(String nomJugador){
         try{
-            rankings = gs.cargar_ranking(); //todo controlar en gs
+            rankings = gs.cargar_ranking();
         }catch(Exception e){
 
         }
@@ -78,7 +78,7 @@ public class Gestor implements Serializable{
                 if(jug != null) { //si lo ha hecho una persona
                     Record r = new Record(t, jug.getNom());
                     boolean exists = false;
-                    for(Ranking rank : rankings){ //todo testear
+                    for(Ranking rank : rankings){
                         if(rank.getConf().equals(game.getConf())){
                             //System.out.println("Encontrado");
                             rank.addRecord(r);

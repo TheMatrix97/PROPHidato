@@ -26,7 +26,7 @@ public class Configuracio implements Serializable{
     }
 
     //S'utilitza per calcular la dificultat d'un hidato de la BD, per poder afegir els records al ranking que toca
-    private String calcula_Dificultat(int last) throws Exception { //todo revisar numeros para definir la dificultat
+    private String calcula_Dificultat(int last) throws Exception {
         if (last < 1) throw new  Exception("Tamany no valid.");
         if (last < 30) return "Facil";
         else if (last < 100) return "Normal";
