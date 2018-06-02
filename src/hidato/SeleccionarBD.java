@@ -82,15 +82,15 @@ public class SeleccionarBD {
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt", "txt");
                 fc.setFileFilter(filter);
                 int val = fc.showOpenDialog(null);
-                System.out.println("LE HE DADO AL BOTON");
+                //System.out.println("LE HE DADO AL BOTON");
                 if(val == JFileChooser.APPROVE_OPTION){
                     File f = fc.getSelectedFile();
-                    System.out.println("Opening: " + f.getName() + ".");
+                    //System.out.println("Opening: " + f.getName() + ".");
                     CtrlPresentacio.getSingletonInstance().carregarTXTaBD(f);
                     loadBD();
                 }
                 else{
-                    System.out.println("nope");
+                    //System.out.println("nope");
                 }
             }
         });

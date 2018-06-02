@@ -44,7 +44,7 @@ public abstract class GridGame {
                 fieldG[x][y].setBounds(offsetX, offsetY, 100, 100);
                 fieldG[x][y].setHorizontalAlignment(CENTER);
                 gamePanel.add(fieldG[x][y]);
-                System.out.println("seguent: " + offsetX + "," + offsetY);
+                //System.out.println("seguent: " + offsetX + "," + offsetY);
                 offsetX += incrementoJX();
                 offsetY += incrementoJY(y);
             }

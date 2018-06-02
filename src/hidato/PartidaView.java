@@ -206,7 +206,7 @@ public class PartidaView {
         return null;
     }
     private void end_game(){
-        System.out.println("Fin!, voy a guardar");
+        //System.out.println("Fin!, voy a guardar");
         CtrlPresentacio.getSingletonInstance().salvar_rankings();
         framePartida.dispose();
     }
@@ -246,7 +246,7 @@ public class PartidaView {
         int margen = 50;
         height = height * (i+1) + margen;
         width = width * (j+1) + margen;
-        System.out.println("H: " + height + " w:" + width);
+        //System.out.println("H: " + height + " w:" + width);
         int finalHeight = height;
         int finalWidth = width;
         //Dimension screen = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());

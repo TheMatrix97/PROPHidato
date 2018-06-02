@@ -81,7 +81,7 @@ public class CtrlPresentacio {
     }
 
     public void ferJugadaIns(int i, int j, int num) throws Utils.ExceptionJugadaNoValida, Utils.ExceptionTaulerResolt {
-        System.out.println("Jugada!");
+        //System.out.println("Jugada!");
         g.ferJugada(i,j,num);
     }
 

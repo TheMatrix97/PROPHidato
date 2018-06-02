@@ -25,8 +25,6 @@ public class Partida implements Serializable{
         if(!Maquina.resolHidato(this.solucio)){
             throw new Exception();
         }
-        int n = this.encurs.getN();
-        int k = this.encurs.getK();
         char tcela = this.encurs.getTauler()[0][0].getForma();
         String s = this.encurs.getTauler()[0][0].getAdj();
         int last = this.solucio.getLast();

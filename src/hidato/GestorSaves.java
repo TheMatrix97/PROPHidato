@@ -23,7 +23,7 @@ public class GestorSaves {
             oos.close();
         }catch(IOException io) {
             io.printStackTrace();
-            System.out.println("No es pot guardar el ranking"); //TODO aixo ho fara capa de presentació
+            //System.out.println("No es pot guardar el ranking"); //TODO aixo ho fara capa de presentació
         }
     }
 
@@ -45,7 +45,7 @@ public class GestorSaves {
             oos.writeObject(game);
             oos.close();
         }catch(IOException io) {
-            System.out.println("No es pot guardar la partida"); //TODO aixo ho fara capa de presentació
+            //System.out.println("No es pot guardar la partida"); //TODO aixo ho fara capa de presentació
         }
     }
 
