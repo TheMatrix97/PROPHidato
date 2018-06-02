@@ -15,6 +15,7 @@ public class TriButton extends JButton{
     private boolean rev;
     private Polygon tri;
     private Color color;
+    private Shape shape;
 
 
     public TriButton(boolean b, boolean rev, Color color){
@@ -46,6 +47,13 @@ public class TriButton extends JButton{
         g.drawPolygon(tri);
     }
 
+    @Override
+    public boolean contains(int x, int y){
+        if (shape == null || !shape.getBounds().equals(getBounds())) {
+            shape = new Rectangle(0, 0, getWIDTH() - 24, getHEIGHT() - 24);
+        }
+        return shape.contains(x, y);
+    }
     public static int getHEIGHT() {
         return HEIGHT;
     }

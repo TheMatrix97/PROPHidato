@@ -13,7 +13,6 @@ public class Qbutton extends JButton {
     private static final int WIDTH = 96;
     private Color color;
     private boolean b;
-    private Shape shape;
 
     public Qbutton(boolean b, Color c){
         //b = true -> pintar triangle, rev = true -> triangle invers!
