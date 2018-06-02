@@ -11,7 +11,7 @@ public class GridQuad extends GridGame{
 
     @Override
     public int incrementoIY(int j) {
-        return 50;
+        return 100;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class GridQuad extends GridGame{
 
     @Override
     public int incrementoJX() {
-        return 50;
+        return 100;
     }
 
     @Override

@@ -9,9 +9,9 @@ import java.awt.*;
 //Following class draws the Buttons
 class HexButton extends JButton {
     private static final long serialVersionUID = 1L;
-    private static final int SIDE_LENGTH = 24;
-    private static final int LENGTH = 48;
-    private static final int WIDTH = 53;
+    private static final int SIDE_LENGTH = 48;
+    private static final int LENGTH = 96;
+    private static final int WIDTH = 106;
     private Color color;
     private boolean b;
 
@@ -30,7 +30,7 @@ class HexButton extends JButton {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Polygon hex = new Polygon();
-        for(int i = 0; i < 6; ++i) hex.addPoint((int) (25 + SIDE_LENGTH * Math.cos(i * 2 * Math.PI / 6)), (int) (25 + SIDE_LENGTH * Math.sin(i * 2 * Math.PI / 6)));
+        for(int i = 0; i < 6; ++i) hex.addPoint((int) (50 + SIDE_LENGTH * Math.cos(i * 2 * Math.PI / 6)), (int) (50 + SIDE_LENGTH * Math.sin(i * 2 * Math.PI / 6)));
         g.setColor(color);
         if(this.b) g.fillPolygon(hex);
         g.drawPolygon(hex);

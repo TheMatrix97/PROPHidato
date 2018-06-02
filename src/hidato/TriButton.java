@@ -9,8 +9,8 @@ import java.awt.*;
  */
 public class TriButton extends JButton{
     private static final long serialVersionUID = 1L;
-    private static final int HEIGHT = 48;
-    private static final int WIDTH = 48;
+    private static final int HEIGHT = 96;
+    private static final int WIDTH = 96;
     private boolean b;
     private boolean rev;
     private Polygon tri;

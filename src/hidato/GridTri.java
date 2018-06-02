@@ -15,12 +15,12 @@ public class GridTri extends GridGame {
 
     @Override
     public int incrementoIY(int j) {
-        return 50;
+        return 100;
     }
 
     @Override
     public int incrementoJX() {
-        return 28;
+        return 56;
     }
 
     @Override

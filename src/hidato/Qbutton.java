@@ -9,10 +9,11 @@ import java.awt.*;
  */
 public class Qbutton extends JButton {
     private static final long serialVersionUID = 1L;
-    private static final int HEIGHT = 48;
-    private static final int WIDTH = 48;
+    private static final int HEIGHT = 96;
+    private static final int WIDTH = 96;
     private Color color;
     private boolean b;
+    private Shape shape;
 
     public Qbutton(boolean b, Color c){
         //b = true -> pintar triangle, rev = true -> triangle invers!

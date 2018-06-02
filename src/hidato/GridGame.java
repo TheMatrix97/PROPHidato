@@ -41,7 +41,7 @@ public abstract class GridGame {
                         fieldG[x][y].setText(String.valueOf(mapaCeldas[x][y].getValor()));
                     }
                 }
-                fieldG[x][y].setBounds(offsetX, offsetY, 50, 50);
+                fieldG[x][y].setBounds(offsetX, offsetY, 100, 100);
                 fieldG[x][y].setHorizontalAlignment(CENTER);
                 gamePanel.add(fieldG[x][y]);
                 System.out.println("seguent: " + offsetX + "," + offsetY);
@@ -53,6 +53,7 @@ public abstract class GridGame {
         }
         return fieldG;
     }
+
     public abstract int offiniY();
     public abstract int incrementoIY(int j);
     public abstract int incrementoJY(int y); //se usa y en hex
