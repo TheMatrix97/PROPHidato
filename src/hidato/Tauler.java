@@ -433,15 +433,15 @@ public class Tauler implements Serializable {
         return this.prefixats;
     }
 
-    //funcio que retorna el nombre de nombres prefixats d'un tauler
+    /*/funcio que retorna el nombre de nombres prefixats d'un tauler
     public int getNPrefixats() {
         return this.prefixats.size();
-    }
+    }*/
 
-    //funcio que retorna si un nombre n ha estat usat en un tauler
+    /*/funcio que retorna si un nombre n ha estat usat en un tauler
     public boolean getUsat(int n){
         return this.usats[n];
-    }
+    }*/
 
     //funcio que retorna el llistat de nombres usats
     public boolean[] getUsats() { return this.usats; }
