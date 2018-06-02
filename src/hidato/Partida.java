@@ -95,6 +95,7 @@ public class Partida implements Serializable{
 
     //Retorna el valor de la proxima cel·la sense resoldre del tauler, en la posició correcta segons la solució obtinguda per la nostra màquina
     public void pedirAyuda() throws Utils.ExceptionTaulerResolt {
+        tiempo.add_penalitzacio();
         boolean[] usados = this.encurs.getUsats();
         for(int i = 1; i < usados.length; ++i){
                 if(!usados[i]){
