@@ -59,6 +59,6 @@ public class Time implements Serializable{
         return ((int) ((t-time_start)/1000)) >= 20;
     }
     public long get_time_millis(){
-        return time;
+        return time + penalitzacio*1000;
     }
 }

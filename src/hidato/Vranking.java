@@ -56,7 +56,7 @@ public class Vranking {
                         String a1 = r.getnomJugador();
                         String a2 = r.getTime().get_time();
                         modelo.addRow ( new String[] {a1,a2} ); // Añade una fila al final
-                        }
+                    }
                 }
                 if (b) break;
             }
