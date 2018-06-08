@@ -48,6 +48,7 @@ public class MenuInici {
                 musicButton.setText("Music ON");
             }else{
                 music = true;
+                player.run();
                 player.startPlayback();
                 musicButton.setText("Music OFF");
             }
@@ -61,8 +62,8 @@ public class MenuInici {
                 JOptionPane.showMessageDialog(new JFrame(),
                         "Error al carregar la partida");
             }
-
         });
+
         sRankingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

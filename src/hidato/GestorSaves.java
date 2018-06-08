@@ -22,7 +22,7 @@ public class GestorSaves {
             oos.writeObject(r);
             oos.close();
         }catch(IOException io) {
-            io.printStackTrace();
+            //io.printStackTrace();
             //System.out.println("No es pot guardar el ranking"); //TODO aixo ho fara capa de presentació
         }
     }

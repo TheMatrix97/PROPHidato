@@ -41,6 +41,6 @@ public class MusicPlayer extends Thread {
     }
 
     public void stopPlayback() {
-        clip.stop();
+        clip.close();
     }
 }

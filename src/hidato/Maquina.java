@@ -76,7 +76,7 @@ public abstract class Maquina implements Serializable{
                     try{
                         i = new Jugada(pas, ++cont,null);
                     }catch(Utils.ExceptionJugadaNoValida e){
-                        e.printStackTrace();
+                        //e.printStackTrace();
                     }
                     jcami.add(i);
                     if((i != null ? i.getNum() : 0) + 1 == max){

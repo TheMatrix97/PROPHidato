@@ -55,7 +55,7 @@ public class SeleccionarBD {
                 try {
                     CtrlPresentacio.getSingletonInstance().crearPartidaBD(nom, naux);
                 } catch (Exception e1) {
-                    e1.printStackTrace();
+                    //e1.printStackTrace();
                     if (!Thread.currentThread().isInterrupted()) {
                         JOptionPane.showMessageDialog(new JFrame(),
                                 "Aquest hidato no te solució!, selecciona un altre",

@@ -17,9 +17,12 @@ public class CtrlPresentacio {
     private CtrlPresentacio() {
         menuInici = new MenuInici();
         g = Gestor.getSingletonInstance();
-        frame = new JFrame("MenuInici");
+        frame = new JFrame("Hidato");
     }
 
+    public JFrame getFrame(){
+        return frame;
+    }
     public static CtrlPresentacio getSingletonInstance() {
         if (presentacio == null){
             presentacio = new CtrlPresentacio();
@@ -99,7 +102,7 @@ public class CtrlPresentacio {
 
 
     public void start_partida(){
-        JFrame framePartida = new JFrame("PartidaView");
+        JFrame framePartida = new JFrame("Partida");
         new PartidaView(framePartida);
         framePartida.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }

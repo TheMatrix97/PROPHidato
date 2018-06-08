@@ -51,8 +51,10 @@ public class PartidaView {
 
         SAVEButton.addActionListener(e -> {
             CtrlPresentacio.getSingletonInstance().guardarPartida();
+            stopTimerino();
             JOptionPane.showMessageDialog(new JFrame(),
                     "Partida guardada!");
+            //framePartida.dispose();
         });
         HELPButton.addActionListener(e -> {
             try {
@@ -73,11 +75,15 @@ public class PartidaView {
             @Override
             public void windowClosed(WindowEvent e) {
                 //CtrlPresentacio.getSingletonInstance().iniMenu();
+                resolt = true;
+                stopTimerino();
                 framePartida.dispose();
             }
         });
         MENUButton.addActionListener(e -> {
             CtrlPresentacio.getSingletonInstance().iniMenu();
+            resolt = true;
+            stopTimerino();
             framePartida.dispose();
         });
     }
@@ -152,7 +158,7 @@ public class PartidaView {
                     fieldG[this.i][this.j].setText(valorJugada.getText());
                     valorJugada.setText(nextValue());
                 } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
-                    exceptionJugadaNoValida.printStackTrace();
+                    //exceptionJugadaNoValida.printStackTrace();
                 } catch (Utils.ExceptionTaulerResolt exceptionTaulerResolt) {
                     fieldG[this.i][this.j].setText(valorJugada.getText());
                     resolt = true;
@@ -170,7 +176,7 @@ public class PartidaView {
                     fieldG[this.i][this.j].setText("");
                     valorJugada.setText(nextValue());
                 } catch (Utils.ExceptionJugadaNoValida exceptionJugadaNoValida) {
-                    exceptionJugadaNoValida.printStackTrace();
+                    //exceptionJugadaNoValida.printStackTrace();
                 }
             }
 
@@ -207,13 +213,14 @@ public class PartidaView {
     private void end_game(){
         //System.out.println("Fin!, voy a guardar");
         CtrlPresentacio.getSingletonInstance().salvar_rankings();
+        resolt = true;
         framePartida.dispose();
     }
 
     private void actTimer() {
         timerinoCapuccino = new Thread(() -> {
            //System.out.println("Estic al thread del timer" + timerinoCapuccino.getName() + " id: " + timerinoCapuccino.getId());
-           Timer timer = new Timer(1000, e -> {
+           Timer timer = new Timer(100, e -> {
                //System.out.println("Actualitzant timer...");
                if (!resolt) timeLabel.setText(CtrlPresentacio.getSingletonInstance().getTimerinoPartida());
            });
